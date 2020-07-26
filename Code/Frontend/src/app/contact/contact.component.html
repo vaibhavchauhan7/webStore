@@ -1,1 +1,63 @@
-<p>contact works!</p>
+<p class="contact">How can we help you?</p>
+
+<form #contactForm="ngForm" (ngSubmit)="onSubmit(); contactForm.reset()" method="post">
+
+    <div id="contactForm">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <input #username="ngModel" id="username" name="username" ngModel
+                           placeholder="Your Name" required
+                           type="text">
+                    <br>
+                    <span *ngIf="!username.valid && username.touched" aria-hidden="true"
+                          class="help-block"></span>
+                </div>
+
+                <div class="form-group">
+                    <input #email="ngModel" email id="email" name="email" ngModel
+                           placeholder="Your E-Mail" required
+                           type="text">
+                    <br>
+                    <span *ngIf="!email.valid && email.touched"
+                          class="help-block"></span>
+                </div>
+
+                <div class="form-group">
+                    <input #subject="ngModel" id="subject" name="subject" ngModel
+                           placeholder="Subject" required type="text">
+                    <br>
+                    <span *ngIf="!subject.valid && subject.touched"
+                          class="help-block"></span>
+                </div>
+
+                <textarea #message="ngModel" id="message" name="message" ngModel
+                          placeholder="Message..." required
+                          type="text"></textarea>
+                <span *ngIf="!message.valid && message.touched"
+                      class="help-block"></span>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <br>
+        <div class="row" style="text-align: center;">
+            <button [disabled]="!contactForm.valid" class="btn btn-success" type="submit"
+                    value="submit">Send
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+<div class="container">
+    <p class="contact" style="margin-top: 5.62vh;">We are right here!</p>
+
+</div>
+

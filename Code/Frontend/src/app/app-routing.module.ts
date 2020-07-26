@@ -5,11 +5,20 @@ import {HomeComponent} from "./home/home.component";
 import {LoginComponent} from "./authentication/components/login/login.component";
 import {PageNotFoundComponent} from "./shared/components/page-not-found/page-not-found.component";
 import {SignUpComponent} from "./authentication/components/sign-up/sign-up.component";
+import {ProductComponent} from "./product/product.component";
+import {ProductResolverService} from "./product/services/product-resolver.service";
 
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        resolve: {productList: ProductResolverService},
+        data: {title: 'webStore - Home'}
+    },
+    {
+        path: 'product/:id/:name',
+        component: ProductComponent
+        // Title is implemented in product.component.ts for dynamic title
     },
     {
         path: 'account',
@@ -21,17 +30,23 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        data: {title: 'webStore - Login'}
     },
     {
         path: 'sign-up',
-        component: SignUpComponent
+        component: SignUpComponent,
+        data: {title: 'webStore - Sign Up'}
     },
     {
         path: 'page-not-found',
-        component: PageNotFoundComponent
+        component: PageNotFoundComponent,
+        data: {title: 'webStore - Page Not Found'}
     },
-    {path: '**', redirectTo: '/page-not-found'}
+    {
+        path: '**',
+        redirectTo: '/page-not-found'
+    }
 ];
 
 @NgModule({

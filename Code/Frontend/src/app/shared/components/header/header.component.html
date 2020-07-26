@@ -1,12 +1,17 @@
 <nav [ngClass]="_commonControllerService.isSidebarOpen ? '' : 'fixed-top'"
      class="navbar navbar-dark bg-dark justify-content-between">
-    <div (click)="toggleSidebar()" class="bar-container d-inline-block change" id="bar-container">
+
+    <div (click)="toggleSidebar()"
+         class="bar-container position-absolute d-inline-block change" id="bar-container">
         <div class="bar1"></div>
         <div class="bar2"></div>
         <div class="bar3"></div>
     </div>
-    <a class="navbar-brand mx-auto">webStore</a>
-    <!--    <div class="form-inline position-absolute">-->
+
+    <a class="navbar-brand mx-auto" href="http://localhost:4200">webStore</a>
+
+    <!--    <form class="form-inline position-absolute">-->
     <!--        <input class="form-control" type="search" placeholder="Filter Results">-->
-    <!--    </div>-->
+    <!--    </form>-->
+
 </nav>

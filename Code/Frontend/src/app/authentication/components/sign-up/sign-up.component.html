@@ -5,7 +5,9 @@
     </span>
 
         <div class="overflow-auto" style="max-height: 520px;">
-            <form class="signUp100-form validate-form p-l-55 p-r-55 p-t-20">
+            <form #signUpFormData="ngForm" (ngSubmit)="onSignUp(signUpFormData)"
+                  class="signUp100-form validate-form p-l-55 p-r-55 p-t-20"
+                  method="post">
                 <div class="row">
                     <div class="col-6">
                         <div class="wrap-input100 validate-input m-b-16">
@@ -58,7 +60,9 @@
                             </button>
                         </div>
                         <div class="col-6">
-                            <button class="signUp100-form-btn">
+                            <button [disabled]="!signUpFormData.valid" class="signUp100-form-btn"
+                                    type="submit"
+                                    value="submit">
                                 Sign Up
                             </button>
                         </div>

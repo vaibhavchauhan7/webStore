@@ -16,6 +16,8 @@ import {HttpController} from "./shared/services/http-interceptors/http-controlle
 import {LoadingSpinnerComponent} from './shared/components/loading-spinner/loading-spinner.component';
 import {LoginComponent} from './authentication/components/login/login.component';
 import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
+import {ProductComponent} from './product/product.component';
+import {ProductResolverService} from "./product/services/product-resolver.service";
 import {SearchFilterPipe} from './shared/services/search-filter.pipe';
 import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
@@ -29,6 +31,7 @@ import {SignUpComponent} from './authentication/components/sign-up/sign-up.compo
         LoadingSpinnerComponent,
         LoginComponent,
         PageNotFoundComponent,
+        ProductComponent,
         SearchFilterPipe,
         SidebarComponent,
         SignUpComponent
@@ -44,6 +47,7 @@ import {SignUpComponent} from './authentication/components/sign-up/sign-up.compo
         AuthenticationService,
         AuthenticationGuardService,
         CommonControllerService,
+        ProductResolverService,
         HttpController
     ],
     bootstrap: [AppComponent]

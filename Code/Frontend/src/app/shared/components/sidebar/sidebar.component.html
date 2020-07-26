@@ -11,7 +11,9 @@
                 <ul class="components">
                     <p>webStore says Hello :)</p>
 
-                    <li routerLink="/" routerLinkActive="active"><a href="javascript:">Home</a></li>
+                    <li><a [routerLinkActiveOptions]="{exact: true}" routerLink="/"
+                           routerLinkActive="active">Home</a>
+                    </li>
 
                     <li>
                         <a aria-expanded="false" class="dropdown-toggle"
@@ -30,17 +32,34 @@
                             Account
                         </a>
                         <ul class="collapse" id="homeSubmenu">
-                            <a href="javascript:">Profile</a>
-                            <a href="javascript:">Orders</a>
-                            <a href="javascript:">Wishlist</a>
-                            <a href="javascript:">Cart</a>
+                            <a (click)="_commonControllerService.toggleSidebar()" routerLink="/account/profile"
+                               routerLinkActive="active">
+                                Profile
+                            </a>
+                            <a (click)="_commonControllerService.toggleSidebar()" routerLink="/account/orders"
+                               routerLinkActive="active">
+                                Orders
+                            </a>
+                            <a (click)="_commonControllerService.toggleSidebar()" routerLink="/account/wishlist"
+                               routerLinkActive="active">
+                                Wishlist
+                            </a>
+                            <a (click)="_commonControllerService.toggleSidebar()" routerLink="/account/cart"
+                               routerLinkActive="active">
+                                Cart
+                            </a>
                         </ul>
                     </li>
 
-                    <li><a href="javascript:">Contact</a></li>
-                    <li><a (click)="hideMenu()"
+                    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+
+                    <li>
+                        <a (click)="_commonControllerService.toggleSidebar()"
                            routerLink="/login"
-                           routerLinkActive="active">Login</a></li>
+                           routerLinkActive="active">
+                            Login
+                        </a>
+                    </li>
                 </ul>
 
                 <ul class="custom-buttons">

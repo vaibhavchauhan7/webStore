@@ -1,0 +1,73 @@
+.mb-100, .space {
+    margin-bottom: 100px !important;
+}
+
+.cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.cards li {
+    display: inline-block;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    font-size: 15px;
+    text-align: center;
+}
+
+.cards li:after,
+.cards li:before {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.cards li .details {
+    text-align: center;
+    float: left;
+    min-width: 250px;
+}
+
+.cards li .details a:hover,
+.cards li .details a:focus {
+    color: #000000;
+}
+
+.cards li:hover {
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    -webkit-box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.cards li .details h4 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.cards li:active {
+    outline: none;
+}
+
+@media (max-width: 767px) {
+    .cards li {
+        display: grid;
+        width: auto;
+        max-width: 200px;
+        margin: 30px auto;
+    }
+
+    .cards li .details {
+        text-align: center;
+        min-width: 0;
+    }
+
+    .space {
+        margin-bottom: 0 !important;
+    }
+}

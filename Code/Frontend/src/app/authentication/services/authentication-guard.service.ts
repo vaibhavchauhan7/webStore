@@ -23,7 +23,7 @@ export class AuthenticationGuardService implements CanActivate {
             return true;
         }
         this._authenticationService.redirectUrl = url;
-        this._router.navigate(['/authentication']);
+        this._router.navigate(['/login']);
 
         return false;
     }

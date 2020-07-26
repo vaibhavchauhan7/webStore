@@ -8,6 +8,7 @@
         <div class="row no-gutters">
             <div [ngClass]="_commonControllerService.isSidebarOpen ? '' : 'mt-p5'"
                  class="col-12 px-0 overflow-auto vh-n51">
+                <app-loading-spinner></app-loading-spinner>
                 <router-outlet></router-outlet>
             </div>
         </div>

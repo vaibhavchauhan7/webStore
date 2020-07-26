@@ -1,0 +1,99 @@
+input {
+    margin-bottom: 2.475vh;
+}
+
+::placeholder {
+    font-size: 1.07em;
+    color: dimgrey;
+}
+
+input:focus::placeholder, textarea:focus::placeholder {
+    color: transparent;
+}
+
+.contact {
+    font-weight: 600;
+    font-size: 3.214em;
+    color: black;
+    margin: 0 0 10vh 0;
+    text-align: center;
+}
+
+#contactForm input {
+    outline: 0;
+    border: 0;
+    color: black;
+    border-bottom: 2px solid #2B2E33;
+    width: 94%;
+    height: 5.06vh;
+    resize: none;
+    margin-left: 3%;
+    font-size: 1.07em;
+}
+
+#contactForm textarea {
+    outline: 0;
+    border: 0;
+    color: black;
+    border-bottom: 2px solid #2B2E33;
+    width: 94%;
+    height: 20vh;
+    resize: none;
+    margin-left: 3%;
+    font-size: 1.07em;
+}
+
+#contactForm input.ng-invalid.ng-touched, #contactForm textarea.ng-invalid.ng-touched {
+    border-bottom: 2px solid red;
+}
+
+#contactForm input.ng-valid, #contactForm textarea.ng-valid {
+    border-bottom: 2px solid #33b526;
+}
+
+#contactForm span {
+    margin: 0 0 0 5%;
+}
+
+.btn {
+    border: 2px solid black;
+    margin: 0 auto;
+    border-radius: 10px;
+    width: 170px;
+    height: 55px;
+    color: black;
+    background-color: transparent;
+    font-size: 20px;
+}
+
+.btn:hover {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+}
+
+
+@media (max-width: 767px) {
+    .contact {
+        font-size: 3.214em;
+    }
+}
+
+@media (min-width: 1601px) {
+    .container-fluid {
+        width: 80%;
+    }
+
+    .contact {
+        font-size: 3.928em;
+    }
+
+    #contactForm textarea {
+        height: 24vh;
+    }
+
+    .btn {
+        margin-top: 5vh;
+        margin-bottom: 5.62vh;
+    }
+}

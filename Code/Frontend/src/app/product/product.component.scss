@@ -1,0 +1,132 @@
+.productDescription {
+    min-height: 300px;
+    max-height: 300px;
+}
+
+.productDescription p {
+    font-size: 20px;
+    overflow: scroll;
+}
+
+.productImage {
+    display: flex;
+    width: 500px;
+    height: 500px;
+}
+
+/*Buy Now*/
+.cart, .cartButton {
+    align-items: center;
+    border: 2px solid #0fa336;
+    border-radius: 10px;
+    width: 170px;
+    height: 55px;
+    color: #0fa336;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.5s;
+    text-align: center;
+    display: inline-block;
+    outline: none;
+}
+
+.cart:hover {
+    background-color: #0fa336;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
+
+.cartButton {
+    border: 2px solid #0fa336;
+    background-color: #0fa336;
+    color: white;
+}
+
+/*Wishlist*/
+.wishlist, .wishlistButton {
+    align-items: center;
+    border: 2px solid #f52020;
+    border-radius: 10px;
+    width: 200px;
+    height: 55px;
+    color: #f52020;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.5s;
+    text-align: center;
+    display: inline-block;
+    outline: none;
+}
+
+.wishlist:hover {
+    background-color: #f52020;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
+
+.wishlistButton {
+    border: 2px solid #f52020;
+    background-color: #f52020;
+    color: white;
+}
+
+.backToExplore {
+    align-items: center;
+    border: 2px solid #3577db;
+    border-radius: 10px;
+    width: 170px;
+    height: 55px;
+    color: #3577db;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.5s;
+    text-align: center;
+    display: inline-block;
+    outline: none;
+}
+
+.backToExplore:hover {
+    background-color: #3577db;
+    color: white;
+}
+
+.displayCenter {
+    display: flex;
+    justify-content: left;
+}
+
+@media only screen and (max-width: 768px) {
+    .cartButton, .cart, .wishlistButton, .wishlist, .backToExplore {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 10px 5px -15px 0;
+    }
+
+    .displayCenter {
+        display: flex;
+        justify-content: center;
+    }
+
+    .productDescription {
+        min-height: 20px;
+        max-height: 300px;
+        overflow: scroll;
+    }
+
+    .productName, .productDescription, .productPrice, .productImage {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .productImage {
+        justify-content: center;
+        width: 500px;
+        height: auto;
+        margin: 0 auto 20px;
+    }
+
+}

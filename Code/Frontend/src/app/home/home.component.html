@@ -1,130 +1,19 @@
-<div class="container-fluid overflow-auto pl-0">
-    <div class="row no-gutters">
+<div class="container-fluid overflow-auto px-0">
+    <div class="box mb-5">
 
-        <div class="box mb-5">
-            <div class="card mt-5">
+        <ng-container *ngFor="let product of productList">
+            <div [routerLink]="['/product', product.id, product.name]" class="card mt-5"
+                 routerLinkActive="active">
                 <div class="cardImage">
                     <img
                         alt="images"
-                        src="assets/Images/Person.png">
+                        src="{{product.imagePath}}">
                 </div>
                 <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
+                    <h2>{{product.name}}<br><span>Rs {{product.price}}</span></h2>
                 </div>
             </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-        </div>
-        <div class="box mb-5">
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-            <div class="card mt-5">
-                <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="assets/Images/Person.png">
-                </div>
-                <div class="details">
-                    <h2>ProductTitle<br><span>ProductPrice</span></h2>
-                </div>
-            </div>
-        </div>
+        </ng-container>
 
     </div>
 </div>

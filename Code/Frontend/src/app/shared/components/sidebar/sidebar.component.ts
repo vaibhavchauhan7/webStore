@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+
 import {CommonControllerService} from "../../services/common-controller.service";
+import {AuthenticationService} from "../../../authentication/services/authentication.service";
 
 @Component({
     selector: 'app-sidebar',
@@ -8,14 +10,11 @@ import {CommonControllerService} from "../../services/common-controller.service"
 })
 export class SidebarComponent implements OnInit {
 
-    constructor(public _commonControllerService: CommonControllerService) {
+    constructor(public _commonControllerService: CommonControllerService,
+                public _authenticationService: AuthenticationService) {
     }
 
     ngOnInit(): void {
-    }
-
-    hideMenu() {
-        this._commonControllerService.toggleSidebar();
     }
 
 }

@@ -1,0 +1,50 @@
+<ng-container *ngIf="product">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-6">
+            <img alt="ProductImage"
+                 class="productImage img-responsive"
+                 src="{{product.imagePath}}"/>
+        </div>
+
+        <div class="col-md-6">
+            <div class="row productName" style="display: flex;">
+                <p style="font-weight: 600; font-size: 40px;">
+                    {{product.name}}
+                </p><br/>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="productDescription" style="display: flex;">
+                        <p>{{product.description}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p class="productPrice" style="font-weight: 600; font-size: 25px;">
+                        Rs. {{product.price}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="row displayCenter" style="flex-direction: row; flex-wrap: wrap;">
+                <button (click)="addProduct(product, 'Cart')"
+                        [disabled]="disableCartButton"
+                        [ngClass]="cartButtonClass">
+                    {{cartButton}}
+                </button> &nbsp;
+
+                <button (click)="addProduct(product, 'Wishlist')"
+                        [disabled]="disableWishlistButton"
+                        [ngClass]="wishlistButtonClass">
+                    {{wishlistButton}}
+                </button> &nbsp;
+
+                <button class="backToExplore" routerLink="/">
+                    Back To Explore
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-container>

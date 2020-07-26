@@ -1,0 +1,86 @@
+.profilePic {
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+    margin-bottom: 50px;
+}
+
+.primaryHeading {
+    font-weight: 600;
+    font-size: 25px;
+    color: black;
+    text-align: center;
+}
+
+.secondaryHeading {
+    font-weight: 500;
+    font-size: 18px;
+    color: grey;
+    text-align: center;
+}
+
+/*for form input*/
+.secondaryHeading input {
+    color: grey;
+}
+
+input {
+    text-align: center;
+    outline: 0;
+    border: 0px;
+    color: black;
+    border-bottom: 2px solid #2B2E33;
+    width: 94%;
+    height: 5.06vh;
+    resize: none;
+    margin-left: 3%;
+    font-size: 1.07em;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+/*Edit Profile*/
+.editProfile, .myOrders, .myWishlist {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 200px;
+    height: 55px;
+    color: black;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.5s;
+    text-align: center;
+    display: inline-block;
+    outline: none;
+}
+
+.editProfile:hover {
+    background-color: black;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
+
+.myOrders {
+    border: 2px solid #f08018;
+    color: #f08018;
+}
+
+.myOrders:hover {
+    background-color: #f08018;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
+
+.myWishlist {
+    border: 2px solid red;
+    color: red;
+}
+
+.myWishlist:hover {
+    background-color: red;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
