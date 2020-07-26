@@ -1,11 +1,13 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
+import {Product} from "../entity/product.model";
+
 @Pipe({
     name: 'searchFilter'
 })
 export class SearchFilterPipe implements PipeTransform {
 
-    transform(productList: any[], searchInput: string): any[] {
+    transform(productList: Product[], searchInput: string): Product[] {
         if (!productList || !searchInput) {
             return productList;
         }

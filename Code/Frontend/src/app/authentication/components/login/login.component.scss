@@ -1,0 +1,252 @@
+a {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #000000;
+    margin: 0;
+    transition: all .4s;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s
+}
+
+a:focus {
+    outline: none !important;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #000000;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666;
+    margin: 0;
+}
+
+input {
+    outline: none;
+    border: none;
+}
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input::-webkit-input-placeholder {
+    color: #000000;
+}
+
+input:-moz-placeholder {
+    color: #000000;
+}
+
+input::-moz-placeholder {
+    color: #000000;
+}
+
+input:-ms-input-placeholder {
+    color: #000000;
+}
+
+button {
+    outline: none !important;
+    border: none;
+    background: 0 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.text {
+    font-size: 1rem;
+    color: #7386D5;
+}
+
+.wrap-login100 {
+    width: 450px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    height: 451px;
+    border: 1px solid #DEDEDE;
+    margin: 30px auto;
+}
+
+.login100-form {
+    width: 100%;
+    position: relative;
+}
+
+.login100-form-title {
+    font-size: 30px;
+    color: #FFFFFF;
+    line-height: 1.2;
+    text-align: center;
+    display: block;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #7386D5;
+    padding: 25px 0;
+}
+
+.wrap-input100 {
+    width: 100%;
+    background-color: #7386D5;
+    border-radius: 27px;
+    position: relative;
+    z-index: 1;
+}
+
+.input100 {
+    font-size: 15px;
+    color: #000000;
+    line-height: 1.2;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 55px;
+    background: #EAEAEA;
+    border-radius: 27px;
+    padding: 0 35px;
+}
+
+.focus-input100 {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius: 31px;
+    background-color: #FFFFFF;
+    pointer-events: none;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s;
+}
+
+.p-r-55 {
+    padding-right: 55px;
+}
+
+.p-l-55 {
+    padding-left: 55px;
+}
+
+.m-b-16 {
+    margin-bottom: 16px;
+}
+
+.p-t-20 {
+    padding-top: 20px;
+}
+
+.flex-col-c {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.login100-form-btn, .backToHome {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #7386D5;
+    border-radius: 25px;
+    font-size: 15px;
+    color: #FFFFFF;
+    line-height: 1.2;
+    text-transform: uppercase;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s;
+}
+
+.backToHome {
+    background: red;
+}
+
+.p-t-13 {
+    padding-top: 13px;
+}
+
+.p-b-23 {
+    padding-bottom: 23px;
+}
+
+@media only screen and (max-width: 600px) {
+    .wrap-login100 {
+        width: 100%;
+    }
+
+    .wrap-login100 {
+        width: 100%;
+        right: -272px;
+    }
+
+    .p-l-55 {
+        padding-left: 20px;
+    }
+    .p-r-55 {
+        padding-right: 20px;
+    }
+    .input100 {
+        height: 40px;
+    }
+
+    .login100-form-btn {
+        height: 40px;
+    }
+    .wrap-login100 {
+        width: 95%;
+    }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 1070px) {
+    .box-container::before {
+        background-size: 48%;
+        top: -80px;
+        background: none no-repeat;
+    }
+
+    .wrap-login100 {
+        width: 90%;
+    }
+}

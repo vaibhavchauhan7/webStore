@@ -1,0 +1,61 @@
+<div class="container-fluid px-0">
+    <div class="row no-gutters">
+        <div [hidden]="!_commonControllerService.isSidebarOpen" class="col-3 px-0">
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <img alt="Avatar"
+                         class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
+                    <span class="avatarName">Vaibhav Chauhan</span>
+                </div>
+
+                <ul class="components">
+                    <p>webStore says Hello :)</p>
+
+                    <li routerLink="/" routerLinkActive="active"><a href="javascript:">Home</a></li>
+
+                    <li>
+                        <a aria-expanded="false" class="dropdown-toggle"
+                           data-toggle="collapse" href="#pageSubmenu">
+                            Categories
+                        </a>
+                        <ul class="collapse" id="pageSubmenu">
+                            <a href="javascript:">T-Shirt</a>
+                            <a href="javascript:">Shoes</a>
+                            <a href="javascript:">Wrist Watch</a>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu">
+                            Account
+                        </a>
+                        <ul class="collapse" id="homeSubmenu">
+                            <a href="javascript:">Profile</a>
+                            <a href="javascript:">Orders</a>
+                            <a href="javascript:">Wishlist</a>
+                            <a href="javascript:">Cart</a>
+                        </ul>
+                    </li>
+
+                    <li><a href="javascript:">Contact</a></li>
+                    <li><a (click)="hideMenu()"
+                           routerLink="/login"
+                           routerLinkActive="active">Login</a></li>
+                </ul>
+
+                <ul class="custom-buttons">
+                    <li>
+                        <a class="download"
+                           href="javascript:">Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div [ngClass]="_commonControllerService.isSidebarOpen ? '' : 'col-12'" class="col-9 px-0">
+            <ng-content></ng-content>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</div>

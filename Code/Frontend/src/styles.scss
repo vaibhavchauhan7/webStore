@@ -1,1 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Open Sans', 'sans-serif';
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    background-image: linear-gradient(to right, rgba(115, 134, 213, 0), rgba(115, 134, 213, 0.75), rgba(115, 134, 213, 0));
+}
+
+.vh-n51 {
+    height: calc(100vh - 51px) !important;
+}
+
+.mt-p5 {
+    margin-top: 56px !important;
+}
+
+// Scrollbar
+//::-webkit-scrollbar {
+//    width: 5px;
+//    height: 5px;
+//    background-color: #fff;
+//}
+//
+//::-webkit-scrollbar-thumb {
+//    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, .3);
+//    box-shadow: inset 0 0 5px rgba(0, 0, 0, .3);
+//    background-color: black;
+//}
+
+// Hidden Scrollbar
+::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-color: transparent;
+}

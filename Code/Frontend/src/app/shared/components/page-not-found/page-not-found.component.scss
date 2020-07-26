@@ -1,0 +1,32 @@
+h1 {
+    font-size: 5rem;
+}
+
+.h3 {
+    font-size: 5rem;
+}
+
+.page_404 {
+    background: #FFFFFF;
+}
+
+.bg_404 {
+    background-image: url("../../../../assets/Images/404.gif");
+    height: 400px;
+    background-position: center;
+    margin-bottom: -50px;
+}
+
+.link_404 {
+    color: #FFFFFF !important;
+    padding: 10px 20px;
+    background: #7386D5;
+    margin: 40px 0 0 0;
+    display: inline-block;
+}
+
+button {
+    border: none;
+    outline: none;
+    border-radius: 20px;
+}
