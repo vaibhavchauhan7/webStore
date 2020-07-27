@@ -6,6 +6,7 @@ import {Subscription} from "rxjs";
 
 import {User} from "../../../shared/entity/user.model";
 import {AuthenticationService} from "../../services/authentication.service";
+import {CommonControllerService} from "../../../shared/services/common-controller.service";
 
 @Component({
     selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formSubmitted = false;
 
     constructor(private _authenticationService: AuthenticationService,
-                private _router: Router) {
+                private _router: Router, public _commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {

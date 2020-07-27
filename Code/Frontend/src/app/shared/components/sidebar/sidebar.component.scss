@@ -39,7 +39,7 @@ a {
 }
 
 .sidebar {
-    min-height: 100vh;
+    height: calc(100vh + 5px);
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
@@ -119,21 +119,25 @@ ul {
 
 ul.custom-buttons {
     padding: 20px;
-    margin: calc(50% - 20px) 0 0 0;
     list-style-type: none;
 
     a {
         text-align: center;
-        font-size: 0.9em !important;
+        font-size: 1em !important;
         display: block;
         border-radius: 5px;
         margin-bottom: 5px;
     }
+
+    :last-child {
+        margin-top: auto;
+    }
 }
 
-a.download {
+a.authentication {
     background: #fff;
     color: #7386D5;
+    cursor: pointer;
 }
 
 a.sidebarCollapse {

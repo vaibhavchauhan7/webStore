@@ -1,38 +1,42 @@
-<div class="row" style="margin-bottom: 50px;">
+<div class="row mt-p5 mb-5">
     <div class="col-md-3 wishlistHeadings">
         <p>Product</p>
     </div>
-    <div class="col-md-6 wishlistHeadings" style="text-align: left;">
+    <div class="col-md-6 wishlistHeadings text-left">
         <p>Details</p>
     </div>
     <div class="col-md-3 wishlistHeadings">
         <p>Price</p>
     </div>
 </div>
-<div *ngFor="let product of wishlistProducts" class="row"
-     style="margin-bottom: 50px;">
-    <div class="col-md-3" style="text-align: center;">
-        <img src="{{product.imagePath}}" style="height: 150px; width: 150px;">
-    </div>
-    <div class="col-md-6 wishlistDetails" style="text-align: left;">
-        <p>{{product.description}}</p>
-        <button (click)="removeProduct(product)" class="removeProduct">Remove Item
-        </button>
-    </div>
-    <div class="col-md-3 wishlistDetails">
-        <p>Rs. {{product.price}}</p>
-    </div>
-</div>
 
-<div *ngIf="wishlistProducts.length === 0"
-     style="font-size: 40px; text-align: center; margin: 100px 0;">
+<ng-container *ngFor="let product of wishlistProducts">
+    <div class="row mb-5">
+        <div class="col-md-3 text-center">
+            <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
+        </div>
+        <div class="col-md-6 wishlistDetails text-left">
+            <p>{{product.description}}</p>
+            <button (click)="removeProduct(product)" class="removeProduct">Remove Item
+            </button>
+        </div>
+        <div class="col-md-3 wishlistDetails">
+            <p>Rs. {{product.price}}</p>
+        </div>
+    </div>
+</ng-container>
+
+<div *ngIf="wishlistProducts.length === 0" class="text-center"
+     style="font-size: 40px; margin: 100px 0;">
     Wishlist is empty!
 </div>
 
-<div class="row" style="text-align: center;">
-    <button (click)="clearWishlist()"
-            [disabled]="wishlistProducts.length === 0"
-            class="removeProduct"
-            style="margin-top: 50px;">Clear Wishlist
-    </button>
+<div class="row mt-p5">
+    <div class="col-12 text-center">
+        <button (click)="clearWishlist()"
+                [disabled]="wishlistProducts.length === 0"
+                class="removeProduct">
+            Clear Wishlist
+        </button>
+    </div>
 </div>

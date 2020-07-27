@@ -1,7 +1,12 @@
+<div class="container-fluid mt-5">
+    <input [(ngModel)]="searchInput" autofocus class="form-control"
+           placeholder="Filter Product By Name" type="text">
+</div>
+
 <div class="container-fluid overflow-auto px-0">
     <div class="box mb-5">
 
-        <ng-container *ngFor="let product of productList">
+        <ng-container *ngFor="let product of productList | searchFilter: searchInput; trackBy: trackBy">
             <div [routerLink]="['/product', product.id, product.name]" class="card mt-5"
                  routerLinkActive="active">
                 <div class="cardImage">

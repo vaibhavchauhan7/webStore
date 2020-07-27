@@ -57,8 +57,9 @@ body {
     z-index: 1;
 }
 
-.card:hover .cardImage {
-    bottom: 80px;
+.card:hover {
+    //bottom: 80px;
+    cursor: pointer;
 }
 
 .card .cardImage img {
@@ -94,6 +95,17 @@ body {
     color: #7386D5;
     display: block;
     margin-top: 5px;
+}
+
+.card:hover .details {
+    z-index: 1;
+    padding-top: 10px;
+    background-color: #FFFFFF;
+    transition: background-color 0.05s ease;
+}
+
+.card:focus, .card:active {
+    outline: none;
 }
 
 .bar-container {

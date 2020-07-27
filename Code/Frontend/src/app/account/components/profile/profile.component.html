@@ -1,6 +1,10 @@
 <div *ngIf="showProfile">
-    <div class="row" style="text-align: center;">
-        <img alt="ProfilePicture" class="profilePic" src="../../../../assets/Images/Person.png">
+    <div class="row text-center">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <img alt="ProfilePicture" class="profilePic" src="../../../../assets/Images/Person.png">
+        </div>
+        <div class="col-3"></div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
@@ -48,7 +52,7 @@
             <br><br>
             <hr>
 
-            <div class="row" style="text-align: center;">
+            <div class="row text-center">
                 <div class="col-md-6">
                     <button class="myOrders" routerLink="/account/orders"
                             routerLinkActive="active">
@@ -63,7 +67,7 @@
                 </div>
             </div>
             <hr>
-            <div style="text-align: center;">
+            <div class="text-center">
                 <button class="editProfile" type="button">
                     Edit Profile
                 </button>

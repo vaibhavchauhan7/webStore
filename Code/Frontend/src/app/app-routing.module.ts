@@ -18,7 +18,6 @@ const routes: Routes = [
     {
         path: 'product/:id/:name',
         component: ProductComponent
-        // Title is implemented in product.component.ts for dynamic title
     },
     {
         path: 'account',

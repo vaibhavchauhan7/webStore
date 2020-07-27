@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
-import {CommonControllerService} from "../../services/common-controller.service";
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
+import {CommonControllerService} from "../../services/common-controller.service";
 
 @Component({
     selector: 'app-sidebar',
@@ -15,6 +15,12 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    logout(): boolean {
+        sessionStorage.removeItem('username');
+        localStorage.clear();
+        return this._authenticationService.isUserAuthenticated = false;
     }
 
 }

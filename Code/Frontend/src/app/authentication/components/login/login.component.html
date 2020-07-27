@@ -31,8 +31,9 @@
                         </button>
                     </div>
                     <div class="col-6">
-                        <button [disabled]="!loginFormData.valid" class="login100-form-btn"
-                                type="submit"
+                        <button (click)="_commonControllerService.toggleSidebar()"
+                                [disabled]="!loginFormData.valid"
+                                class="login100-form-btn" type="submit"
                                 value="submit">
                             Login
                         </button>

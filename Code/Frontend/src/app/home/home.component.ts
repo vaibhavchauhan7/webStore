@@ -22,4 +22,8 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    trackBy(index, item) {
+        return item.id;
+    }
+
 }

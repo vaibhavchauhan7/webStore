@@ -8,16 +8,24 @@ import {WishlistComponent} from "./components/wishlist/wishlist.component";
 
 const routes: Routes = [
     {
-        path: 'cart', component: CartComponent
+        path: 'cart',
+        component: CartComponent,
+        data: {title: 'webStore - Cart'}
     },
     {
-        path: 'orders', component: OrdersComponent
+        path: 'orders',
+        component: OrdersComponent,
+        data: {title: 'webStore - Orders'}
     },
     {
-        path: 'profile', component: ProfileComponent
+        path: 'profile',
+        component: ProfileComponent,
+        data: {title: 'webStore - Profile'}
     },
     {
-        path: 'wishlist', component: WishlistComponent
+        path: 'wishlist',
+        component: WishlistComponent,
+        data: {title: 'webStore - Wishlist'}
     }
 ];
 

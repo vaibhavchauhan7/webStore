@@ -13,7 +13,8 @@ export class SearchFilterPipe implements PipeTransform {
         }
 
         return productList.filter(product => {
-            return product.name.toLocaleLowerCase().indexOf(searchInput.toLowerCase()) !== -1;
+            return product.name.toLocaleLowerCase().indexOf(searchInput.toLowerCase()) !== -1
+                || product.description.toLocaleLowerCase().indexOf(searchInput.toLowerCase()) !== -1;
         });
     }
 

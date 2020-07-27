@@ -1,13 +1,13 @@
-<div class="row" style="margin-bottom: 50px;">
+<div class="row mt-p5 mb-5">
     <div class="col-md-3 cartHeadings">
         <p>Product</p>
     </div>
 
-    <div class="col-md-3 cartHeadings" style="text-align: left;">
+    <div class="col-md-3 cartHeadings text-left">
         <p>Details</p>
     </div>
 
-    <div class="col-md-3 cartHeadings" style="text-align: right;">
+    <div class="col-md-3 cartHeadings text-right">
         <p>Quantity</p>
     </div>
 
@@ -16,12 +16,12 @@
     </div>
 </div>
 
-<div *ngFor="let product of cartProducts" class="row" style="margin-bottom: 50px;">
-    <div class="col-md-3" style="text-align: center;">
-        <img alt="ProductImage" src="{{product.imagePath}}" style="height: 150px; width: 150px;">
+<div *ngFor="let product of cartProducts" class="row mb-5">
+    <div class="col-md-3 text-center">
+        <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
     </div>
 
-    <div class="col-md-3 cartDetails" style="text-align: left;">
+    <div class="col-md-3 cartDetails text-left">
         <p>{{product.description}}</p>
         <button (click)="removeProduct(product)"
                 class="removeProduct">
@@ -29,7 +29,7 @@
         </button>
     </div>
 
-    <div class="col-md-3 cartDetails" style="text-align: right; right: 50px;">
+    <div class="col-md-3 cartDetails text-right" style="right: 50px;">
         <p>1</p>
     </div>
 
@@ -43,22 +43,22 @@
     Cart is empty!
 </div>
 
-<div class="row" style="text-align: center;">
-    <button (click)="clearCart()"
-            [disabled]="cartProducts.length === 0"
-            class="removeProduct clearCart">
-        Clear Cart
-    </button>&nbsp; &nbsp;
+<div class="row mt-p5">
+    <div class="col-12 text-center">
+        <button (click)="clearCart()"
+                [disabled]="cartProducts.length === 0"
+                class="removeProduct clearCart">
+            Clear Cart
+        </button>&nbsp; &nbsp;
 
-    <button class="continueShopping"
-            routerLink="/"
-            routerLinkActive="active" style="margin-top: 50px;">
-        Continue Shopping
-    </button>&nbsp; &nbsp;
+        <button class="continueShopping"
+                routerLink="/"
+                routerLinkActive="active">
+            Continue Shopping
+        </button>&nbsp; &nbsp;
 
-    <button [disabled]="cartProducts.length === 0"
-            class="checkout"
-            style="margin-top: 50px;">
-        Checkout
-    </button>
+        <button [disabled]="cartProducts.length === 0" class="checkout">
+            Checkout
+        </button>
+    </div>
 </div>

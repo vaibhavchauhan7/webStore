@@ -1,5 +1,5 @@
 <ng-container *ngIf="product">
-    <div class="row" style="margin-bottom: 20px;">
+    <div class="row no-gutters mt-p5 mb-3">
         <div class="col-md-6">
             <img alt="ProductImage"
                  class="productImage img-responsive"
@@ -7,28 +7,28 @@
         </div>
 
         <div class="col-md-6">
-            <div class="row productName" style="display: flex;">
+            <div class="row no-gutters productName d-flex">
                 <p style="font-weight: 600; font-size: 40px;">
                     {{product.name}}
                 </p><br/>
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="productDescription" style="display: flex;">
+            <div class="row no-gutters">
+                <div class="col-12 px-0">
+                    <div class="productDescription d-flex">
                         <p>{{product.description}}</p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
+            <div class="row no-gutters">
+                <div class="col-12 px-0">
                     <p class="productPrice" style="font-weight: 600; font-size: 25px;">
                         Rs. {{product.price}}
                     </p>
                 </div>
             </div>
 
-            <div class="row displayCenter" style="flex-direction: row; flex-wrap: wrap;">
+            <div class="row no-gutters displayCenter flex-row no-gutters flex-wrap">
                 <button (click)="addProduct(product, 'Cart')"
                         [disabled]="disableCartButton"
                         [ngClass]="cartButtonClass">
@@ -39,10 +39,6 @@
                         [disabled]="disableWishlistButton"
                         [ngClass]="wishlistButtonClass">
                     {{wishlistButton}}
-                </button> &nbsp;
-
-                <button class="backToExplore" routerLink="/">
-                    Back To Explore
                 </button>
             </div>
         </div>
