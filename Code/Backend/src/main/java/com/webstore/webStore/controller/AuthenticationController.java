@@ -1,6 +1,6 @@
 package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.User;
+import com.webstore.webStore.entity.user.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -43,5 +43,4 @@ public class AuthenticationController {
     public void onLogin() {
         System.out.println("Login Successful!");
     }
-
 }

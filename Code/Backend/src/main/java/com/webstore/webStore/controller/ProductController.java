@@ -1,7 +1,7 @@
 package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.Product;
-import com.webstore.webStore.service.ProductService;
+import com.webstore.webStore.entity.product.Product;
+import com.webstore.webStore.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +13,15 @@ import java.util.List;
 @RestController
 public class ProductController {
 
+    private final ProductService productService;
+
     @Autowired
-    ProductService productService;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/products")
     public List<Product> getProducts() {
         return productService.getProducts();
     }
-
 }

@@ -4,9 +4,9 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {map, tap} from "rxjs/operators";
 
+import {CONSTANTS} from "../../shared/entity/constants";
 import {Product} from "../../shared/entity/product.model";
 import {User} from "../../shared/entity/user.model";
-import {CONSTANTS} from "../../shared/entity/constants";
 
 @Injectable({
     providedIn: 'root'
@@ -22,12 +22,7 @@ export class ProductManagementService {
     }
 
     getUsers(): Observable<User[]> {
-        // Normal API Call (If no CORS Error)
         return this._http.get<User[]>(`${CONSTANTS.API_URL}/users`);
-
-        // To remove CORS Error, we use proxy.config.json and return below statement:
-        // Change line 6 in package.json: "start": "ng serve --proxy-config proxy.config.json",
-        // return this._http.get<User[]>('/myStoreAPI/users');
     }
 
     getUserByID(userID: number): Observable<User> {
@@ -54,7 +49,7 @@ export class ProductManagementService {
         );
     }
 
-    getProduct(id: number): Observable<Product> {
+    selectedProduct(id: number): Observable<Product> {
         if (this._allProducts) {
             const foundProduct = this._allProducts.find((item: Product) => item.id === id);
             if (foundProduct) {
@@ -94,7 +89,7 @@ export class ProductManagementService {
         }
     }
 
-    ifArrayIncludes(product, array): boolean {
+    ifArrayIncludes(product: Product, array: any[]): boolean {
         if (array.length !== 0) {
             const productFound = array.find(
                 (item: Product) =>
@@ -103,4 +98,5 @@ export class ProductManagementService {
             return !!productFound;
         }
     }
+
 }

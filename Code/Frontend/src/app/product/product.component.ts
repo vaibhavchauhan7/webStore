@@ -4,8 +4,8 @@ import {Title} from "@angular/platform-browser";
 
 import {Subscription} from "rxjs";
 
-import {Product} from "../shared/entity/product.model";
 import {AuthenticationService} from "../authentication/services/authentication.service";
+import {Product} from "../shared/entity/product.model";
 import {ProductManagementService} from "./services/product-management.service";
 
 @Component({
@@ -18,11 +18,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     product: Product;
     subscription$: Subscription;
 
-    cartButton = 'Add To Cart';
-    wishlistButton = 'Add To Wishlist';
+    cartButton: string = 'Add To Cart';
+    wishlistButton: string = 'Add To Wishlist';
 
-    cartButtonClass = 'cart';
-    wishlistButtonClass = 'wishlist';
+    cartButtonClass: string = 'cart';
+    wishlistButtonClass: string = 'wishlist';
 
     disableCartButton: boolean;
     disableWishlistButton: boolean;
@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     selectedProduct() {
         const productId = this._route.snapshot.params.id;
 
-        this.subscription$ = this._productManagementService.getProduct(+productId).subscribe(
+        this.subscription$ = this._productManagementService.selectedProduct(+productId).subscribe(
             (data: Product) => {
                 this.product = data;
                 // Set the Tab Title To Product Name

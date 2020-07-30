@@ -17,10 +17,10 @@
 
                     <li>
                         <a aria-expanded="false" class="dropdown-toggle"
-                           data-toggle="collapse" href="#pageSubmenu">
+                           data-toggle="collapse" href="#categoriesSubMenu">
                             Categories
                         </a>
-                        <ul class="collapse" id="pageSubmenu">
+                        <ul class="collapse" id="categoriesSubMenu">
                             <a href="javascript:">T-Shirt</a>
                             <a href="javascript:">Shoes</a>
                             <a href="javascript:">Wrist Watch</a>
@@ -29,10 +29,10 @@
 
                     <ng-container *ngIf="_authenticationService.isUserAuthenticated">
                         <li>
-                            <a class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu">
+                            <a class="dropdown-toggle" data-toggle="collapse" href="#accountSubMenu">
                                 Account
                             </a>
-                            <ul class="collapse" id="homeSubmenu">
+                            <ul class="collapse" id="accountSubMenu">
                                 <a routerLink="/account/profile" routerLinkActive="active">
                                     Profile
                                 </a>

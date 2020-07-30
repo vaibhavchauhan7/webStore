@@ -16,5 +16,4 @@ public class WebStoreApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(WebStoreApplication.class);
     }
-
 }
