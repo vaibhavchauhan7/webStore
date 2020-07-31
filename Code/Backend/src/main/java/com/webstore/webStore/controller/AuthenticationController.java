@@ -1,6 +1,6 @@
 package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.user.User;
+import com.webstore.webStore.entity.customer.Customer;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
@@ -26,17 +26,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public User onSignUp(@RequestBody User user) {
+    public Customer onSignUp(@RequestBody Customer customer) {
         this.createNewFile();
         try {
             FileWriter myWriter = new FileWriter("DummyDB.txt", true);
-            myWriter.write("Name: " + user.getName() + ", Email: " + user.getEmail() + "\n");
+            myWriter.write("Name: " + customer.getName() + ", Email: " + customer.getEmail() + "\n");
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred!");
             e.printStackTrace();
         }
-        return user;
+        return customer;
     }
 
     @GetMapping("/login")

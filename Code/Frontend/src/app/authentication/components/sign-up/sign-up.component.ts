@@ -4,7 +4,7 @@ import {NgForm} from "@angular/forms";
 import {Subscription} from "rxjs";
 
 import {AuthenticationService} from "../../services/authentication.service";
-import {User} from "../../../shared/entity/user.model";
+import {Customer} from "../../../shared/entity/customer.model";
 
 @Component({
     selector: 'app-sign-up',
@@ -25,8 +25,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     onSignUp(signUpFormData: NgForm) {
         this.formSubmitted = true;
         this.subscription$ = this._authenticationService.onSignUp(signUpFormData.value)
-            .subscribe((data: User) => {
-                alert('SignUp Successful for User: ' + data.name);
+            .subscribe((data: Customer) => {
+                alert('SignUp Successful for Customer: ' + data.name);
             });
     }
 

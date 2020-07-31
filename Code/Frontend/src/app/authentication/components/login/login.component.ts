@@ -4,7 +4,7 @@ import {NgForm} from "@angular/forms";
 
 import {Subscription} from "rxjs";
 
-import {User} from "../../../shared/entity/user.model";
+import {Customer} from "../../../shared/entity/customer.model";
 import {AuthenticationService} from "../../services/authentication.service";
 import {CommonControllerService} from "../../../shared/services/common-controller.service";
 
@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onLogin(loginFormData: NgForm) {
-        sessionStorage.setItem('username', 'tempUser');
+        sessionStorage.setItem('customerName', 'tempCustomer');
         this.formSubmitted = true;
         this.subscription$ = this._authenticationService.onLogin(loginFormData.value)
-            .subscribe((data: User) => {
-                this._authenticationService.isUserAuthenticated = true;
+            .subscribe((data: Customer) => {
+                this._authenticationService.isCustomerAuthenticated = true;
                 this._router.navigate(['/']);
             });
     }

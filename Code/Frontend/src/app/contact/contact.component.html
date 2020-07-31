@@ -7,11 +7,11 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <div class="form-group">
-                    <input #username="ngModel" id="username" name="username" ngModel
+                    <input #customerName="ngModel" id="customerName" name="customerName" ngModel
                            placeholder="Your Name" required
                            type="text">
                     <br>
-                    <span *ngIf="!username.valid && username.touched" aria-hidden="true"
+                    <span *ngIf="!customerName.valid && customerName.touched" aria-hidden="true"
                           class="help-block"></span>
                 </div>
 

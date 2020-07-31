@@ -1,9 +1,9 @@
-package com.webstore.webStore.entity.user;
+package com.webstore.webStore.entity.customer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class Customer {
 
     private int id;
     private String name;

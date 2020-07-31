@@ -18,9 +18,9 @@ export class SidebarComponent implements OnInit {
     }
 
     logout(): boolean {
-        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('customerName');
         localStorage.clear();
-        return this._authenticationService.isUserAuthenticated = false;
+        return this._authenticationService.isCustomerAuthenticated = false;
     }
 
 }

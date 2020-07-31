@@ -5,8 +5,8 @@ import {Observable, of} from "rxjs";
 import {map, tap} from "rxjs/operators";
 
 import {CONSTANTS} from "../../shared/entity/constants";
+import {Customer} from "../../shared/entity/customer.model";
 import {Product} from "../../shared/entity/product.model";
-import {User} from "../../shared/entity/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -21,12 +21,12 @@ export class ProductManagementService {
     constructor(private _http: HttpClient) {
     }
 
-    getUsers(): Observable<User[]> {
-        return this._http.get<User[]>(`${CONSTANTS.API_URL}/users`);
+    getCustomers(): Observable<Customer[]> {
+        return this._http.get<Customer[]>(`${CONSTANTS.API_URL}/customers`);
     }
 
-    getUserByID(userID: number): Observable<User> {
-        return this._http.get<User>(`${CONSTANTS.API_URL}/user/${userID}`);
+    getCustomerByID(customerID: number): Observable<Customer> {
+        return this._http.get<Customer>(`${CONSTANTS.API_URL}/customer/${customerID}`);
     }
 
     initializeCartAndWishlist() {

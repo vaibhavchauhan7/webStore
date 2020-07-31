@@ -31,8 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     checkAuthentication() {
-        if (sessionStorage.getItem('username')) {
-            this._authenticationService.isUserAuthenticated = true;
+        if (sessionStorage.getItem('customerName')) {
+            this._authenticationService.isCustomerAuthenticated = true;
         }
 
         // For every router page to open from top

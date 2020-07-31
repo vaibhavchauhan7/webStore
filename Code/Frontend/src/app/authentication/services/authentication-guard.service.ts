@@ -19,7 +19,7 @@ export class AuthenticationGuardService implements CanActivate {
     }
 
     isLoggedIn(url: string): boolean {
-        if (this._authenticationService.isUserAuthenticated) {
+        if (this._authenticationService.isCustomerAuthenticated) {
             return true;
         }
         this._authenticationService.redirectUrl = url;

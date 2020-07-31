@@ -53,7 +53,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     addProduct(product: Product, type: string) {
-        if (this._authenticationService.isUserAuthenticated) {
+        if (this._authenticationService.isCustomerAuthenticated) {
             if (type === 'Cart') {
                 this._productManagementService.addProduct(product, 'Cart');
                 this.cartButton = 'Product Added!';

@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 
 import {Observable} from "rxjs";
 
-import {User} from "../../shared/entity/user.model";
+import {Customer} from "../../shared/entity/customer.model";
 import {CONSTANTS} from "../../shared/entity/constants";
 
 @Injectable({
@@ -12,13 +12,13 @@ import {CONSTANTS} from "../../shared/entity/constants";
 export class AuthenticationService {
 
     redirectUrl: string = '';
-    isUserAuthenticated: boolean = false;
+    isCustomerAuthenticated: boolean = false;
 
     constructor(private _http: HttpClient) {
     }
 
-    onSignUp(signUpFormValue): Observable<User> {
-        return this._http.post<User>(`${CONSTANTS.API_URL}/sign-up`, signUpFormValue);
+    onSignUp(signUpFormValue): Observable<Customer> {
+        return this._http.post<Customer>(`${CONSTANTS.API_URL}/sign-up`, signUpFormValue);
     }
 
     onLogin(loginFormValue) {

@@ -1,6 +1,6 @@
-package com.webstore.webStore.repository.user;
+package com.webstore.webStore.repository.customer;
 
-import com.webstore.webStore.entity.user.User;
+import com.webstore.webStore.entity.customer.Customer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class CustomerDAOImpl implements CustomerDAO {
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -24,9 +24,9 @@ public class UserDAOImpl implements UserDAO {
     private String password;
 
     @Override
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-        String sql = "{call spGetUsers()}";
+    public List<Customer> getCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        String sql = "{call spGetCustomers()}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
@@ -34,12 +34,12 @@ public class UserDAOImpl implements UserDAO {
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("ID"));
-                user.setName(resultSet.getString("Name"));
-                user.setEmail(resultSet.getString("Email"));
-                user.setPhone(resultSet.getString("Phone"));
-                users.add(user);
+                Customer customer = new Customer();
+                customer.setId(resultSet.getInt("ID"));
+                customer.setName(resultSet.getString("Name"));
+                customer.setEmail(resultSet.getString("Email"));
+                customer.setPhone(resultSet.getString("Phone"));
+                customers.add(customer);
             }
 
             resultSet.close();
@@ -47,25 +47,25 @@ public class UserDAOImpl implements UserDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return users;
+        return customers;
     }
 
     @Override
-    public User getUserByID(int userID) {
-        User user = new User();
-        String sql = "{call spGetUserByID(?)}";
+    public Customer getCustomerByID(int customerID) {
+        Customer customer = new Customer();
+        String sql = "{call spGetCustomerByID(?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
-            callableStatement.setLong(1, userID);
+            callableStatement.setLong(1, customerID);
             callableStatement.execute();
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                user.setId(resultSet.getInt("ID"));
-                user.setName(resultSet.getString("Name"));
-                user.setEmail(resultSet.getString("Email"));
-                user.setPhone(resultSet.getString("Phone"));
+                customer.setId(resultSet.getInt("ID"));
+                customer.setName(resultSet.getString("Name"));
+                customer.setEmail(resultSet.getString("Email"));
+                customer.setPhone(resultSet.getString("Phone"));
             }
 
             resultSet.close();
@@ -73,6 +73,6 @@ public class UserDAOImpl implements UserDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return user;
+        return customer;
     }
 }
