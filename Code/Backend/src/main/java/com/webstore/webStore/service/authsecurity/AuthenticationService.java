@@ -1,10 +1,15 @@
 package com.webstore.webStore.service.authsecurity;
 
+import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
+import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
 import com.webstore.webStore.entity.customer.Customer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service("authenticationService")
 public interface AuthenticationService {
 
-    void signUpCustomer(Customer customer);
+    void customerSignUp(Customer customer) throws Exception;
+
+    ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception;
 }

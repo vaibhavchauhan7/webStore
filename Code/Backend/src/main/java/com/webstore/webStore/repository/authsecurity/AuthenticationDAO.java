@@ -1,10 +1,15 @@
 package com.webstore.webStore.repository.authsecurity;
 
+import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
+import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
 import com.webstore.webStore.entity.customer.Customer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuthenticationDAO {
 
-    void signUpCustomer(Customer customer);
+    void customerSignUp(Customer customer) throws Exception;
+
+    ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception;
 }
