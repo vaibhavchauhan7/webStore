@@ -22,9 +22,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Replace with your Customer.java
-        return new User("foo", "foo", new ArrayList<>());
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Customer customer = customerDAO.getCustomerByEmail(email);
+        return new User(customer.getEmail(), customer.getPassword(), new ArrayList<>());
     }
 
     @Override

@@ -22,6 +22,6 @@ export class AuthenticationService {
     }
 
     onLogin(loginFormValue) {
-        return this._http.get(`${CONSTANTS.API_URL}/login`);
+        return this._http.post(`${CONSTANTS.API_URL}/login`, loginFormValue);
     }
 }

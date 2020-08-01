@@ -4,6 +4,7 @@ import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
 import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
 import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
 import com.webstore.webStore.entity.customer.Customer;
+import com.webstore.webStore.service.authsecurity.AuthenticationService;
 import com.webstore.webStore.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -24,19 +24,21 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtTokenUtil;
     private final CustomerService customerService;
+    private final AuthenticationService authenticationService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     JwtUtil jwtTokenUtil,
-                                    CustomerService customerService) {
+                                    CustomerService customerService,
+                                    AuthenticationService authenticationService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.customerService = customerService;
+        this.authenticationService = authenticationService;
     }
 
-    @PostMapping(value = "/authenticate")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getEmail(), authenticationRequest.getPassword())
@@ -46,41 +48,13 @@ public class AuthenticationController {
         }
 
         final UserDetails userDetails = customerService.loadUserByUsername(authenticationRequest.getEmail());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-    }
-
-    private void createNewFile() {
-        try {
-            File myObj = new File("DummyDB.txt");
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
     @PostMapping("/sign-up")
-    public Customer onSignUp(@RequestBody Customer customer) {
-        this.createNewFile();
-        try {
-            FileWriter myWriter = new FileWriter("DummyDB.txt", true);
-            myWriter.write("Name: " + customer.getName() + ", Email: " + customer.getEmail() + "\n");
-            myWriter.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred!");
-            e.printStackTrace();
-        }
-        return customer;
-    }
-
-    @GetMapping("/login")
-    public void onLogin() {
-        System.out.println("Login Successful!");
+    public void onSignUp(@RequestBody Customer customer) {
+        authenticationService.signUpCustomer(customer);
     }
 }
