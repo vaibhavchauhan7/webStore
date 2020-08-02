@@ -4,9 +4,7 @@ import {NgForm} from "@angular/forms";
 
 import {Subscription} from "rxjs";
 
-import {Customer} from "../../../shared/entity/customer.model";
 import {AuthenticationService} from "../../services/authentication.service";
-import {CommonControllerService} from "../../../shared/services/common-controller.service";
 
 @Component({
     selector: 'app-login',
@@ -19,17 +17,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formSubmitted = false;
 
     constructor(private _authenticationService: AuthenticationService,
-                private _router: Router, public _commonControllerService: CommonControllerService) {
+                private _router: Router) {
     }
 
     ngOnInit(): void {
     }
 
-    onLogin(loginFormData: NgForm) {
-        sessionStorage.setItem('customerName', 'tempCustomer');
+    customerLogin(loginFormData: NgForm) {
         this.formSubmitted = true;
-        this.subscription$ = this._authenticationService.onLogin(loginFormData.value)
-            .subscribe((data: Customer) => {
+        this.subscription$ = this._authenticationService.customerLogin(loginFormData.value)
+            .subscribe((data) => {
+                localStorage.setItem("token", Object.values(data)[0]);
                 this._authenticationService.isCustomerAuthenticated = true;
                 this._router.navigate(['/']);
             });
@@ -40,5 +38,4 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.subscription$.unsubscribe();
         }
     }
-
 }

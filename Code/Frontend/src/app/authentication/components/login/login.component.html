@@ -4,22 +4,22 @@
     </span>
 
     <div class="overflow-auto" style="max-height: 330px;">
-        <form #loginFormData="ngForm" (ngSubmit)="onLogin(loginFormData)"
+        <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)"
               class="login100-form validate-form p-l-55 p-r-55 p-t-20"
               method="get">
             <div class="wrap-input100 validate-input m-b-16">
-                <input class="input100" name="customerName" placeholder="Username" type="text">
+                <input class="input100" name="email" ngModel placeholder="Email" type="text">
                 <span class="focus-input100"></span>
             </div>
 
             <div class="wrap-input100 validate-input">
-                <input class="input100" name="pass" placeholder="Password" type="password">
+                <input class="input100" name="password" ngModel placeholder="Password" type="password">
                 <span class="focus-input100"></span>
             </div>
 
             <div class="text-center p-t-13 p-b-23">
                 <a class="text" href="#">
-                    Forgot Username / Password?
+                    Forgot Email / Password?
                 </a>
             </div>
 
@@ -31,8 +31,7 @@
                         </button>
                     </div>
                     <div class="col-6">
-                        <button (click)="_commonControllerService.toggleSidebar()"
-                                [disabled]="!loginFormData.valid"
+                        <button [disabled]="!loginFormData.valid"
                                 class="login100-form-btn" type="submit"
                                 value="submit">
                             Login

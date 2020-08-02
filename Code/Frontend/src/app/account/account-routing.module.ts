@@ -5,27 +5,28 @@ import {CartComponent} from "./components/cart/cart.component";
 import {OrdersComponent} from "./components/orders/orders.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {WishlistComponent} from "./components/wishlist/wishlist.component";
+import {WebStoreRouting, WebStoreTitle} from "../shared/entity/constants";
 
 const routes: Routes = [
     {
-        path: 'cart',
+        path: `${WebStoreRouting.CART}`,
         component: CartComponent,
-        data: {title: 'webStore - Cart'}
+        data: {title: `${WebStoreTitle.CART}`}
     },
     {
-        path: 'orders',
+        path: `${WebStoreRouting.ORDERS}`,
         component: OrdersComponent,
-        data: {title: 'webStore - Orders'}
+        data: {title: `${WebStoreTitle.ORDERS}`}
     },
     {
-        path: 'profile',
+        path: `${WebStoreRouting.PROFILE}`,
         component: ProfileComponent,
-        data: {title: 'webStore - Profile'}
+        data: {title: `${WebStoreTitle.PROFILE}`}
     },
     {
-        path: 'wishlist',
+        path: `${WebStoreRouting.WISHLIST}`,
         component: WishlistComponent,
-        data: {title: 'webStore - Wishlist'}
+        data: {title: `${WebStoreTitle.WISHLIST}`}
     }
 ];
 

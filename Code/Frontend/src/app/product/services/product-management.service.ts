@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {map, tap} from "rxjs/operators";
 
-import {CONSTANTS} from "../../shared/entity/constants";
 import {Customer} from "../../shared/entity/customer.model";
 import {Product} from "../../shared/entity/product.model";
 
@@ -22,11 +21,15 @@ export class ProductManagementService {
     }
 
     getCustomers(): Observable<Customer[]> {
-        return this._http.get<Customer[]>(`${CONSTANTS.API_URL}/customers`);
+        // If no CORS Error (Leaving Comment for Future Reference)
+        // return this._http.get<Customer[]>(`${WebStoreAPI.API_URL}/customers`);
+
+        // If CORS Error: Add proxy.config.json and modify Line 6 in package.json
+        return this._http.get<Customer[]>('/webStoreAPI/customers');
     }
 
     getCustomerByID(customerID: number): Observable<Customer> {
-        return this._http.get<Customer>(`${CONSTANTS.API_URL}/customer/${customerID}`);
+        return this._http.get<Customer>(`/webStoreAPI/customer/${customerID}`);
     }
 
     initializeCartAndWishlist() {
@@ -42,10 +45,10 @@ export class ProductManagementService {
         if (this._allProducts) {
             return of(this._allProducts);
         }
-        return this._http.get<Product[]>(`${CONSTANTS.API_URL}/products`).pipe(
+        return this._http.get<Product[]>('/webStoreAPI/products').pipe(
             tap((data: Product[]) =>
                 this._allProducts = data
-            )   // Storing data in '_allProducts' as State Management
+            )
         );
     }
 
@@ -98,5 +101,4 @@ export class ProductManagementService {
             return !!productFound;
         }
     }
-
 }

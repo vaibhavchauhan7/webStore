@@ -7,44 +7,45 @@ import {PageNotFoundComponent} from "./shared/components/page-not-found/page-not
 import {SignUpComponent} from "./authentication/components/sign-up/sign-up.component";
 import {ProductComponent} from "./product/product.component";
 import {ProductResolverService} from "./product/services/product-resolver.service";
+import {WebStoreRouting, WebStoreTitle} from "./shared/entity/constants";
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         resolve: {productList: ProductResolverService},
-        data: {title: 'webStore - Home'}
+        data: {title: `${WebStoreTitle.HOME}`}
     },
     {
-        path: 'product/:id/:name',
+        path: `${WebStoreRouting.PRODUCT}/:id/:name`,
         component: ProductComponent
     },
     {
-        path: 'account',
+        path: `${WebStoreRouting.ACCOUNT}`,
         loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
     },
     {
-        path: 'contact',
+        path: `${WebStoreRouting.CONTACT}`,
         loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
     },
     {
-        path: 'login',
+        path: `${WebStoreRouting.LOGIN}`,
         component: LoginComponent,
-        data: {title: 'webStore - Login'}
+        data: {title: `${WebStoreTitle.LOGIN}`}
     },
     {
-        path: 'sign-up',
+        path: `${WebStoreRouting.SIGN_UP}`,
         component: SignUpComponent,
-        data: {title: 'webStore - Sign Up'}
+        data: {title: `${WebStoreTitle.SIGN_UP}`}
     },
     {
-        path: 'page-not-found',
+        path: `${WebStoreRouting.PAGE_NOT_FOUND}`,
         component: PageNotFoundComponent,
-        data: {title: 'webStore - Page Not Found'}
+        data: {title: `${WebStoreTitle.PAGE_NOT_FOUND}`}
     },
     {
-        path: '**',
-        redirectTo: '/page-not-found'
+        path: `${WebStoreRouting.PATH_DOES_NOT_EXIST}`,
+        redirectTo: `/${WebStoreRouting.PAGE_NOT_FOUND}`
     }
 ];
 

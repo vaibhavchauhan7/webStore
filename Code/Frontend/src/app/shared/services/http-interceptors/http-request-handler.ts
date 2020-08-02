@@ -21,17 +21,20 @@ export class HttpRequestHandler implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        // ************** Demo Code **************
-        // const authToken = 'This will be replaced by JWT later'
-        // const authRequest = request.clone({
-        //     setHeaders: {Authorization: authToken}
-        // });
-        // return next.handle(authRequest);
-
         this._loadingSpinnerService.httpRequestInitiated();
-        return this.requestHandler(request, next);
+
+        if ('token' in localStorage) {
+            const authRequest = request.clone({
+                setHeaders: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+            });
+            // return next.handle(authRequest);
+            return this.requestHandler(authRequest, next);
+        } else {
+            return this.requestHandler(request, next);
+        }
     }
 
+    // Making Loading Spinner Global - Intercepts Every HTTP Request
     requestHandler(request: HttpRequest<any>, next: HttpHandler) {
         return next.handle(request).pipe(
             tap(event => {
@@ -44,5 +47,4 @@ export class HttpRequestHandler implements HttpInterceptor {
             })
         )
     }
-
 }
