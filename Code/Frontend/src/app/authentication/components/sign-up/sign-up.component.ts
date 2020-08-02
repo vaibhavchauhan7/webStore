@@ -23,10 +23,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     customerSignUp(signUpFormData: NgForm) {
         this.formSubmitted = true;
-        this.subscription$ = this._authenticationService.customerSignUp(signUpFormData.value)
-            .subscribe((data) => {
+        this.subscription$ = this._authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
                 alert("Sign Up Successful!");
-            });
+            }, error => {
+                alert(`An Error Occurred: ${error}`)
+            }
+        );
     }
 
     ngOnDestroy() {

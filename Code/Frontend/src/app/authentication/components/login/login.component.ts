@@ -5,6 +5,7 @@ import {NgForm} from "@angular/forms";
 import {Subscription} from "rxjs";
 
 import {AuthenticationService} from "../../services/authentication.service";
+import {CommonControllerService} from "../../../shared/services/common-controller.service";
 
 @Component({
     selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formSubmitted = false;
 
     constructor(private _authenticationService: AuthenticationService,
+                private _commonControllerService: CommonControllerService,
                 private _router: Router) {
     }
 
@@ -25,12 +27,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     customerLogin(loginFormData: NgForm) {
         this.formSubmitted = true;
-        this.subscription$ = this._authenticationService.customerLogin(loginFormData.value)
-            .subscribe((data) => {
-                localStorage.setItem("token", Object.values(data)[0]);
-                this._authenticationService.isCustomerAuthenticated = true;
-                this._router.navigate(['/']);
-            });
+        this.subscription$ = this._authenticationService.customerLogin(loginFormData.value).subscribe(data => {
+            this._commonControllerService.customer.name = data['customer'].name;
+            sessionStorage.setItem('token', data['token']);
+            this._authenticationService.isCustomerAuthenticated = true;
+            this._router.navigate(['/']);
+        }, () => {
+            alert("Wrong Email / Password Combination");
+        });
     }
 
     ngOnDestroy() {

@@ -5,8 +5,9 @@ import {Title} from "@angular/platform-browser";
 import {Subscription} from "rxjs";
 import {filter, map} from "rxjs/operators";
 
-import {CommonControllerService} from "./shared/services/common-controller.service";
 import {AuthenticationService} from "./authentication/services/authentication.service";
+import {CommonControllerService} from "./shared/services/common-controller.service";
+import {Customer} from "./shared/entity/customer.model";
 
 @Component({
     selector: 'app-root',
@@ -26,15 +27,23 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.openPageFromTop();
         this.getPageTitle();
         this.checkAuthentication();
     }
 
     checkAuthentication() {
-        if (sessionStorage.getItem('customerName')) {
+        if ('token' in sessionStorage) {
             this._authenticationService.isCustomerAuthenticated = true;
+            this.subscription$.push(this._authenticationService.getCustomerByEmail(sessionStorage.getItem('token'))
+                .subscribe((customer: Customer) => {
+                    this._commonControllerService.customer = customer;
+                })
+            );
         }
+    }
 
+    openPageFromTop() {
         // For every router page to open from top
         this.subscription$.push(this._router.events.subscribe(event => {
                 if (!(event instanceof NavigationEnd)) {
@@ -73,5 +82,4 @@ export class AppComponent implements OnInit, OnDestroy {
             })
         }
     }
-
 }

@@ -3,9 +3,9 @@
         Log In
     </span>
 
-    <div class="overflow-auto" style="max-height: 330px;">
+    <div class="overflow-auto" style="max-height: 350px;">
         <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)"
-              class="login100-form validate-form p-l-55 p-r-55 p-t-20"
+              class="login100-form validate-form p-l-55 p-r-55 p-t-35"
               method="get">
             <div class="wrap-input100 validate-input m-b-16">
                 <input class="input100" name="email" ngModel placeholder="Email" type="text">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="flex-col-c p-t-20">
+            <div class="flex-col-c p-t-35">
             <span>Don’t have an account?
                 <a class="text" routerLink="/sign-up">
                     Sign Up

@@ -1,5 +1,6 @@
 package com.webstore.webStore.controller;
 
+import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
 import com.webstore.webStore.entity.customer.Customer;
 import com.webstore.webStore.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, JwtUtil jwtUtil) {
         this.customerService = customerService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/customers")
@@ -29,5 +32,11 @@ public class CustomerController {
     @GetMapping("/customer/{customerID}")
     public Customer getCustomerByID(@PathVariable int customerID) {
         return customerService.getCustomerByID(customerID);
+    }
+
+    @GetMapping("/customer/details/{token}")
+    public Customer getCustomerByEmail(@PathVariable String token) {
+        String email = jwtUtil.extractUsername(token);
+        return customerService.getCustomerByEmail(email);
     }
 }

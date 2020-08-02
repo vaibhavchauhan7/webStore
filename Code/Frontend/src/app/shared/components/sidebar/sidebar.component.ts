@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {AuthenticationService} from "../../../authentication/services/authentication.service";
 import {CommonControllerService} from "../../services/common-controller.service";
+import {Customer} from "../../entity/customer.model";
 
 @Component({
     selector: 'app-sidebar',
@@ -17,10 +18,9 @@ export class SidebarComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    logout(): boolean {
-        sessionStorage.removeItem('customerName');
+    logout() {
         localStorage.clear();
-        return this._authenticationService.isCustomerAuthenticated = false;
+        this._authenticationService.isCustomerAuthenticated = false;
+        this._commonControllerService.customer = {} as Customer;
     }
-
 }

@@ -5,7 +5,12 @@
                 <div class="sidebar-header">
                     <img alt="Avatar"
                          class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
-                    <span class="avatarName">Vaibhav Chauhan</span>
+                    <ng-container *ngIf="!_authenticationService.isCustomerAuthenticated; else UserLoggedIn">
+                        <span class="avatarName">Hello User</span>
+                    </ng-container>
+                    <ng-template #UserLoggedIn>
+                        <span class="avatarName">{{_commonControllerService.customer.name}}</span>
+                    </ng-template>
                 </div>
 
                 <ul class="components pb-0">
@@ -63,8 +68,8 @@
                     </ng-container>
                     <ng-template #Authenticated>
                         <li>
-                            <a (click)="logout(); _commonControllerService.toggleSidebar()" class="authentication"
-                               routerLink="/" routerLinkActive="active">
+                            <a (click)="logout()" class="authentication"
+                               routerLink="/login" routerLinkActive="active">
                                 Logout
                             </a>
                         </li>

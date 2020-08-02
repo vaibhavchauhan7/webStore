@@ -85,6 +85,6 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         final UserDetails userDetails = customerService.loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(customerDAO.getCustomerByEmail(authenticationRequest.getEmail()), token));
     }
 }

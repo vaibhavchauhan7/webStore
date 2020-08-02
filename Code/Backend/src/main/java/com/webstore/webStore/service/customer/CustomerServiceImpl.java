@@ -36,4 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomerByID(int customerID) {
         return customerDAO.getCustomerByID(customerID);
     }
+
+    @Override
+    public Customer getCustomerByEmail(String customerEmail) {
+        return customerDAO.getCustomerByEmail(customerEmail);
+    }
 }

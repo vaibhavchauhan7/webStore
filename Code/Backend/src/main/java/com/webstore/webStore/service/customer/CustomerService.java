@@ -12,4 +12,6 @@ public interface CustomerService extends UserDetailsService {
     List<Customer> getCustomers();
 
     Customer getCustomerByID(int customerID);
+
+    Customer getCustomerByEmail(String customerEmail);
 }

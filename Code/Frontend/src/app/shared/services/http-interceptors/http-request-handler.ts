@@ -23,9 +23,9 @@ export class HttpRequestHandler implements HttpInterceptor {
 
         this._loadingSpinnerService.httpRequestInitiated();
 
-        if ('token' in localStorage) {
+        if ('token' in sessionStorage) {
             const authRequest = request.clone({
-                setHeaders: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+                setHeaders: {Authorization: `Bearer ${sessionStorage.getItem("token")}`}
             });
             // return next.handle(authRequest);
             return this.requestHandler(authRequest, next);
