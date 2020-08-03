@@ -1,21 +1,20 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
-import {Product} from "../../shared/entity/product.model";
-import {ProductManagementService} from "./product-management.service";
+import {Product} from '../../shared/entity/product.model';
+import {ProductManagementService} from './product-management.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductResolverService implements Resolve<Product[]> {
 
-    constructor(private _productManagementService: ProductManagementService) {
+    constructor(private productManagementService: ProductManagementService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Product[]> {
-        return this._productManagementService.getProducts();
+        return this.productManagementService.getProducts();
     }
-
 }

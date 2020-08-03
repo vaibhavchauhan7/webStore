@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
-import {CommonControllerService} from "../../services/common-controller.service";
+import {CommonControllerService} from '../../services/common-controller.service';
 
 @Component({
     selector: 'app-header',
@@ -9,19 +9,18 @@ import {CommonControllerService} from "../../services/common-controller.service"
 })
 export class HeaderComponent implements OnInit {
 
-    constructor(public _commonControllerService: CommonControllerService,
-                private _changeDetectorRef: ChangeDetectorRef) {
+    constructor(public commonControllerService: CommonControllerService,
+                private changeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
-        // this._commonControllerService.getSidebarObserver().subscribe((status: boolean) => {
-        //     this._commonControllerService.isSidebarOpen = status === true;
-        //     this._changeDetectorRef.detectChanges();
+        // this.commonControllerService.getSidebarObserver().subscribe((status: boolean) => {
+        //     this.commonControllerService.isSidebarOpen = status === true;
+        //     this.changeDetectorRef.detectChanges();
         // });
     }
 
-    toggleSidebar() {
-        this._commonControllerService.toggleSidebar();
+    toggleSidebar(): void {
+        this.commonControllerService.toggleSidebar();
     }
-
 }

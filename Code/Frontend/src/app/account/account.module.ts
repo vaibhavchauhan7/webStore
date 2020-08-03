@@ -8,7 +8,6 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {WishlistComponent} from './components/wishlist/wishlist.component';
 
-
 @NgModule({
     declarations: [
         AccountComponent,

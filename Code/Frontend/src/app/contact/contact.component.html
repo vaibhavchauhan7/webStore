@@ -1,6 +1,6 @@
 <p class="contact mt-p5">How can we help you?</p>
 
-<form #contactForm="ngForm" (ngSubmit)="onSubmit(); contactForm.reset()" method="post">
+<form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm); contactForm.reset()" method="post">
 
     <div id="contactForm">
         <div class="row">

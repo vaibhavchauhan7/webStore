@@ -1,30 +1,30 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
-import {Customer} from "../../shared/entity/customer.model";
+import {Customer} from '../../shared/entity/customer.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthenticationService {
 
-    redirectUrl: string = '';
-    isCustomerAuthenticated: boolean = false;
+    redirectUrl = '';
+    isCustomerAuthenticated = false;
 
-    constructor(private _http: HttpClient) {
+    constructor(private http: HttpClient) {
     }
 
-    customerSignUp(signUpFormValue) {
-        return this._http.post('/webStoreAPI/sign-up', signUpFormValue);
+    customerSignUp(signUpFormValue): Observable<void> {
+        return this.http.post<void>('/webStoreAPI/sign-up', signUpFormValue);
     }
 
-    customerLogin(loginFormValue) {
-        return this._http.post('/webStoreAPI/login', loginFormValue);
+    customerLogin(loginFormValue): Observable<any> {
+        return this.http.post<any>('/webStoreAPI/login', loginFormValue);
     }
 
     getCustomerByEmail(token): Observable<Customer> {
-        return this._http.get<Customer>(`/webStoreAPI/customer/details/${token}`);
+        return this.http.get<Customer>(`/webStoreAPI/customer/details/${token}`);
     }
 }

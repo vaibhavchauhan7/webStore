@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {
     HttpErrorResponse,
     HttpEvent,
@@ -6,26 +6,26 @@ import {
     HttpInterceptor,
     HttpRequest,
     HttpResponse
-} from "@angular/common/http";
+} from '@angular/common/http';
 
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
-import {LoadingSpinnerService} from "../../components/loading-spinner/loading-spinner.service";
+import {LoadingSpinnerService} from '../../components/loading-spinner/loading-spinner.service';
 
 @Injectable()
 export class HttpRequestHandler implements HttpInterceptor {
 
-    constructor(private _loadingSpinnerService: LoadingSpinnerService) {
+    constructor(private loadingSpinnerService: LoadingSpinnerService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        this._loadingSpinnerService.httpRequestInitiated();
+        this.loadingSpinnerService.httpRequestInitiated();
 
         if ('token' in sessionStorage) {
             const authRequest = request.clone({
-                setHeaders: {Authorization: `Bearer ${sessionStorage.getItem("token")}`}
+                setHeaders: {Authorization: `Bearer ${sessionStorage.getItem('token')}`}
             });
             // return next.handle(authRequest);
             return this.requestHandler(authRequest, next);
@@ -35,16 +35,16 @@ export class HttpRequestHandler implements HttpInterceptor {
     }
 
     // Making Loading Spinner Global - Intercepts Every HTTP Request
-    requestHandler(request: HttpRequest<any>, next: HttpHandler) {
+    requestHandler(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             tap(event => {
                 if (event instanceof HttpResponse) {
-                    this._loadingSpinnerService.httpRequestCompleted();
+                    this.loadingSpinnerService.httpRequestCompleted();
                 }
             }, (error: HttpErrorResponse) => {
-                this._loadingSpinnerService.resetLoadingSpinner();
+                this.loadingSpinnerService.resetLoadingSpinner();
                 throw error;
             })
-        )
+        );
     }
 }

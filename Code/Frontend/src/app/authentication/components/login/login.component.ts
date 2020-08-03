@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {NgForm} from "@angular/forms";
+import {Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
-import {AuthenticationService} from "../../services/authentication.service";
-import {CommonControllerService} from "../../../shared/services/common-controller.service";
+import {AuthenticationService} from '../../services/authentication.service';
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
 
 @Component({
     selector: 'app-login',
@@ -17,27 +17,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     subscription$: Subscription;
     private formSubmitted = false;
 
-    constructor(private _authenticationService: AuthenticationService,
-                private _commonControllerService: CommonControllerService,
-                private _router: Router) {
+    constructor(private authenticationService: AuthenticationService,
+                private commonControllerService: CommonControllerService,
+                private router: Router) {
     }
 
     ngOnInit(): void {
     }
 
-    customerLogin(loginFormData: NgForm) {
+    customerLogin(loginFormData: NgForm): void {
         this.formSubmitted = true;
-        this.subscription$ = this._authenticationService.customerLogin(loginFormData.value).subscribe(data => {
-            this._commonControllerService.customer.name = data['customer'].name;
-            sessionStorage.setItem('token', data['token']);
-            this._authenticationService.isCustomerAuthenticated = true;
-            this._router.navigate(['/']);
+        this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
+            this.commonControllerService.customer.name = data.customer.name;
+            sessionStorage.setItem('token', data.token);
+            this.authenticationService.isCustomerAuthenticated = true;
+            this.router.navigate(['/']);
         }, () => {
-            alert("Wrong Email / Password Combination");
+            alert('Wrong Email / Password Combination');
         });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.subscription$) {
             this.subscription$.unsubscribe();
         }

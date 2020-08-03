@@ -9,21 +9,20 @@ import {LoadingSpinnerService} from './loading-spinner.service';
 })
 export class LoadingSpinnerComponent implements OnInit {
 
-    showLoadingSpinner: boolean = false;
+    showLoadingSpinner = false;
 
-    constructor(private _loadingSpinnerService: LoadingSpinnerService,
-                private _changeDetectorRef: ChangeDetectorRef) {
+    constructor(private loadingSpinnerService: LoadingSpinnerService,
+                private changeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
         this.initializeLoadingSpinner();
     }
 
-    initializeLoadingSpinner() {
-        this._loadingSpinnerService.getLoadingSpinnerObserver().subscribe((status: string) => {
+    initializeLoadingSpinner(): void {
+        this.loadingSpinnerService.getLoadingSpinnerObserver().subscribe((status: string) => {
             this.showLoadingSpinner = status === 'start';
-            this._changeDetectorRef.detectChanges();
-        })
+            this.changeDetectorRef.detectChanges();
+        });
     }
-
 }

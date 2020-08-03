@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoadingSpinnerService {
 
-    private counter: number = 0;
+    private counter = 0;
     private loadingSpinner$ = new BehaviorSubject<string>('');
 
     constructor() {
@@ -17,21 +17,20 @@ export class LoadingSpinnerService {
         return this.loadingSpinner$.asObservable();
     }
 
-    httpRequestInitiated() {
+    httpRequestInitiated(): void {
         if (++this.counter === 1) {
             this.loadingSpinner$.next('start');
         }
     }
 
-    httpRequestCompleted() {
+    httpRequestCompleted(): void {
         if (this.counter === 0 || --this.counter === 0) {
             this.loadingSpinner$.next('stop');
         }
     }
 
-    resetLoadingSpinner() {
+    resetLoadingSpinner(): void {
         this.counter = 0;
         this.loadingSpinner$.next('stop');
     }
-
 }

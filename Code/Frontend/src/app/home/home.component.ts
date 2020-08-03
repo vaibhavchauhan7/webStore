@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
-import {Product} from "../shared/entity/product.model";
-import {ProductManagementService} from "../product/services/product-management.service";
+import {Product} from '../shared/entity/product.model';
+import {ProductManagementService} from '../product/services/product-management.service';
 
 @Component({
     selector: 'app-home',
@@ -12,18 +12,17 @@ import {ProductManagementService} from "../product/services/product-management.s
 export class HomeComponent implements OnInit {
 
     productList: Product[] = [];
-    searchInput: string = '';
+    searchInput = '';
 
-    constructor(private _productManagementService: ProductManagementService,
-                private _route: ActivatedRoute) {
-        this.productList = this._route.snapshot.data['productList'];
+    constructor(private productManagementService: ProductManagementService,
+                private route: ActivatedRoute) {
+        this.productList = this.route.snapshot.data.productList;
     }
 
     ngOnInit(): void {
     }
 
-    trackBy(index, item) {
+    trackBy(index, item): void {
         return item.id;
     }
-
 }

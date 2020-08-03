@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {Product} from "../entity/product.model";
+import {Product} from '../entity/product.model';
 
 @Pipe({
     name: 'searchFilter'
@@ -18,5 +18,4 @@ export class SearchFilterPipe implements PipeTransform {
                 || product.category.toLocaleLowerCase().indexOf(searchInput.toLowerCase()) !== -1;
         });
     }
-
 }

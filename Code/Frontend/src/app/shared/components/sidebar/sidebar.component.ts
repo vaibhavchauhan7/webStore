@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthenticationService} from "../../../authentication/services/authentication.service";
-import {CommonControllerService} from "../../services/common-controller.service";
-import {Customer} from "../../entity/customer.model";
+import {AuthenticationService} from '../../../authentication/services/authentication.service';
+import {CommonControllerService} from '../../services/common-controller.service';
+import {Customer} from '../../entity/customer.model';
 
 @Component({
     selector: 'app-sidebar',
@@ -11,16 +11,16 @@ import {Customer} from "../../entity/customer.model";
 })
 export class SidebarComponent implements OnInit {
 
-    constructor(public _commonControllerService: CommonControllerService,
-                public _authenticationService: AuthenticationService) {
+    constructor(public commonControllerService: CommonControllerService,
+                public authenticationService: AuthenticationService) {
     }
 
     ngOnInit(): void {
     }
 
-    logout() {
+    logout(): void {
         localStorage.clear();
-        this._authenticationService.isCustomerAuthenticated = false;
-        this._commonControllerService.customer = {} as Customer;
+        this.authenticationService.isCustomerAuthenticated = false;
+        this.commonControllerService.customer = {} as Customer;
     }
 }

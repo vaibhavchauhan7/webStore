@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
-import {Observable, of} from "rxjs";
-import {map, tap} from "rxjs/operators";
+import {Observable, of} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
 
-import {Customer} from "../../shared/entity/customer.model";
-import {Product} from "../../shared/entity/product.model";
+import {Customer} from '../../shared/entity/customer.model';
+import {Product} from '../../shared/entity/product.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,24 +15,24 @@ export class ProductManagementService {
     cartProduct: Product[] = [];
     wishlistProduct: Product[] = [];
 
-    private _allProducts: Product[];  // For State Management
+    private allProducts: Product[];  // For State Management
 
-    constructor(private _http: HttpClient) {
+    constructor(private http: HttpClient) {
     }
 
     getCustomers(): Observable<Customer[]> {
         // If no CORS Error (Leaving Comment for Future Reference)
-        // return this._http.get<Customer[]>(`${WebStoreAPI.API_URL}/customers`);
+        // return this.http.get<Customer[]>(`${WebStoreAPI.APIURL}/customers`);
 
         // If CORS Error: Add proxy.config.json and modify Line 6 in package.json
-        return this._http.get<Customer[]>('/webStoreAPI/customers');
+        return this.http.get<Customer[]>('/webStoreAPI/customers');
     }
 
     getCustomerByID(customerID: number): Observable<Customer> {
-        return this._http.get<Customer>(`/webStoreAPI/customer/${customerID}`);
+        return this.http.get<Customer>(`/webStoreAPI/customer/${customerID}`);
     }
 
-    initializeCartAndWishlist() {
+    initializeCartAndWishlist(): void {
         if ('cartProduct' in localStorage) {
             this.cartProduct = JSON.parse(localStorage.getItem('cartProduct'));
         }
@@ -42,19 +42,19 @@ export class ProductManagementService {
     }
 
     getProducts(): Observable<Product[]> {
-        if (this._allProducts) {
-            return of(this._allProducts);
+        if (this.allProducts) {
+            return of(this.allProducts);
         }
-        return this._http.get<Product[]>('/webStoreAPI/products').pipe(
+        return this.http.get<Product[]>('/webStoreAPI/products').pipe(
             tap((data: Product[]) =>
-                this._allProducts = data
+                this.allProducts = data
             )
         );
     }
 
     selectedProduct(id: number): Observable<Product> {
-        if (this._allProducts) {
-            const foundProduct = this._allProducts.find((item: Product) => item.id === id);
+        if (this.allProducts) {
+            const foundProduct = this.allProducts.find((item: Product) => item.id === id);
             if (foundProduct) {
                 return of(foundProduct);
             }
@@ -64,7 +64,7 @@ export class ProductManagementService {
         );
     }
 
-    addProduct(product: Product, type: string) {
+    addProduct(product: Product, type: string): void {
         if (type === 'Cart') {
             this.cartProduct.push(product);
             localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
@@ -74,7 +74,7 @@ export class ProductManagementService {
         }
     }
 
-    removeProduct(product: Product, type: string) {
+    removeProduct(product: Product, type: string): void {
         if (type === 'Cart') {
             this.cartProduct.splice(this.cartProduct.indexOf(product), 1);
             if (this.cartProduct.length !== 0) {

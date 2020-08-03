@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from './authentication.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthenticationGuardService implements CanActivate {
 
-    constructor(private _authenticationService: AuthenticationService,
-                private _router: Router) {
+    constructor(private authenticationService: AuthenticationService,
+                private router: Router) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -19,13 +19,12 @@ export class AuthenticationGuardService implements CanActivate {
     }
 
     isLoggedIn(url: string): boolean {
-        if (this._authenticationService.isCustomerAuthenticated) {
+        if (this.authenticationService.isCustomerAuthenticated) {
             return true;
         }
-        this._authenticationService.redirectUrl = url;
-        this._router.navigate(['/login']);
+        this.authenticationService.redirectUrl = url;
+        this.router.navigate(['/login']);
 
         return false;
     }
-
 }

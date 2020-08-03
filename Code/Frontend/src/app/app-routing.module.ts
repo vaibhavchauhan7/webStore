@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
-import {HomeComponent} from "./home/home.component";
-import {LoginComponent} from "./authentication/components/login/login.component";
-import {PageNotFoundComponent} from "./shared/components/page-not-found/page-not-found.component";
-import {SignUpComponent} from "./authentication/components/sign-up/sign-up.component";
-import {ProductComponent} from "./product/product.component";
-import {ProductResolverService} from "./product/services/product-resolver.service";
-import {WebStoreRouting, WebStoreTitle} from "./shared/entity/constants";
+import {HomeComponent} from './home/home.component';
+import {LoginComponent} from './authentication/components/login/login.component';
+import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
+import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
+import {ProductComponent} from './product/product.component';
+import {ProductResolverService} from './product/services/product-resolver.service';
+import {WebStoreRouting, WebStoreTitle} from './shared/entity/constants';
 
 const routes: Routes = [
     {
