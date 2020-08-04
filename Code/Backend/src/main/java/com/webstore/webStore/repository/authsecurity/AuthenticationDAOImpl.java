@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.CallableStatement;
@@ -23,10 +24,11 @@ import java.sql.SQLException;
 @Repository
 public class AuthenticationDAOImpl implements AuthenticationDAO {
 
+    private final AuthenticationManager authenticationManager;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CustomerDAO customerDAO;
     private final CustomerService customerService;
     private final JwtUtil jwtTokenUtil;
-    private final AuthenticationManager authenticationManager;
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -38,14 +40,16 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     private String password;
 
     @Autowired
-    public AuthenticationDAOImpl(CustomerDAO customerDAO,
-                                 AuthenticationManager authenticationManager,
-                                 JwtUtil jwtTokenUtil,
-                                 CustomerService customerService) {
-        this.customerDAO = customerDAO;
+    public AuthenticationDAOImpl(AuthenticationManager authenticationManager,
+                                 BCryptPasswordEncoder bCryptPasswordEncoder,
+                                 CustomerDAO customerDAO,
+                                 CustomerService customerService,
+                                 JwtUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
-        this.jwtTokenUtil = jwtTokenUtil;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.customerDAO = customerDAO;
         this.customerService = customerService;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
 
     @Override
@@ -58,10 +62,12 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
             try (Connection connection = DriverManager.getConnection(url, username, password)) {
                 CallableStatement callableStatement = connection.prepareCall(sql);
 
+                String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
+
                 callableStatement.setString(1, customer.getName());
                 callableStatement.setString(2, customer.getEmail());
                 callableStatement.setString(3, customer.getPhone());
-                callableStatement.setString(4, customer.getPassword());
+                callableStatement.setString(4, bCryptEncodedPassword);
                 callableStatement.execute();
 
                 callableStatement.close();
@@ -77,7 +83,6 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getEmail(), authenticationRequest.getPassword())
             );
-            // For some reason catch block is not executing now but was working earlier
         } catch (BadCredentialsException badCredentialsException) {
             throw new Exception("Incorrect Email / Password", badCredentialsException);
         }

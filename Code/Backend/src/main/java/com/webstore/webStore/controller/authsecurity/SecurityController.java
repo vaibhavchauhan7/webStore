@@ -10,47 +10,45 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class SecurityController extends WebSecurityConfigurerAdapter {
 
-    private final CustomerService customerService;
     private final JwtRequestFilter jwtRequestFilter;
+    private final CustomerService customerService;
 
     @Autowired
-    public SecurityController(JwtRequestFilter jwtRequestFilter,
-                              CustomerService customerService) {
-        this.jwtRequestFilter = jwtRequestFilter;
+    public SecurityController(CustomerService customerService,
+                              JwtRequestFilter jwtRequestFilter) {
         this.customerService = customerService;
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customerService);
+        auth.userDetailsService(customerService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/login").permitAll().and()
-                .authorizeRequests().antMatchers("/sign-up").permitAll().anyRequest().authenticated().and()
+                .authorizeRequests().antMatchers("/sign-up").permitAll().and()
+                .authorizeRequests().antMatchers("/login").permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
-    @Bean
+    @Bean(name = "authenticationManagerBean")
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    // Change Password Encoder
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    @Bean(name = "bCryptPasswordEncoder")
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2Y);
     }
 }

@@ -1,15 +1,15 @@
 <div class="container-fluid px-0">
     <div class="row no-gutters">
-        <div [hidden]="!_commonControllerService.isSidebarOpen" class="col-3 px-0">
+        <div [hidden]="!commonControllerService.isSidebarOpen" class="col-3 px-0">
             <nav class="sidebar overflow-auto" id="sidebar">
                 <div class="sidebar-header">
                     <img alt="Avatar"
                          class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
-                    <ng-container *ngIf="!_authenticationService.isCustomerAuthenticated; else UserLoggedIn">
+                    <ng-container *ngIf="!authenticationService.isCustomerAuthenticated; else UserLoggedIn">
                         <span class="avatarName">Hello User</span>
                     </ng-container>
                     <ng-template #UserLoggedIn>
-                        <span class="avatarName">{{_commonControllerService.customer.name}}</span>
+                        <span class="avatarName">{{commonControllerService.customer.name}}</span>
                     </ng-template>
                 </div>
 
@@ -32,7 +32,7 @@
                         </ul>
                     </li>
 
-                    <ng-container *ngIf="_authenticationService.isCustomerAuthenticated">
+                    <ng-container *ngIf="authenticationService.isCustomerAuthenticated">
                         <li>
                             <a class="dropdown-toggle" data-toggle="collapse" href="#accountSubMenu">
                                 Account
@@ -58,9 +58,9 @@
                 </ul>
 
                 <ul class="custom-buttons d-flex flex-column">
-                    <ng-container *ngIf="!_authenticationService.isCustomerAuthenticated; else Authenticated">
+                    <ng-container *ngIf="!authenticationService.isCustomerAuthenticated; else Authenticated">
                         <li>
-                            <a (click)="_commonControllerService.toggleSidebar()" class="authentication"
+                            <a (click)="commonControllerService.toggleSidebar()" class="authentication"
                                routerLink="/login" routerLinkActive="active">
                                 Login
                             </a>
@@ -78,7 +78,7 @@
             </nav>
         </div>
 
-        <div [ngClass]="_commonControllerService.isSidebarOpen ? 'col-9' : 'col-12'" class="px-0">
+        <div [ngClass]="commonControllerService.isSidebarOpen ? 'col-9' : 'col-12'" class="px-0">
             <ng-content></ng-content>
         </div>
     </div>

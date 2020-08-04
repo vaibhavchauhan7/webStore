@@ -1,4 +1,4 @@
-<nav [ngClass]="_commonControllerService.isSidebarOpen ? '' : 'fixed-top'"
+<nav [ngClass]="commonControllerService.isSidebarOpen ? '' : 'fixed-top'"
      class="navbar navbar-dark bg-dark justify-content-between">
 
     <div (click)="toggleSidebar()"
