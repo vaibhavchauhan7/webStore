@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
-import {AuthenticationService} from '../../../authentication/services/authentication.service';
 import {CommonControllerService} from '../../services/common-controller.service';
-import {Customer} from '../../entity/customer.model';
+import {Customer} from '../../entity/models';
+import {SidebarService} from './sidebar.service';
+import {WebStoreRouting} from '../../entity/constants';
 
 @Component({
     selector: 'app-sidebar',
@@ -11,16 +12,51 @@ import {Customer} from '../../entity/customer.model';
 })
 export class SidebarComponent implements OnInit {
 
-    constructor(public commonControllerService: CommonControllerService,
-                public authenticationService: AuthenticationService) {
+    routes = {
+        account: WebStoreRouting.ACCOUNT,
+        cart: WebStoreRouting.CART,
+        contact: WebStoreRouting.CONTACT,
+        login: WebStoreRouting.LOGIN,
+        orders: WebStoreRouting.ORDERS,
+        profile: WebStoreRouting.PROFILE,
+        wishlist: WebStoreRouting.WISHLIST
+    };
+    customer: Customer;
+
+    isSidebarOpen: boolean;
+    isCustomerAuthenticated: boolean;
+
+    constructor(private commonControllerService: CommonControllerService,
+                private sidebarService: SidebarService) {
     }
 
     ngOnInit(): void {
+        this.getSidebarObserver();
+        this.getCustomerAuthenticationObserver();
+        this.getCustomerObserver();
+    }
+
+    getSidebarObserver(): void {
+        this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
+            this.isSidebarOpen = data;
+        });
+    }
+
+    getCustomerAuthenticationObserver(): void {
+        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+            this.isCustomerAuthenticated = data;
+        });
+    }
+
+    getCustomerObserver(): void {
+        this.commonControllerService.getCustomerObserver().subscribe((data: Customer) => {
+            this.customer = data;
+        });
     }
 
     logout(): void {
         localStorage.clear();
-        this.authenticationService.isCustomerAuthenticated = false;
-        this.commonControllerService.customer = {} as Customer;
+        this.commonControllerService.revokeCustomerAuthentication();
+        this.commonControllerService.resetCustomerData();
     }
 }

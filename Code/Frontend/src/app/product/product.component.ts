@@ -5,8 +5,10 @@ import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../authentication/services/authentication.service';
-import {Product} from '../shared/entity/product.model';
+import {CommonControllerService} from '../shared/services/common-controller.service';
+import {Product} from '../shared/entity/models';
 import {ProductManagementService} from './services/product-management.service';
+import {WebStoreCart, WebStoreRouting, WebStoreWishlist} from '../shared/entity/constants';
 
 @Component({
     selector: 'app-product',
@@ -16,69 +18,77 @@ import {ProductManagementService} from './services/product-management.service';
 export class ProductComponent implements OnInit, OnDestroy {
 
     product: Product;
-    subscription$: Subscription;
+    isCustomerAuthenticated: boolean;
 
-    cartButton = 'Add To Cart';
-    wishlistButton = 'Add To Wishlist';
+    cartButton = `${WebStoreCart.DEFAULT_BUTTON_TITLE}`;
+    wishlistButton = `${WebStoreWishlist.DEFAULT_BUTTON_TITLE}`;
 
-    cartButtonClass = 'cart';
-    wishlistButtonClass = 'wishlist';
+    cartButtonClass = `${WebStoreCart.DEFAULT_CLASS}`;
+    wishlistButtonClass = `${WebStoreWishlist.DEFAULT_CLASS}`;
 
     disableCartButton: boolean;
     disableWishlistButton: boolean;
+
+    private subscription$: Subscription;
 
     constructor(private authenticationService: AuthenticationService,
                 private route: ActivatedRoute,
                 private router: Router,
                 private titleService: Title,
-                private productManagementService: ProductManagementService) {
+                private productManagementService: ProductManagementService,
+                private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
+        this.getCustomerAuthenticationObserver();
         this.productManagementService.initializeCartAndWishlist();
         this.selectedProduct();
     }
 
+    getCustomerAuthenticationObserver(): void {
+        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+            this.isCustomerAuthenticated = data;
+        });
+    }
+
     selectedProduct(): void {
         const productId = this.route.snapshot.params.id;
-
         this.subscription$ = this.productManagementService.selectedProduct(+productId).subscribe(
             (data: Product) => {
                 this.product = data;
-                // Set the Tab Title To Product Name
-                this.titleService.setTitle(`myStore - ${this.product.name}`);
+                this.titleService.setTitle(`webStore - ${this.product.name}`);
                 this.checkProductAvailability(this.product);
             }
         );
     }
 
     addProduct(product: Product, type: string): void {
-        if (this.authenticationService.isCustomerAuthenticated) {
+        if (this.isCustomerAuthenticated) {
             if (type === 'Cart') {
                 this.productManagementService.addProduct(product, 'Cart');
-                this.cartButton = 'Product Added!';
-                this.cartButtonClass = 'cartButton';
+                this.cartButton = `${WebStoreCart.ADDED_TO_CART}`;
+                this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
                 this.disableCartButton = true;
             } else {
                 this.productManagementService.addProduct(product, 'Wishlist');
-                this.wishlistButton = 'Product Added!';
-                this.wishlistButtonClass = 'wishlistButton';
+                this.wishlistButton = `${WebStoreWishlist.ADDED_TO_WISHLIST}`;
+                this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
                 this.disableWishlistButton = true;
             }
         } else {
-            this.router.navigate(['/login']);
+            this.router.navigate([`${WebStoreRouting.LOGIN}`]);
         }
     }
 
     checkProductAvailability(product: Product): void {
         if (this.productManagementService.ifArrayIncludes(product, this.productManagementService.cartProduct)) {
-            this.cartButton = 'Already in Cart!';
-            this.cartButtonClass = 'cartButton';
+            this.cartButton = `${WebStoreCart.ALREADY_IN_CART}`;
+            this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
             this.disableCartButton = true;
         }
         if (this.productManagementService.ifArrayIncludes(product, this.productManagementService.wishlistProduct)) {
-            this.wishlistButton = 'Already in Wishlist!';
-            this.wishlistButtonClass = 'wishlistButton';
+            this.wishlistButton = `${WebStoreWishlist.ALREADY_IN_WISHLIST}`;
+            this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
             this.disableWishlistButton = true;
         }
     }

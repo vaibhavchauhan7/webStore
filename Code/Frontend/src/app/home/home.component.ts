@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {Product} from '../shared/entity/product.model';
-import {ProductManagementService} from '../product/services/product-management.service';
+import {Product} from '../shared/entity/models';
 
 @Component({
     selector: 'app-home',
@@ -11,11 +10,10 @@ import {ProductManagementService} from '../product/services/product-management.s
 })
 export class HomeComponent implements OnInit {
 
-    productList: Product[] = [];
     searchInput = '';
+    productList: Product[] = [];
 
-    constructor(private productManagementService: ProductManagementService,
-                private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute) {
         this.productList = this.route.snapshot.data.productList;
     }
 

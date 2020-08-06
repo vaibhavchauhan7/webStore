@@ -33,16 +33,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="wrap-input100 validate-input m-b-16">
                             <input class="input100" name="password" ngModel placeholder="Password" type="password">
                             <span class="focus-input100"></span>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="wrap-input100 validate-input">
                             <input class="input100" name="confirmPassword" ngModel
                                    placeholder="Confirm Password" type="password">
@@ -71,7 +69,7 @@
 
                 <div class="flex-col-c p-t-20 p-b-23">
             <span>Already have an account?
-                <a class="text" routerLink="/login">
+                <a class="text" routerLink="/{{loginRoute}}">
                     Log In
                 </a>
             </span>

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 
 import {Observable} from 'rxjs';
 
-import {Product} from '../../shared/entity/product.model';
+import {Product} from '../../shared/entity/models';
 import {ProductManagementService} from './product-management.service';
 
 @Injectable({

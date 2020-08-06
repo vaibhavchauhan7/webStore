@@ -20,12 +20,11 @@ export class HttpRequestHandler implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         this.loadingSpinnerService.httpRequestInitiated();
 
-        if ('token' in sessionStorage) {
+        if ('token' in localStorage) {
             const authRequest = request.clone({
-                setHeaders: {Authorization: `Bearer ${sessionStorage.getItem('token')}`}
+                setHeaders: {Authorization: `Bearer ${localStorage.getItem('token')}`}
             });
             // return next.handle(authRequest);
             return this.requestHandler(authRequest, next);
@@ -34,7 +33,6 @@ export class HttpRequestHandler implements HttpInterceptor {
         }
     }
 
-    // Making Loading Spinner Global - Intercepts Every HTTP Request
     requestHandler(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             tap(event => {

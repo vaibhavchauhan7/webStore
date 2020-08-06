@@ -4,8 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 
-import {Customer} from '../../shared/entity/customer.model';
-import {Product} from '../../shared/entity/product.model';
+import {Customer, Product} from '../../shared/entity/models';
+import {WebStoreAPI} from '../../shared/entity/constants';
 
 @Injectable({
     providedIn: 'root'
@@ -15,22 +15,21 @@ export class ProductManagementService {
     cartProduct: Product[] = [];
     wishlistProduct: Product[] = [];
 
-    private allProducts: Product[];  // For State Management
+    private allProducts: Product[];  // Basic State Management
 
     constructor(private http: HttpClient) {
     }
 
+    // Temporary Methods
     getCustomers(): Observable<Customer[]> {
-        // If no CORS Error (Leaving Comment for Future Reference)
-        // return this.http.get<Customer[]>(`${WebStoreAPI.APIURL}/customers`);
-
-        // If CORS Error: Add proxy.config.json and modify Line 6 in package.json
-        return this.http.get<Customer[]>('/webStoreAPI/customers');
+        return this.http.get<Customer[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}`);
     }
 
     getCustomerByID(customerID: number): Observable<Customer> {
-        return this.http.get<Customer>(`/webStoreAPI/customer/${customerID}`);
+        return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${customerID}`);
     }
+
+    // Temporary Methods Ends
 
     initializeCartAndWishlist(): void {
         if ('cartProduct' in localStorage) {
@@ -45,7 +44,7 @@ export class ProductManagementService {
         if (this.allProducts) {
             return of(this.allProducts);
         }
-        return this.http.get<Product[]>('/webStoreAPI/products').pipe(
+        return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PRODUCTS}`).pipe(
             tap((data: Product[]) =>
                 this.allProducts = data
             )

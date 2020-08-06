@@ -20,6 +20,7 @@ import {ProductComponent} from './product/product.component';
 import {ProductResolverService} from './product/services/product-resolver.service';
 import {SearchFilterPipe} from './shared/services/search-filter.pipe';
 import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
+import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
 
 @NgModule({
@@ -48,6 +49,7 @@ import {SignUpComponent} from './authentication/components/sign-up/sign-up.compo
         AuthenticationGuardService,
         CommonControllerService,
         ProductResolverService,
+        SidebarService,
         HttpController
     ],
     bootstrap: [AppComponent]

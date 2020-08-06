@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {Product} from '../../../shared/entity/product.model';
+import {Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 
 @Component({

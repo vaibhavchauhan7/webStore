@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-import {Product} from '../entity/product.model';
+import {Product} from '../entity/models';
 
 @Pipe({
     name: 'searchFilter'

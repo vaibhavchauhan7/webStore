@@ -1,23 +1,25 @@
 <div class="container-fluid px-0">
     <div class="row no-gutters">
-        <div [hidden]="!commonControllerService.isSidebarOpen" class="col-3 px-0">
+        <div [hidden]="!isSidebarOpen" class="col-3 px-0">
             <nav class="sidebar overflow-auto" id="sidebar">
                 <div class="sidebar-header">
                     <img alt="Avatar"
                          class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
-                    <ng-container *ngIf="!authenticationService.isCustomerAuthenticated; else UserLoggedIn">
+                    <ng-container *ngIf="!isCustomerAuthenticated; else UserLoggedIn">
                         <span class="avatarName">Hello User</span>
                     </ng-container>
                     <ng-template #UserLoggedIn>
-                        <span class="avatarName">{{commonControllerService.customer.name}}</span>
+                        <span class="avatarName">{{customer.name}}</span>
                     </ng-template>
                 </div>
 
                 <ul class="components pb-0">
                     <p>webStore says Hello :)</p>
 
-                    <li><a [routerLinkActiveOptions]="{exact: true}" routerLink="/"
-                           routerLinkActive="active">Home</a>
+                    <li>
+                        <a [routerLinkActiveOptions]="{exact: true}"
+                           routerLink="/" routerLinkActive="active">Home
+                        </a>
                     </li>
 
                     <li>
@@ -32,36 +34,40 @@
                         </ul>
                     </li>
 
-                    <ng-container *ngIf="authenticationService.isCustomerAuthenticated">
+                    <ng-container *ngIf="isCustomerAuthenticated">
                         <li>
                             <a class="dropdown-toggle" data-toggle="collapse" href="#accountSubMenu">
                                 Account
                             </a>
                             <ul class="collapse" id="accountSubMenu">
-                                <a routerLink="/account/profile" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.profile}}"
+                                   routerLinkActive="active">
                                     Profile
                                 </a>
-                                <a routerLink="/account/orders" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.orders}}"
+                                   routerLinkActive="active">
                                     Orders
                                 </a>
-                                <a routerLink="/account/wishlist" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.wishlist}}"
+                                   routerLinkActive="active">
                                     Wishlist
                                 </a>
-                                <a routerLink="/account/cart" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.cart}}"
+                                   routerLinkActive="active">
                                     Cart
                                 </a>
                             </ul>
                         </li>
                     </ng-container>
 
-                    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+                    <li><a routerLink="/{{routes.contact}}" routerLinkActive="active">Contact</a></li>
                 </ul>
 
                 <ul class="custom-buttons d-flex flex-column">
-                    <ng-container *ngIf="!authenticationService.isCustomerAuthenticated; else Authenticated">
+                    <ng-container *ngIf="!isCustomerAuthenticated; else Authenticated">
                         <li>
-                            <a (click)="commonControllerService.toggleSidebar()" class="authentication"
-                               routerLink="/login" routerLinkActive="active">
+                            <a class="authentication"
+                               routerLink="/{{routes.login}}" routerLinkActive="active">
                                 Login
                             </a>
                         </li>
@@ -69,7 +75,7 @@
                     <ng-template #Authenticated>
                         <li>
                             <a (click)="logout()" class="authentication"
-                               routerLink="/login" routerLinkActive="active">
+                               routerLink="/{{routes.login}}" routerLinkActive="active">
                                 Logout
                             </a>
                         </li>
@@ -78,7 +84,7 @@
             </nav>
         </div>
 
-        <div [ngClass]="commonControllerService.isSidebarOpen ? 'col-9' : 'col-12'" class="px-0">
+        <div [ngClass]="isSidebarOpen ? 'col-9' : 'col-12'" class="px-0">
             <ng-content></ng-content>
         </div>
     </div>

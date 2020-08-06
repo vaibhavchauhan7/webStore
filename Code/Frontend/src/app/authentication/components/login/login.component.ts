@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-login',
@@ -14,26 +15,36 @@ import {CommonControllerService} from '../../../shared/services/common-controlle
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-    subscription$: Subscription;
-    private formSubmitted = false;
+    signUpRoute = WebStoreRouting.SIGN_UP;
+    isCustomerAuthenticated: boolean;
 
-    constructor(private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService,
-                private router: Router) {
+    private formSubmitted = false;
+    private subscription$: Subscription;
+
+    constructor(private router: Router,
+                private authenticationService: AuthenticationService,
+                private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
+        this.getCustomerAuthenticationObserver();
     }
 
     customerLogin(loginFormData: NgForm): void {
         this.formSubmitted = true;
         this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
-            this.commonControllerService.customer.name = data.customer.name;
-            sessionStorage.setItem('token', data.token);
-            this.authenticationService.isCustomerAuthenticated = true;
+            this.commonControllerService.setCustomerData(data.customer);
+            localStorage.setItem('token', data.token);
+            this.commonControllerService.authenticateCustomer();
             this.router.navigate(['/']);
         }, () => {
-            alert('Wrong Email / Password Combination');
+            alert('Wrong Email or Password');
+        });
+    }
+
+    getCustomerAuthenticationObserver(): void {
+        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+            this.isCustomerAuthenticated = data;
         });
     }
 

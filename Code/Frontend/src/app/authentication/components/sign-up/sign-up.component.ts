@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
+import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-sign-up',
@@ -12,8 +13,10 @@ import {AuthenticationService} from '../../services/authentication.service';
 })
 export class SignUpComponent implements OnInit, OnDestroy {
 
-    subscription$: Subscription;
+    loginRoute = WebStoreRouting.LOGIN;
+
     private formSubmitted = false;
+    private subscription$: Subscription;
 
     constructor(private authenticationService: AuthenticationService) {
     }
@@ -25,8 +28,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
         this.formSubmitted = true;
         this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
                 alert('Sign Up Successful!');
-            }, error => {
-                alert(`An Error Occurred: ${error}`);
+            }, () => {
+                alert(`Sign Up Failed!`);
             }
         );
     }

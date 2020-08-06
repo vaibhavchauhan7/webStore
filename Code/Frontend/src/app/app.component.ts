@@ -7,7 +7,8 @@ import {filter, map} from 'rxjs/operators';
 
 import {AuthenticationService} from './authentication/services/authentication.service';
 import {CommonControllerService} from './shared/services/common-controller.service';
-import {Customer} from './shared/entity/customer.model';
+import {Customer} from './shared/entity/models';
+import {SidebarService} from './shared/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'app-root',
@@ -17,41 +18,25 @@ import {Customer} from './shared/entity/customer.model';
 export class AppComponent implements OnInit, OnDestroy {
 
     title = 'webStore';
-    subscription$: Subscription[] = [];
+
+    isSidebarOpen: boolean;
+    customer: Customer;
+
+    private subscription$: Subscription[] = [];
 
     constructor(private router: Router,
                 private titleService: Title,
+                private sidebarService: SidebarService,
                 private activatedRoute: ActivatedRoute,
                 private authenticationService: AuthenticationService,
-                public commonControllerService: CommonControllerService) {
+                private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
-        this.openPageFromTop();
         this.getPageTitle();
         this.checkAuthentication();
-    }
-
-    checkAuthentication(): void {
-        if ('token' in sessionStorage) {
-            this.authenticationService.isCustomerAuthenticated = true;
-            this.subscription$.push(this.authenticationService.getCustomerByEmail(sessionStorage.getItem('token'))
-                .subscribe((customer: Customer) => {
-                    this.commonControllerService.customer = customer;
-                })
-            );
-        }
-    }
-
-    openPageFromTop(): void {
-        // For every router page to open from top
-        this.subscription$.push(this.router.events.subscribe(event => {
-                if (!(event instanceof NavigationEnd)) {
-                    return;
-                }
-                window.scrollTo(0, 0);
-            })
-        );
+        this.getSidebarObserver();
+        this.openPageFromTop();
     }
 
     getPageTitle(): void {
@@ -71,6 +56,34 @@ export class AppComponent implements OnInit, OnDestroy {
                 })
             ).subscribe((title: string) => {
                 this.titleService.setTitle(title);
+            })
+        );
+    }
+
+    checkAuthentication(): void {
+        if ('token' in localStorage) {
+            this.commonControllerService.authenticateCustomer();
+            this.subscription$.push(this.authenticationService.getCustomerByEmail(localStorage.getItem('token'))
+                .subscribe((customer: Customer) => {
+                    this.commonControllerService.setCustomerData(customer);
+                })
+            );
+        }
+    }
+
+    getSidebarObserver(): void {
+        this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
+            this.isSidebarOpen = data;
+        });
+    }
+
+    // For every router page to open from top
+    openPageFromTop(): void {
+        this.subscription$.push(this.router.events.subscribe(event => {
+                if (!(event instanceof NavigationEnd)) {
+                    return;
+                }
+                window.scrollTo(0, 0);
             })
         );
     }

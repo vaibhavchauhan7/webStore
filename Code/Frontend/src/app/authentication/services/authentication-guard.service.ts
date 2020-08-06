@@ -3,27 +3,37 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {Observable} from 'rxjs';
 
-import {AuthenticationService} from './authentication.service';
+import {CommonControllerService} from '../../shared/services/common-controller.service';
+import {WebStoreRouting} from '../../shared/entity/constants';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthenticationGuardService implements CanActivate {
 
-    constructor(private authenticationService: AuthenticationService,
-                private router: Router) {
+    isCustomerAuthenticated: boolean;
+
+    constructor(private router: Router,
+                private commonControllerService: CommonControllerService) {
+        this.getCustomerAuthenticationObserver();
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.isLoggedIn(state.url);
+        return this.isCustomerLoggedIn(state.url);
     }
 
-    isLoggedIn(url: string): boolean {
-        if (this.authenticationService.isCustomerAuthenticated) {
+    getCustomerAuthenticationObserver(): void {
+        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+            this.isCustomerAuthenticated = data;
+        });
+    }
+
+    isCustomerLoggedIn(url: string): boolean {
+        if (this.isCustomerAuthenticated) {
             return true;
         }
-        this.authenticationService.redirectUrl = url;
-        this.router.navigate(['/login']);
+        this.commonControllerService.redirectUrl = url;
+        this.router.navigate([`${WebStoreRouting.LOGIN}`]);
 
         return false;
     }
