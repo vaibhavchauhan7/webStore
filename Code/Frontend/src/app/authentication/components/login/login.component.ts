@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
@@ -15,13 +16,13 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-    signUpRoute = WebStoreRouting.SIGN_UP;
+    signUp = WebStoreRouting.SIGN_UP;
     isCustomerAuthenticated: boolean;
 
-    private formSubmitted = false;
     private subscription$: Subscription;
 
     constructor(private router: Router,
+                private toastService: ToastService,
                 private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService) {
     }
@@ -31,14 +32,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     customerLogin(loginFormData: NgForm): void {
-        this.formSubmitted = true;
         this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
             this.commonControllerService.setCustomerData(data.customer);
             localStorage.setItem('token', data.token);
             this.commonControllerService.authenticateCustomer();
+            this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
             this.router.navigate(['/']);
         }, () => {
-            alert('Wrong Email or Password');
+            this.toastService.showToast('Wrong Email/Password', {classname: 'bg-red'});
         });
     }
 

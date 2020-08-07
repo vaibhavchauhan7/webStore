@@ -30,8 +30,8 @@ p {
 }
 
 input {
+    border: 3px solid #7386D5;
     outline: none;
-    border: none;
 }
 
 input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
@@ -143,6 +143,20 @@ button:hover {
     -o-transition: all .4s;
     -moz-transition: all .4s;
     transition: all .4s;
+}
+
+#signUpForm {
+    border: 3px solid #7386D5;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+}
+
+#signUpForm input.ng-invalid.ng-touched {
+    border: 3px solid red;
+}
+
+#signUpForm input.ng-valid {
+    border: 3px solid #33b526;
 }
 
 .p-r-55 {

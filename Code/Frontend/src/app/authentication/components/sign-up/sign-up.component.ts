@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
+import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
@@ -13,23 +14,22 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 })
 export class SignUpComponent implements OnInit, OnDestroy {
 
-    loginRoute = WebStoreRouting.LOGIN;
+    login = WebStoreRouting.LOGIN;
 
-    private formSubmitted = false;
     private subscription$: Subscription;
 
-    constructor(private authenticationService: AuthenticationService) {
+    constructor(private toastService: ToastService,
+                private authenticationService: AuthenticationService) {
     }
 
     ngOnInit(): void {
     }
 
     customerSignUp(signUpFormData: NgForm): void {
-        this.formSubmitted = true;
         this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
-                alert('Sign Up Successful!');
+                this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
             }, () => {
-                alert(`Sign Up Failed!`);
+                this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
             }
         );
     }

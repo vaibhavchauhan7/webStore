@@ -8,6 +8,7 @@
         <div class="row no-gutters">
             <div [ngClass]="isSidebarOpen ? '' : 'mt-p5'"
                  class="col-12 px-0 overflow-auto vh-n51">
+                <app-toast aria-atomic="true" aria-live="polite"></app-toast>
                 <app-loading-spinner></app-loading-spinner>
                 <router-outlet></router-outlet>
             </div>

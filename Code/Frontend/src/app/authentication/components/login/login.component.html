@@ -4,22 +4,23 @@
     </span>
 
     <div class="overflow-auto" style="max-height: 350px;">
-        <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)"
-              class="login100-form validate-form p-l-55 p-r-55 p-t-35"
-              method="get">
+        <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)" class="login100-form validate-form p-l-55 p-r-55 p-t-35"
+              id="loginForm" method="post">
             <div class="wrap-input100 validate-input m-b-16">
-                <input class="input100" name="email" ngModel placeholder="Email" type="text">
+                <input class="input100" email name="email" ngModel
+                       placeholder="Email" required type="text">
                 <span class="focus-input100"></span>
             </div>
 
             <div class="wrap-input100 validate-input">
-                <input class="input100" name="password" ngModel placeholder="Password" type="password">
+                <input class="input100" name="password" ngModel placeholder="Password"
+                       required type="password">
                 <span class="focus-input100"></span>
             </div>
 
             <div class="text-center p-t-13 p-b-23">
                 <a class="text" href="javascript:">
-                    Forgot Email / Password?
+                    Forgot Password?
                 </a>
             </div>
 
@@ -31,7 +32,7 @@
                         </button>
                     </div>
                     <div class="col-6">
-                        <button [disabled]="!loginFormData.valid"
+                        <button [disabled]="loginFormData.invalid"
                                 class="login100-form-btn" type="submit"
                                 value="submit">
                             Login
@@ -40,9 +41,9 @@
                 </div>
             </div>
 
-            <div class="flex-col-c p-t-35">
+            <div class="flex-col-c p-tb-20">
             <span>Don’t have an account?
-                <a class="text" routerLink="/{{signUpRoute}}">
+                <a class="text" routerLink="/{{signUp}}">
                     Sign Up
                 </a>
             </span>

@@ -15,6 +15,7 @@ import {HomeComponent} from './home/home.component';
 import {HttpController} from './shared/services/http-interceptors/http-controller';
 import {LoadingSpinnerComponent} from './shared/components/loading-spinner/loading-spinner.component';
 import {LoginComponent} from './authentication/components/login/login.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
 import {ProductComponent} from './product/product.component';
 import {ProductResolverService} from './product/services/product-resolver.service';
@@ -22,6 +23,7 @@ import {SearchFilterPipe} from './shared/services/search-filter.pipe';
 import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
+import {ToastComponent} from './shared/components/toast/toast.component';
 
 @NgModule({
     declarations: [
@@ -35,14 +37,16 @@ import {SignUpComponent} from './authentication/components/sign-up/sign-up.compo
         ProductComponent,
         SearchFilterPipe,
         SidebarComponent,
-        SignUpComponent
+        SignUpComponent,
+        ToastComponent
     ],
     imports: [
         AppRoutingModule,
         BrowserModule,
         CommonModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        NgbModule
     ],
     providers: [
         AuthenticationService,

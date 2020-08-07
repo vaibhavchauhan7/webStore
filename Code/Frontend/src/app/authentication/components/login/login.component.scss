@@ -30,8 +30,8 @@ p {
 }
 
 input {
+    border: 3px solid #7386D5;
     outline: none;
-    border: none;
 }
 
 input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
@@ -79,7 +79,7 @@ button:hover {
     -webkit-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
     -o-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
     -ms-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    height: 451px;
+    height: auto;
     border: 1px solid #DEDEDE;
     margin: 30px auto;
 }
@@ -145,6 +145,20 @@ button:hover {
     transition: all .4s;
 }
 
+#loginForm {
+    border: 3px solid #7386D5;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+}
+
+#loginForm input.ng-invalid.ng-touched {
+    border: 3px solid red;
+}
+
+#loginForm input.ng-valid {
+    border: 3px solid #33b526;
+}
+
 .p-r-55 {
     padding-right: 55px;
 }
@@ -159,6 +173,11 @@ button:hover {
 
 .p-t-35 {
     padding-top: 35px;
+}
+
+.p-tb-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .flex-col-c {

@@ -23,6 +23,6 @@ export class AuthenticationService {
     }
 
     getCustomerByEmail(token): Observable<Customer> {
-        return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}/details/${token}`);
+        return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/details/${token}`);
     }
 }

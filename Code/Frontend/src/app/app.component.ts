@@ -18,9 +18,7 @@ import {SidebarService} from './shared/components/sidebar/sidebar.service';
 export class AppComponent implements OnInit, OnDestroy {
 
     title = 'webStore';
-
     isSidebarOpen: boolean;
-    customer: Customer;
 
     private subscription$: Subscription[] = [];
 
