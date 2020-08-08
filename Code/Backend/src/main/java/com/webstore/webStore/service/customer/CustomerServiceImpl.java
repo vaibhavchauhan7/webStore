@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
@@ -25,16 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Customer customer = customerDAO.getCustomerByEmail(email);
         return new User(customer.getEmail(), customer.getPassword(), new ArrayList<>());
-    }
-
-    @Override
-    public List<Customer> getCustomers() {
-        return customerDAO.getCustomers();
-    }
-
-    @Override
-    public Customer getCustomerByID(int customerID) {
-        return customerDAO.getCustomerByID(customerID);
     }
 
     @Override

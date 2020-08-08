@@ -2,20 +2,26 @@ package com.webstore.webStore.entity.customer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.persistence.*;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Entity
+@Table(name = "customers")
 public class Customer {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private String email;
     private String phone;
     private String password;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

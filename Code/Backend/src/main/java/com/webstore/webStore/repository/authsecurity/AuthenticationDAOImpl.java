@@ -54,26 +54,25 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     @Override
     public void customerSignUp(Customer customer) throws Exception {
-        Customer dbCustomer = customerDAO.getCustomerByEmail(customer.getEmail());
-        if (dbCustomer.getEmail() != null) {
-            throw new Exception("Customer Already Exist");
-        } else {
-            String sql = "{call spCustomerSignUp(?,?,?,?)}";
-            try (Connection connection = DriverManager.getConnection(url, username, password)) {
-                CallableStatement callableStatement = connection.prepareCall(sql);
+//        If Using AuthenticationRepository - Needs Work
+//        String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
+//        customer.setPassword(bCryptEncodedPassword);
+//        authenticationRepository.save(customer);
+        String sql = "{call spCustomerSignUp(?,?,?,?)}";
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            CallableStatement callableStatement = connection.prepareCall(sql);
 
-                String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
+            String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
 
-                callableStatement.setString(1, customer.getName());
-                callableStatement.setString(2, customer.getEmail());
-                callableStatement.setString(3, customer.getPhone());
-                callableStatement.setString(4, bCryptEncodedPassword);
-                callableStatement.execute();
+            callableStatement.setString(1, customer.getName());
+            callableStatement.setString(2, customer.getEmail());
+            callableStatement.setString(3, customer.getPhone());
+            callableStatement.setString(4, bCryptEncodedPassword);
+            callableStatement.execute();
 
-                callableStatement.close();
-            } catch (SQLException sqlException) {
-                throw new Exception("Couldn't SignUp. An error occurred!", sqlException);
-            }
+            callableStatement.close();
+        } catch (SQLException sqlException) {
+            throw new Exception("Couldn't SignUp. An error occurred!", sqlException);
         }
     }
 
