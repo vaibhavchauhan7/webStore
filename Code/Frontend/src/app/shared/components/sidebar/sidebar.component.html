@@ -1,20 +1,20 @@
 <div class="container-fluid px-0">
     <div class="row no-gutters">
-        <div [hidden]="!isSidebarOpen" class="col-3 px-0">
+        <div [hidden]="!isSidebarOpen" class="col-sm-12 col-md-3 px-0">
             <nav class="sidebar overflow-auto" id="sidebar">
-                <div class="sidebar-header">
-                    <img alt="Avatar"
-                         class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
-                    <ng-container *ngIf="!isCustomerAuthenticated; else UserLoggedIn">
-                        <span class="avatarName">Hello User</span>
+                <div [ngClass]="{'text-center': !isCustomerAuthenticated}" class="sidebar-header">
+                    <ng-container *ngIf="!isCustomerAuthenticated; else UserAuthenticated">
+                        <span class="avatarName">webStore</span>
                     </ng-container>
-                    <ng-template #UserLoggedIn>
+                    <ng-template #UserAuthenticated>
+                        <img alt="Avatar"
+                             class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
                         <span class="avatarName">{{customer.name}}</span>
                     </ng-template>
                 </div>
 
                 <ul class="components pb-0">
-                    <p>webStore says Hello :)</p>
+                    <p class="text-center">webStore says Hello :)</p>
 
                     <li>
                         <a [routerLinkActiveOptions]="{exact: true}"
@@ -84,7 +84,7 @@
             </nav>
         </div>
 
-        <div [ngClass]="isSidebarOpen ? 'col-9' : 'col-12'" class="px-0">
+        <div [ngClass]="isSidebarOpen ? 'col-md-9' : 'col-12'" class="px-0">
             <ng-content></ng-content>
         </div>
     </div>

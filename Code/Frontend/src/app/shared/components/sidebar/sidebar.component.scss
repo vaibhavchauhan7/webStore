@@ -1,3 +1,5 @@
+@import 'src/assets/scss/variables';
+
 #accountSubMenu, #categoriesSubMenu {
     padding: 0;
 }
@@ -15,9 +17,7 @@
 
 p {
     font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
+    line-height: 2em;
 }
 
 a {
@@ -40,13 +40,13 @@ a {
 
 .sidebar {
     height: calc(100vh + 5px);
-    background: #7386D5;
-    color: #fff;
+    background: $webStorePrimaryColor;
+    color: $white;
     transition: all 0.3s;
 
     .sidebar-header {
         padding: 20px;
-        background: #6d7fcc;
+        background: $webStoreSecondaryColor;
     }
 
     ul.components {
@@ -56,7 +56,7 @@ a {
     ul {
 
         p {
-            color: #fff;
+            color: $white;
             padding: 10px;
         }
 
@@ -69,32 +69,12 @@ a {
                 display: block;
 
                 &:hover {
-                    color: #7386D5;
-                    background: #fff;
+                    color: $webStorePrimaryColor;
+                    background: $white;
                 }
             }
         }
-
-        li.active {
-            > a {
-                color: #fff;
-                background: #6d7fcc;
-            }
-        }
     }
-}
-
-.sidebar.active {
-    margin-left: -250px;
-}
-
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
 }
 
 .dropdown-toggle {
@@ -110,9 +90,9 @@ a[data-toggle="collapse"] {
 ul {
     ul {
         a {
-            font-size: 0.9em !important;
+            font-size: 1em !important;
             padding-left: 30px !important;
-            background: #6d7fcc;
+            background: $webStoreSecondaryColor;
         }
     }
 }
@@ -122,45 +102,30 @@ ul.custom-buttons {
     list-style-type: none;
 
     a {
-        text-align: center;
-        font-size: 1em !important;
         display: block;
-        border-radius: 5px;
-        margin-bottom: 5px;
+        font-size: 1.1em !important;
+        text-align: center;
+        border-radius: 20px;
     }
+}
 
-    :last-child {
-        margin-top: auto;
-    }
+// Keeps link focused after clicking
+.active {
+    color: $webStorePrimaryColor !important;
+    background-color: $white !important;
+}
+
+a[aria-expanded="true"] {
+    color: $white;
+    background: $webStoreSecondaryColor;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
 }
 
 a.authentication {
-    background: #fff;
-    color: #7386D5;
+    background: $white;
+    color: $webStorePrimaryColor;
     cursor: pointer;
 }
-
-a.sidebarCollapse {
-    background: #6d7fcc !important;
-    color: #fff !important;
-
-    &:hover {
-        background: #6d7fcc !important;
-        color: #fff !important;
-    }
-}
-
-/* SUPERIMPORTANT.....It helps nav links to look active i.e. they don't
-lose their focus color on clicking outside navbar(works with class active) */
-.sidebar .li > .active > a,
-.sidebar .li > .active > a:hover,
-.sidebar .li > .active > a:focus {
-    background-color: transparent;
-}
-
-.active {
-    color: #7386D5 !important;
-    background-color: white !important;
-}
-
-/* SUPERIMPORTANT ends.................. */

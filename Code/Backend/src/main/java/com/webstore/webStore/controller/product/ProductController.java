@@ -1,4 +1,4 @@
-package com.webstore.webStore.controller;
+package com.webstore.webStore.controller.product;
 
 import com.webstore.webStore.entity.product.Product;
 import com.webstore.webStore.service.product.ProductService;

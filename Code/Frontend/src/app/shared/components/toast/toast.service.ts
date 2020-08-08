@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {Toast} from '../../entity/constants';
+import {Toast} from '../../entity/models';
 
 @Injectable({
     providedIn: 'root'

@@ -1,4 +1,4 @@
-package com.webstore.webStore.controller;
+package com.webstore.webStore.controller.customer;
 
 import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
 import com.webstore.webStore.entity.customer.Customer;

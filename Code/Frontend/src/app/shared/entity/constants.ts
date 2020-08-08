@@ -48,10 +48,3 @@ export enum WebStoreWishlist {
     DEFAULT_BUTTON_TITLE = 'Add to Wishlist',
     DEFAULT_CLASS = 'wishlist'
 }
-
-export interface Toast {
-    classname: string;
-    delay: number;
-    options: {};
-    toastMessage: string;
-}

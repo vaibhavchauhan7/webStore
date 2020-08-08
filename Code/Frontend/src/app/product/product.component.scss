@@ -1,6 +1,5 @@
 .productDescription {
-    min-height: 300px;
-    max-height: 300px;
+    height: 300px;
 }
 
 .productDescription p {
@@ -16,7 +15,7 @@
     height: auto;
 }
 
-/*Buy Now*/
+// Cart
 .cart, .cartButton {
     align-items: center;
     border: 2px solid #0fa336;
@@ -36,7 +35,6 @@
 .cart:hover {
     background-color: #0fa336;
     color: white;
-    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
 }
 
 .cartButton {
@@ -45,7 +43,7 @@
     color: white;
 }
 
-/*Wishlist*/
+// Wishlist
 .wishlist, .wishlistButton {
     align-items: center;
     border: 2px solid #f52020;
@@ -65,33 +63,11 @@
 .wishlist:hover {
     background-color: #f52020;
     color: white;
-    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
 }
 
 .wishlistButton {
     border: 2px solid #f52020;
     background-color: #f52020;
-    color: white;
-}
-
-.backToExplore {
-    align-items: center;
-    border: 2px solid #3577db;
-    border-radius: 10px;
-    width: 170px;
-    height: 55px;
-    color: #3577db;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 20px;
-    transition: 0.5s;
-    text-align: center;
-    display: inline-block;
-    outline: none;
-}
-
-.backToExplore:hover {
-    background-color: #3577db;
     color: white;
 }
 
@@ -130,5 +106,4 @@
         height: auto;
         margin: 0 auto 20px;
     }
-
 }

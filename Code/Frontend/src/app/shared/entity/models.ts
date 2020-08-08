@@ -14,3 +14,10 @@ export interface Product {
     price: number;
     category: string;
 }
+
+export interface Toast {
+    classname: string;
+    delay: number;
+    options: {};
+    toastMessage: string;
+}
