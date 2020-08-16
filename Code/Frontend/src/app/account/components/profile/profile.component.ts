@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {NgForm} from '@angular/forms';
+
+import {Customer} from '../../../shared/entity/models';
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
 
 @Component({
     selector: 'app-profile',
@@ -7,11 +11,28 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-    showProfile = true;
+    customer: Customer;
+    allowEditProfile = false;
 
-    constructor() {
+    constructor(private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
+        this.getCustomerProfile();
+    }
+
+    getCustomerProfile(): void {
+        this.commonControllerService.getCustomerObserver().subscribe((data: Customer) => {
+            this.customer = data;
+        });
+    }
+
+    saveEditedProfile(editProfileData: NgForm): void {
+        alert('Changes Saved');
+        this.toggleEditProfile();
+    }
+
+    toggleEditProfile(): void {
+        this.allowEditProfile = !this.allowEditProfile;
     }
 }

@@ -26,12 +26,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     customerSignUp(signUpFormData: NgForm): void {
-        this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
-                this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
-            }, () => {
-                this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
-            }
-        );
+        if (signUpFormData.invalid || signUpFormData.untouched) {
+            this.toastService.showToast('Invalid Data!', {classname: 'bg-red'});
+        } else {
+            this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
+                    this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
+                }, () => {
+                    this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
+                }
+            );
+        }
     }
 
     ngOnDestroy(): void {

@@ -76,7 +76,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.disableWishlistButton = true;
             }
         } else {
-            this.router.navigate([`${WebStoreRouting.LOGIN}`]);
+            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`);
         }
     }
 

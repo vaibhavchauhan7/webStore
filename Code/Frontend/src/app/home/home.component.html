@@ -10,9 +10,7 @@
             <div [routerLink]="['/product', product.id, product.name]" class="card mt-5"
                  routerLinkActive="active">
                 <div class="cardImage">
-                    <img
-                        alt="images"
-                        src="{{product.imagePath}}">
+                    <img alt="images" src="{{product.imagePath}}">
                 </div>
                 <div class="details">
                     <h2>{{product.name}}<br><span>Rs {{product.price}}</span></h2>

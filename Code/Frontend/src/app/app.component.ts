@@ -61,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     checkAuthentication(): void {
         if ('token' in localStorage) {
             this.commonControllerService.authenticateCustomer();
-            this.subscription$.push(this.authenticationService.getCustomerByEmail(localStorage.getItem('token'))
+            this.subscription$.push(this.authenticationService.getCustomerDataByToken(localStorage.getItem('token'))
                 .subscribe((customer: Customer) => {
                     this.commonControllerService.setCustomerData(customer);
                 })

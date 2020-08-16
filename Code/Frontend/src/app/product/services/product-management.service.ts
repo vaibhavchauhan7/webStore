@@ -21,6 +21,7 @@ export class ProductManagementService {
     }
 
     // Temporary Methods
+
     getCustomers(): Observable<Customer[]> {
         return this.http.get<Customer[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}`);
     }
@@ -29,7 +30,7 @@ export class ProductManagementService {
         return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${customerID}`);
     }
 
-    // Temporary Methods Ends
+    // Temporary Methods End
 
     initializeCartAndWishlist(): void {
         if ('cartProduct' in localStorage) {
@@ -45,26 +46,26 @@ export class ProductManagementService {
             return of(this.allProducts);
         }
         return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PRODUCTS}`).pipe(
-            tap((data: Product[]) =>
-                this.allProducts = data
+            tap((productList: Product[]) =>
+                this.allProducts = productList
             )
         );
     }
 
-    selectedProduct(id: number): Observable<Product> {
+    selectedProduct(productID: number): Observable<Product> {
         if (this.allProducts) {
-            const foundProduct = this.allProducts.find((item: Product) => item.id === id);
+            const foundProduct = this.allProducts.find((item: Product) => item.id === productID);
             if (foundProduct) {
                 return of(foundProduct);
             }
         }
         return this.getProducts().pipe(
-            map((data: Product[]) => data.find((item: Product) => item.id === id))
+            map((productList: Product[]) => productList.find((item: Product) => item.id === productID))
         );
     }
 
-    addProduct(product: Product, type: string): void {
-        if (type === 'Cart') {
+    addProduct(product: Product, productType: string): void {
+        if (productType === 'Cart') {
             this.cartProduct.push(product);
             localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
         } else {
@@ -73,8 +74,8 @@ export class ProductManagementService {
         }
     }
 
-    removeProduct(product: Product, type: string): void {
-        if (type === 'Cart') {
+    removeProduct(product: Product, productType: string): void {
+        if (productType === 'Cart') {
             this.cartProduct.splice(this.cartProduct.indexOf(product), 1);
             if (this.cartProduct.length !== 0) {
                 localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
@@ -98,6 +99,8 @@ export class ProductManagementService {
                     item.id === product.id
             );
             return !!productFound;
+        } else {
+            return false;
         }
     }
 }

@@ -1,49 +1,42 @@
-<p class="contact mt-p5">How can we help you?</p>
+<p class="contact mt-p5">How can webStore help you?</p>
 
-<form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm); contactForm.reset()" method="post">
+<form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)" method="post">
 
     <div id="contactForm">
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <div class="form-group">
-                    <input #customerName="ngModel" id="customerName" name="customerName" ngModel
+                    <input id="customerName" name="customerName" ngModel
                            placeholder="Your Name" required
                            type="text">
                     <br>
-                    <span *ngIf="!customerName.valid && customerName.touched" aria-hidden="true"
-                          class="help-block"></span>
                 </div>
 
                 <div class="form-group">
-                    <input #email="ngModel" email id="email" name="email" ngModel
+                    <input email id="email" name="email" ngModel
                            placeholder="Your E-Mail" required
                            type="text">
                     <br>
-                    <span *ngIf="!email.valid && email.touched"
-                          class="help-block"></span>
                 </div>
 
                 <div class="form-group">
-                    <input #subject="ngModel" id="subject" name="subject" ngModel
+                    <input id="subject" name="subject" ngModel
                            placeholder="Subject" required type="text">
                     <br>
-                    <span *ngIf="!subject.valid && subject.touched"
-                          class="help-block"></span>
                 </div>
 
-                <textarea #message="ngModel" id="message" name="message" ngModel
+                <textarea id="message" name="message" ngModel
                           placeholder="Message..." required
                           type="text"></textarea>
-                <span *ngIf="!message.valid && message.touched"
-                      class="help-block"></span>
             </div>
             <div class="col-lg-2"></div>
         </div>
         <br>
         <div class="row text-center">
-            <button [disabled]="!contactForm.valid" class="btn btn-success" type="submit"
-                    value="submit">Send
+            <button [disabled]="contactForm.invalid" class="btn btn-success"
+                    type="submit" value="submit">
+                Send
             </button>
         </div>
     </div>
@@ -56,5 +49,5 @@
 <br>
 
 <div class="container">
-    <p class="contact">We are right here!</p>
+    <p class="contact">webStore is right here!</p>
 </div>

@@ -32,15 +32,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     customerLogin(loginFormData: NgForm): void {
-        this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
-            this.commonControllerService.setCustomerData(data.customer);
-            localStorage.setItem('token', data.token);
-            this.commonControllerService.authenticateCustomer();
-            this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
-            this.router.navigate(['/']);
-        }, () => {
-            this.toastService.showToast('Wrong Email/Password', {classname: 'bg-red'});
-        });
+        if (loginFormData.invalid || loginFormData.untouched) {
+            this.toastService.showToast('Invalid Credentials!', {classname: 'bg-red'});
+        } else {
+            this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
+                this.commonControllerService.setCustomerData(data.customer);
+                localStorage.setItem('token', data.token);
+                this.commonControllerService.authenticateCustomer();
+                this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
+                this.router.navigateByUrl('/');
+            }, () => {
+                this.toastService.showToast('Wrong Email/Password', {classname: 'bg-red'});
+            });
+        }
     }
 
     getCustomerAuthenticationObserver(): void {

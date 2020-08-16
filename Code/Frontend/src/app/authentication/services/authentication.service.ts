@@ -22,7 +22,7 @@ export class AuthenticationService {
         return this.http.post<any>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.LOGIN}`, loginFormValue);
     }
 
-    getCustomerByEmail(token): Observable<Customer> {
+    getCustomerDataByToken(token): Observable<Customer> {
         return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/details/${token}`);
     }
 }

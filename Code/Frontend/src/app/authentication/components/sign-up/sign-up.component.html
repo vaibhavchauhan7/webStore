@@ -12,14 +12,14 @@
                 <div class="col-6">
                     <div class="wrap-input100 validate-input m-b-16">
                         <input class="input100" name="name" ngModel
-                               placeholder="Name" required type="text">
+                               placeholder="Name" required="required" type="text">
                         <span class="focus-input100"></span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" name="phone" ngModel
-                               placeholder="Phone" required type="text">
+                        <input class="input100" minlength="10" name="phone" ngModel
+                               placeholder="Phone" required="required" type="text">
                         <span class="focus-input100"></span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="col-12">
                     <div class="wrap-input100 validate-input m-b-16">
                         <input class="input100" email name="email" ngModel
-                               placeholder="Email" required type="text">
+                               placeholder="Email" required="required" type="text">
                         <span class="focus-input100"></span>
                     </div>
                 </div>
@@ -38,16 +38,16 @@
             <div class="row">
                 <div class="col-6">
                     <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" name="password" ngModel
-                               placeholder="Password" required type="password">
+                        <input class="input100" minlength="8" name="password" ngModel
+                               placeholder="Password" required="required" type="password">
                         <span class="focus-input100"></span>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="wrap-input100 validate-input">
-                        <input class="input100" name="confirmPassword" ngModel placeholder="Confirm Password"
-                               required type="password">
+                        <input class="input100" minlength="8" name="confirmPassword" ngModel
+                               placeholder="Confirm Password" required="required" type="password">
                         <span class="focus-input100"></span>
                     </div>
                 </div>

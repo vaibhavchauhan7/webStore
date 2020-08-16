@@ -33,7 +33,7 @@ export class AuthenticationGuardService implements CanActivate {
             return true;
         }
         this.commonControllerService.redirectUrl = url;
-        this.router.navigate([`${WebStoreRouting.LOGIN}`]);
+        this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`);
 
         return false;
     }

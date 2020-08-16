@@ -1,4 +1,4 @@
-<div *ngIf="showProfile">
+<form #editProfile="ngForm" (ngSubmit)="saveEditedProfile(editProfile)" method="post">
     <div class="row text-center">
         <div class="col-3"></div>
         <div class="col-6">
@@ -13,17 +13,15 @@
                 <div class="col-md-6">
                     <div class="primaryHeading">
                         <p>Name</p>
-                        <div class="secondaryHeading">
-                            Vaibhav Chauhan
-                        </div>
+                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.name}}"
+                               type="text" value="{{customer.name}}"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="primaryHeading">
                         <p>Email</p>
-                        <div class="secondaryHeading">
-                            vc@vc.com
-                        </div>
+                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.email}}"
+                               type="text" value="{{customer.email}}"/>
                     </div>
                 </div>
             </div>
@@ -34,17 +32,15 @@
                 <div class="col-md-6">
                     <div class="primaryHeading">
                         <p>Phone</p>
-                        <div class="secondaryHeading">
-                            1234567890
-                        </div>
+                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.phone}}"
+                               type="text" value="{{customer.phone}}"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="primaryHeading">
-                        <p>Gender</p>
-                        <div class="secondaryHeading">
-                            Male
-                        </div>
+                        <p>Something</p>
+                        <input class="secondaryHeading" disabled name="Something"
+                               type="text" value="Something"/>
                     </div>
                 </div>
             </div>
@@ -67,13 +63,23 @@
                 </div>
             </div>
             <hr>
-            <div class="text-center">
-                <button class="editProfile" type="button">
-                    Edit Profile
-                </button>
-                <hr>
-            </div>
+            <ng-container *ngIf="!allowEditProfile; else saveProfile">
+                <div class="text-center">
+                    <button (click)="toggleEditProfile()" class="editProfile" type="button">
+                        Edit Profile
+                    </button>
+                    <hr>
+                </div>
+            </ng-container>
+            <ng-template #saveProfile>
+                <div class="text-center">
+                    <button class="editProfile" type="submit" value="submit">
+                        Save
+                    </button>
+                    <hr>
+                </div>
+            </ng-template>
         </div>
         <div class="col-md-3"></div>
     </div>
-</div>
+</form>

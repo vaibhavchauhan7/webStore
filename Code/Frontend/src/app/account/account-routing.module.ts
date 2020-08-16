@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
+import {AccountComponent} from './account.component';
 import {CartComponent} from './components/cart/cart.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {ProfileComponent} from './components/profile/profile.component';
@@ -9,24 +10,30 @@ import {WebStoreRouting, WebStoreTitle} from '../shared/entity/constants';
 
 const routes: Routes = [
     {
-        path: `${WebStoreRouting.CART}`,
-        component: CartComponent,
-        data: {title: `${WebStoreTitle.CART}`}
-    },
-    {
-        path: `${WebStoreRouting.ORDERS}`,
-        component: OrdersComponent,
-        data: {title: `${WebStoreTitle.ORDERS}`}
-    },
-    {
-        path: `${WebStoreRouting.PROFILE}`,
-        component: ProfileComponent,
-        data: {title: `${WebStoreTitle.PROFILE}`}
-    },
-    {
-        path: `${WebStoreRouting.WISHLIST}`,
-        component: WishlistComponent,
-        data: {title: `${WebStoreTitle.WISHLIST}`}
+        path: '',
+        component: AccountComponent,
+        children: [
+            {
+                path: `${WebStoreRouting.CART}`,
+                component: CartComponent,
+                data: {title: `${WebStoreTitle.CART}`}
+            },
+            {
+                path: `${WebStoreRouting.ORDERS}`,
+                component: OrdersComponent,
+                data: {title: `${WebStoreTitle.ORDERS}`}
+            },
+            {
+                path: `${WebStoreRouting.PROFILE}`,
+                component: ProfileComponent,
+                data: {title: `${WebStoreTitle.PROFILE}`}
+            },
+            {
+                path: `${WebStoreRouting.WISHLIST}`,
+                component: WishlistComponent,
+                data: {title: `${WebStoreTitle.WISHLIST}`}
+            }
+        ]
     }
 ];
 
