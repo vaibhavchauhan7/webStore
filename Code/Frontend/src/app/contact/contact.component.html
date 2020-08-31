@@ -1,38 +1,35 @@
 <p class="contact mt-p5">How can webStore help you?</p>
 
-<form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)" method="post">
+<form #contactForm="ngForm" (ngSubmit)="customerContact(contactForm)" method="post">
 
     <div id="contactForm">
         <div class="row">
             <div class="col-lg-2"></div>
+
             <div class="col-lg-8">
                 <div class="form-group">
-                    <input id="customerName" name="customerName" ngModel
-                           placeholder="Your Name" required
-                           type="text">
-                    <br>
+                    <input id="customerName" name="name" ngModel
+                           placeholder="Your Name" required="required" type="text"/>
+                    <br/>
                 </div>
-
                 <div class="form-group">
                     <input email id="email" name="email" ngModel
-                           placeholder="Your E-Mail" required
-                           type="text">
-                    <br>
+                           placeholder="Your E-Mail" required="required" type="text"/>
+                    <br/>
                 </div>
-
                 <div class="form-group">
                     <input id="subject" name="subject" ngModel
-                           placeholder="Subject" required type="text">
-                    <br>
+                           placeholder="Subject" required="required" type="text"/>
+                    <br/>
                 </div>
-
                 <textarea id="message" name="message" ngModel
-                          placeholder="Message..." required
-                          type="text"></textarea>
+                          placeholder="Message..." required="required" type="text">
+                </textarea>
             </div>
+
             <div class="col-lg-2"></div>
         </div>
-        <br>
+        <br/>
         <div class="row text-center">
             <button [disabled]="contactForm.invalid" class="btn btn-success"
                     type="submit" value="submit">
@@ -43,10 +40,10 @@
 
 </form>
 
-<br>
-<br>
-<hr>
-<br>
+<br/>
+<br/>
+<hr/>
+<br/>
 
 <div class="container">
     <p class="contact">webStore is right here!</p>

@@ -22,8 +22,8 @@ export class ProfileComponent implements OnInit {
     }
 
     getCustomerProfile(): void {
-        this.commonControllerService.getCustomerObserver().subscribe((data: Customer) => {
-            this.customer = data;
+        this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+            this.customer = customer;
         });
     }
 

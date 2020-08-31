@@ -1,14 +1,14 @@
 <form #editProfile="ngForm" (ngSubmit)="saveEditedProfile(editProfile)" method="post">
     <div class="row text-center">
-        <div class="col-3"></div>
-        <div class="col-6">
+        <div class="col-12">
             <img alt="ProfilePicture" class="profilePic" src="../../../../assets/Images/Person.png">
         </div>
-        <div class="col-3"></div>
     </div>
+
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-2 col-lg-3"></div>
+
+        <div class="col-md-8 col-lg-6">
             <div class="row">
                 <div class="col-md-6">
                     <div class="primaryHeading">
@@ -17,6 +17,7 @@
                                type="text" value="{{customer.name}}"/>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="primaryHeading">
                         <p>Email</p>
@@ -26,7 +27,7 @@
                 </div>
             </div>
 
-            <br><br>
+            <br/><br/>
 
             <div class="row">
                 <div class="col-md-6">
@@ -36,6 +37,7 @@
                                type="text" value="{{customer.phone}}"/>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="primaryHeading">
                         <p>Something</p>
@@ -45,8 +47,9 @@
                 </div>
             </div>
 
-            <br><br>
-            <hr>
+            <br/>
+            <br/>
+            <hr/>
 
             <div class="row text-center">
                 <div class="col-md-6">
@@ -55,6 +58,7 @@
                         My Orders
                     </button>
                 </div>
+
                 <div class="col-md-6">
                     <button class="myWishlist" routerLink="/account/wishlist"
                             routerLinkActive="active">
@@ -62,13 +66,13 @@
                     </button>
                 </div>
             </div>
-            <hr>
+            <hr/>
             <ng-container *ngIf="!allowEditProfile; else saveProfile">
                 <div class="text-center">
                     <button (click)="toggleEditProfile()" class="editProfile" type="button">
                         Edit Profile
                     </button>
-                    <hr>
+                    <hr/>
                 </div>
             </ng-container>
             <ng-template #saveProfile>
@@ -76,10 +80,11 @@
                     <button class="editProfile" type="submit" value="submit">
                         Save
                     </button>
-                    <hr>
+                    <hr/>
                 </div>
             </ng-template>
         </div>
-        <div class="col-md-3"></div>
+
+        <div class="col-md-2 col-lg-3"></div>
     </div>
 </form>

@@ -62,3 +62,18 @@
 .clearCart {
     width: 200px;
 }
+
+@media only screen and (max-width: 767px) {
+    .cartHeadings {
+        display: none;
+    }
+
+    .cartDetails {
+        text-align: center !important;
+        margin-top: 10px;
+    }
+
+    .removeProduct {
+        margin-bottom: 10px;
+    }
+}

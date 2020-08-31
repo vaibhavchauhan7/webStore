@@ -2,46 +2,45 @@
     <div class="col-md-3 cartHeadings">
         <p>Product</p>
     </div>
-
-    <div class="col-md-3 cartHeadings text-left">
+    <div class="col-md-5 cartHeadings text-left">
         <p>Details</p>
     </div>
-
-    <div class="col-md-3 cartHeadings text-right">
+    <div class="col-md-2 cartHeadings text-right">
         <p>Quantity</p>
     </div>
-
-    <div class="col-md-3 cartHeadings">
+    <div class="col-md-2 cartHeadings">
         <p>Total</p>
     </div>
 </div>
 
-<div *ngFor="let product of cartProducts" class="row mb-5">
-    <div class="col-md-3 text-center">
-        <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
-    </div>
+<ng-container *ngFor="let product of cartProducts">
+    <div class="row mb-5">
+        <div class="col-md-3 text-center">
+            <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
+        </div>
 
-    <div class="col-md-3 cartDetails text-left">
-        <p>{{product.name}}</p>
-        <button (click)="removeProduct(product)"
-                class="removeProduct">
-            Remove Item
-        </button>
-    </div>
+        <div class="col-md-5 cartDetails text-left">
+            <p>{{product.name}}</p>
+            <button (click)="removeProduct(product)" class="removeProduct">
+                Remove Item
+            </button>
+        </div>
 
-    <div class="col-md-3 cartDetails text-right" style="right: 50px;">
-        <p>1</p>
-    </div>
+        <div class="col-md-2 cartDetails text-right" style="right: 50px;">
+            <p>1</p>
+        </div>
 
-    <div class="col-md-3 cartDetails">
-        <p>Rs. {{product.price}}</p>
+        <div class="col-md-2 cartDetails">
+            <p>Rs. {{product.price}}</p>
+        </div>
     </div>
-</div>
+</ng-container>
 
-<div *ngIf="cartProducts.length === 0"
-     style="font-size: 40px; text-align: center; margin: 100px 0;">
-    Cart is empty!
-</div>
+<ng-container *ngIf="cartProducts.length === 0">
+    <div style="font-size: 40px; text-align: center; margin: 100px 0;">
+        Cart is empty!
+    </div>
+</ng-container>
 
 <div class="row mt-p5">
     <div class="col-12 text-center">

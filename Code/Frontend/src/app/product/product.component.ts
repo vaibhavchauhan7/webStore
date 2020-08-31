@@ -52,31 +52,31 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     selectedProduct(): void {
-        const productId = this.route.snapshot.params.id;
-        this.subscription$ = this.productManagementService.selectedProduct(+productId).subscribe(
-            (data: Product) => {
-                this.product = data;
+        const productID = this.route.snapshot.params.id;
+        this.subscription$ = this.productManagementService.selectedProduct(+productID).subscribe(
+            (product: Product) => {
+                this.product = product;
                 this.titleService.setTitle(`webStore - ${this.product.name}`);
                 this.checkProductAvailability(this.product);
             }
         );
     }
 
-    addProduct(product: Product, type: string): void {
+    addProduct(product: Product, productType: string): void {
         if (this.isCustomerAuthenticated) {
-            if (type === 'Cart') {
-                this.productManagementService.addProduct(product, 'Cart');
+            if (productType === 'Cart') {
+                this.productManagementService.addProduct(product, productType);
                 this.cartButton = `${WebStoreCart.ADDED_TO_CART}`;
                 this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
                 this.disableCartButton = true;
             } else {
-                this.productManagementService.addProduct(product, 'Wishlist');
+                this.productManagementService.addProduct(product, productType);
                 this.wishlistButton = `${WebStoreWishlist.ADDED_TO_WISHLIST}`;
                 this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
                 this.disableWishlistButton = true;
             }
         } else {
-            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`);
+            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
         }
     }
 

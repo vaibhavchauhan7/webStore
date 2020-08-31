@@ -31,6 +31,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
         } else {
             this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
                     this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
+                    signUpFormData.reset();
                 }, () => {
                     this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
                 }

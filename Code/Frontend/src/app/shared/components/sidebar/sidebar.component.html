@@ -2,26 +2,25 @@
     <div class="row no-gutters">
         <div [hidden]="!isSidebarOpen" class="col-sm-12 col-md-3 px-0">
             <nav class="sidebar overflow-auto" id="sidebar">
+
                 <div [ngClass]="{'text-center': !isCustomerAuthenticated}" class="sidebar-header">
                     <ng-container *ngIf="!isCustomerAuthenticated; else UserAuthenticated">
                         <span class="avatarName">webStore</span>
                     </ng-container>
+
                     <ng-template #UserAuthenticated>
-                        <img alt="Avatar"
-                             class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
+                        <img alt="Avatar" class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;
                         <span class="avatarName">{{customer.name}}</span>
                     </ng-template>
                 </div>
 
                 <ul class="components pb-0">
                     <p class="text-center">webStore says Hello :)</p>
-
                     <li>
                         <a [routerLinkActiveOptions]="{exact: true}"
                            routerLink="/" routerLinkActive="active">Home
                         </a>
                     </li>
-
                     <li>
                         <a aria-expanded="false" class="dropdown-toggle"
                            data-toggle="collapse" href="#categoriesSubMenu">

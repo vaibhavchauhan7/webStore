@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 localStorage.setItem('token', data.token);
                 this.commonControllerService.authenticateCustomer();
                 this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('/').then();
             }, () => {
                 this.toastService.showToast('Wrong Email/Password', {classname: 'bg-red'});
             });

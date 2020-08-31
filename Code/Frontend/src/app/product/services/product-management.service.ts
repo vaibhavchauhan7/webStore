@@ -54,13 +54,13 @@ export class ProductManagementService {
 
     selectedProduct(productID: number): Observable<Product> {
         if (this.allProducts) {
-            const foundProduct = this.allProducts.find((item: Product) => item.id === productID);
+            const foundProduct = this.allProducts.find((product: Product) => product.id === productID);
             if (foundProduct) {
                 return of(foundProduct);
             }
         }
         return this.getProducts().pipe(
-            map((productList: Product[]) => productList.find((item: Product) => item.id === productID))
+            map((productList: Product[]) => productList.find((product: Product) => product.id === productID))
         );
     }
 
@@ -68,6 +68,9 @@ export class ProductManagementService {
         if (productType === 'Cart') {
             this.cartProduct.push(product);
             localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
+            this.http.post('/product/add-to-cart', product).subscribe(() => {
+                console.log('Added To Cart!');
+            });
         } else {
             this.wishlistProduct.push(product);
             localStorage.setItem('wishlistProduct', JSON.stringify(this.wishlistProduct));

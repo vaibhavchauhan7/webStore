@@ -1,6 +1,8 @@
 <div class="container-fluid mt-5">
-    <input [(ngModel)]="searchInput" autofocus class="form-control"
-           placeholder="Search Product" type="text">
+    <label class="w-100">
+        <input [(ngModel)]="searchInput" autofocus class="form-control"
+               placeholder="Search Product" type="text"/>
+    </label>
 </div>
 
 <div class="container-fluid overflow-auto px-0">
@@ -12,8 +14,9 @@
                 <div class="cardImage">
                     <img alt="images" src="{{product.imagePath}}">
                 </div>
+
                 <div class="details">
-                    <h2>{{product.name}}<br><span>Rs {{product.price}}</span></h2>
+                    <h2>{{product.name}}<br/><span>Rs {{product.price}}</span></h2>
                 </div>
             </div>
         </ng-container>
