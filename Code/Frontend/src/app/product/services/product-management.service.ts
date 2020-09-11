@@ -68,9 +68,6 @@ export class ProductManagementService {
         if (productType === 'Cart') {
             this.cartProduct.push(product);
             localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
-            this.http.post('/product/add-to-cart', product).subscribe(() => {
-                console.log('Added To Cart!');
-            });
         } else {
             this.wishlistProduct.push(product);
             localStorage.setItem('wishlistProduct', JSON.stringify(this.wishlistProduct));

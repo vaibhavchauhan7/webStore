@@ -17,6 +17,8 @@
 }
 
 .image-size {
-    height: 150px !important;
-    width: 150px !important;
+    max-height: 150px !important;
+    max-width: 150px !important;
+    height: auto;
+    width: auto;
 }
