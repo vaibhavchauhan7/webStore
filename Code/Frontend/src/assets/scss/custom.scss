@@ -11,8 +11,9 @@
 }
 
 .custom-toast {
-    top: auto;
-    bottom: 50px;
+    bottom: auto;
+    top: 4px;
+    z-index: inherit;
     border-radius: 20px;
 }
 

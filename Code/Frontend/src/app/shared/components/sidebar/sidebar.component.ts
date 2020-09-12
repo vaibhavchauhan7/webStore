@@ -54,6 +54,10 @@ export class SidebarComponent implements OnInit {
         });
     }
 
+    hideSidebar(): void {
+        this.sidebarService.closeSidebar();
+    }
+
     logout(): void {
         localStorage.clear();
         this.commonControllerService.revokeCustomerAuthentication();

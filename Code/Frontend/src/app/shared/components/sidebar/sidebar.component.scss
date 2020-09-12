@@ -129,3 +129,19 @@ a.authentication {
     color: $webStorePrimaryColor;
     cursor: pointer;
 }
+
+a.hide-sidebar {
+    background: $webStoreSecondaryColor;
+    color: $white;
+    cursor: pointer;
+}
+
+#hide-sidebar {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    #hide-sidebar {
+        display: block;
+    }
+}
