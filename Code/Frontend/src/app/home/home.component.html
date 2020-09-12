@@ -9,7 +9,7 @@
     <div class="box mb-5">
 
         <ng-container *ngFor="let product of productList | searchFilter: searchInput; trackBy: trackBy">
-            <div [routerLink]="['/product', product.id, product.name]" class="card mt-5"
+            <div [routerLink]="['/product', product.productId, product.name]" class="card mt-5"
                  routerLinkActive="active">
                 <div class="cardImage">
                     <img alt="images" src="{{product.imagePath}}">

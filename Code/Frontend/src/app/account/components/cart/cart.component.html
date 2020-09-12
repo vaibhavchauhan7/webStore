@@ -9,18 +9,22 @@
         <p>Quantity</p>
     </div>
     <div class="col-md-2 cartHeadings">
-        <p>Total</p>
+        <p>Price</p>
     </div>
 </div>
 
 <ng-container *ngFor="let product of cartProducts">
     <div class="row mb-5">
-        <div class="col-md-3 text-center">
+        <div [routerLink]="['/product', product.productId, product.name]" class="col-md-3 text-center cursor-pointer"
+             routerLinkActive="active">
             <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
         </div>
 
         <div class="col-md-5 cartDetails text-left">
-            <p>{{product.name}}</p>
+            <p [routerLink]="['/product', product.productId, product.name]"
+               class="cursor-pointer" routerLinkActive="active">
+                {{product.name}}
+            </p>
             <button (click)="removeProduct(product)" class="removeProduct">
                 Remove Item
             </button>
@@ -61,3 +65,4 @@
         </button>
     </div>
 </div>
+<br/>

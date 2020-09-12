@@ -1,5 +1,5 @@
 export interface Customer {
-    id: number;
+    customerId: number;
     name: string;
     email: string;
     phone: string;
@@ -7,7 +7,7 @@ export interface Customer {
 }
 
 export interface Product {
-    id: number;
+    productId: number;
     name: string;
     description: string;
     imagePath: string;
