@@ -1,0 +1,29 @@
+USE [WEB_MASTER]
+GO
+
+/****** Object:  Table [dbo].[customers]    Script Date: 13-09-2020 01:18:24 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[customers]') AND type in (N'U'))
+DROP TABLE [dbo].[customers]
+GO
+
+/****** Object:  Table [dbo].[customers]    Script Date: 13-09-2020 01:18:24 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[customers](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[email] [varchar](50) NOT NULL,
+	[phone] [varchar](50) NOT NULL,
+	[password] [varchar](70) NOT NULL,
+ CONSTRAINT [PK_customers] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

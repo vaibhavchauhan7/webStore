@@ -11,18 +11,18 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer contactId;
+    private Integer id;
     private String name;
     private String email;
     private String subject;
     private String message;
 
-    public Integer getContactId() {
-        return contactId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setContactId(Integer contactId) {
-        this.contactId = contactId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

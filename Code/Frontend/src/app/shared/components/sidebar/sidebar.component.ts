@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonControllerService} from '../../services/common-controller.service';
 import {Customer} from '../../entity/models';
 import {SidebarService} from './sidebar.service';
+import {ToastService} from '../toast/toast.service';
 import {WebStoreRouting} from '../../entity/constants';
 
 @Component({
@@ -27,7 +28,8 @@ export class SidebarComponent implements OnInit {
     isCustomerAuthenticated: boolean;
 
     constructor(private commonControllerService: CommonControllerService,
-                private sidebarService: SidebarService) {
+                private sidebarService: SidebarService,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -62,5 +64,6 @@ export class SidebarComponent implements OnInit {
         localStorage.clear();
         this.commonControllerService.revokeCustomerAuthentication();
         this.commonControllerService.resetCustomerData();
+        this.toastService.showToast(`Successfully Logged Out`, {classname: 'bg-success'});
     }
 }

@@ -33,7 +33,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                customer.setCustomerId(resultSet.getInt("customer_id"));
+                customer.setId(resultSet.getInt("id"));
                 customer.setName(resultSet.getString("name"));
                 customer.setEmail(resultSet.getString("email"));
                 customer.setPhone(resultSet.getString("phone"));

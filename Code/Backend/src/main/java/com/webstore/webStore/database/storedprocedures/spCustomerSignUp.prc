@@ -1,11 +1,11 @@
 USE [WEB_MASTER]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 12-09-2020 12:36:37 PM ******/
+/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 13-09-2020 01:14:26 AM ******/
 DROP PROCEDURE [dbo].[spCustomerSignUp]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 12-09-2020 12:36:37 PM ******/
+/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 13-09-2020 01:14:26 AM ******/
 SET ANSI_NULLS ON
 GO
 

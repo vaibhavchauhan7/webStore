@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
                 this.router.navigateByUrl('/').then();
             }, () => {
-                this.toastService.showToast('Wrong Email/Password', {classname: 'bg-red'});
+                this.toastService.showToast('Wrong Email / Password', {classname: 'bg-red'});
             });
         }
     }

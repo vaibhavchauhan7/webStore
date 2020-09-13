@@ -12,13 +12,13 @@
 
 <ng-container *ngFor="let product of wishlistProducts">
     <div class="row mb-5">
-        <div [routerLink]="['/product', product.productId, product.name]" class="col-md-3 text-center cursor-pointer"
+        <div [routerLink]="['/product', product.id, product.name]" class="col-md-3 text-center cursor-pointer"
              routerLinkActive="active">
             <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
         </div>
 
         <div class="col-md-6 wishlistDetails text-left">
-            <p [routerLink]="['/product', product.productId, product.name]"
+            <p [routerLink]="['/product', product.id, product.name]"
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>

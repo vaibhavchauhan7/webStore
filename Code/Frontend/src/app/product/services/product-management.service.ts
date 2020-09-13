@@ -54,13 +54,13 @@ export class ProductManagementService {
 
     selectedProduct(productID: number): Observable<Product> {
         if (this.allProducts) {
-            const foundProduct = this.allProducts.find((product: Product) => product.productId === productID);
+            const foundProduct = this.allProducts.find((product: Product) => product.id === productID);
             if (foundProduct) {
                 return of(foundProduct);
             }
         }
         return this.getProducts().pipe(
-            map((productList: Product[]) => productList.find((product: Product) => product.productId === productID))
+            map((productList: Product[]) => productList.find((product: Product) => product.id === productID))
         );
     }
 
@@ -96,7 +96,7 @@ export class ProductManagementService {
         if (array.length !== 0) {
             const productFound = array.find(
                 (item: Product) =>
-                    item.productId === product.productId
+                    item.id === product.id
             );
             return !!productFound;
         } else {
