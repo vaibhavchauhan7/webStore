@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
+import {AccountService} from '../../../account/account.service';
 import {CommonControllerService} from '../../services/common-controller.service';
 import {Customer} from '../../entity/models';
 import {SidebarService} from './sidebar.service';
@@ -27,7 +28,8 @@ export class SidebarComponent implements OnInit {
     isSidebarOpen: boolean;
     isCustomerAuthenticated: boolean;
 
-    constructor(private commonControllerService: CommonControllerService,
+    constructor(private accountService: AccountService,
+                private commonControllerService: CommonControllerService,
                 private sidebarService: SidebarService,
                 private toastService: ToastService) {
     }
@@ -54,6 +56,10 @@ export class SidebarComponent implements OnInit {
         this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
             this.customer = customer;
         });
+    }
+
+    getOrdersForCustomer(): void {
+        this.accountService.getOrdersForCustomer(this.customer.id);
     }
 
     hideSidebar(): void {

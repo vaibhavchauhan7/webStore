@@ -1,55 +1,57 @@
-<div class="wrap-login100">
+<ng-container *ngIf="!isCustomerAuthenticated">
+    <div class="wrap-login100">
     <span class="login100-form-title">
         Log In
     </span>
 
-    <div class="overflow-auto" style="max-height: 350px;">
-        <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)"
-              class="login100-form validate-form p-l-55 p-r-55 p-t-35"
-              id="loginForm" method="post">
-            <div class="wrap-input100 validate-input m-b-16">
-                <input class="input100" email name="email" ngModel
-                       placeholder="Email" required="required" type="text"/>
-                <span class="focus-input100"></span>
-            </div>
+        <div class="overflow-auto" style="max-height: 350px;">
+            <form #loginFormData="ngForm" (ngSubmit)="customerLogin(loginFormData)"
+                  class="login100-form validate-form p-l-55 p-r-55 p-t-35"
+                  id="loginForm" method="post">
+                <div class="wrap-input100 validate-input m-b-16">
+                    <input class="input100" email name="email" ngModel
+                           placeholder="Email" required="required" type="text"/>
+                    <span class="focus-input100"></span>
+                </div>
 
-            <div class="wrap-input100 validate-input">
-                <input class="input100" minlength="8" name="password" ngModel
-                       placeholder="Password" required="required" type="password"/>
-                <span class="focus-input100"></span>
-            </div>
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" minlength="8" name="password" ngModel
+                           placeholder="Password" required="required" type="password"/>
+                    <span class="focus-input100"></span>
+                </div>
 
-            <div class="text-center p-t-13 p-b-23">
-                <a class="text" href="javascript:">
-                    Forgot Password?
-                </a>
-            </div>
+                <div class="text-center p-t-13 p-b-23">
+                    <a class="text" href="javascript:">
+                        Forgot Password?
+                    </a>
+                </div>
 
-            <div class="container-login100-form-btn">
-                <div class="row">
-                    <div class="col-6">
-                        <button class="backToHome" routerLink="/">
-                            Back to Home
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button [disabled]="loginFormData.invalid"
-                                class="login100-form-btn" type="submit"
-                                value="submit">
-                            Login
-                        </button>
+                <div class="container-login100-form-btn">
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="backToHome" routerLink="/">
+                                Back to Home
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button [disabled]="loginFormData.invalid"
+                                    class="login100-form-btn" type="submit"
+                                    value="submit">
+                                Login
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex-col-c p-tb-20">
+                <div class="flex-col-c p-tb-20">
             <span>New around here?
                 <a class="text" routerLink="/{{signUp}}">
                     Sign Up
                 </a>
             </span>
-            </div>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+</ng-container>

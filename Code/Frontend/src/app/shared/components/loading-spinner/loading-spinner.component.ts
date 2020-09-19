@@ -11,8 +11,8 @@ export class LoadingSpinnerComponent implements OnInit {
 
     showLoadingSpinner = false;
 
-    constructor(private loadingSpinnerService: LoadingSpinnerService,
-                private changeDetectorRef: ChangeDetectorRef) {
+    constructor(private changeDetectorRef: ChangeDetectorRef,
+                private loadingSpinnerService: LoadingSpinnerService) {
     }
 
     ngOnInit(): void {

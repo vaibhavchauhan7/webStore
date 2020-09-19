@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
@@ -16,11 +14,11 @@ import {HomeComponent} from './home/home.component';
 import {HttpController} from './shared/services/http-interceptors/http-controller';
 import {LoadingSpinnerComponent} from './shared/components/loading-spinner/loading-spinner.component';
 import {LoginComponent} from './authentication/components/login/login.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
 import {ProductComponent} from './product/product.component';
 import {ProductResolverService} from './product/services/product-resolver.service';
 import {SearchFilterPipe} from './shared/services/search-filter.pipe';
+import {SharedModule} from './shared.module';
 import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
@@ -44,10 +42,8 @@ import {ToastComponent} from './shared/components/toast/toast.component';
     imports: [
         AppRoutingModule,
         BrowserModule,
-        CommonModule,
-        FormsModule,
         HttpClientModule,
-        NgbModule
+        SharedModule
     ],
     providers: [
         AuthenticationService,

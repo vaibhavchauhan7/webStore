@@ -32,11 +32,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     private subscription$: Subscription;
 
     constructor(private authenticationService: AuthenticationService,
+                private commonControllerService: CommonControllerService,
+                private productManagementService: ProductManagementService,
                 private route: ActivatedRoute,
                 private router: Router,
-                private titleService: Title,
-                private productManagementService: ProductManagementService,
-                private commonControllerService: CommonControllerService) {
+                private titleService: Title) {
     }
 
     ngOnInit(): void {
@@ -76,6 +76,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.disableWishlistButton = true;
             }
         } else {
+            this.productManagementService.previousRoute = this.router.url;
             this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
         }
     }

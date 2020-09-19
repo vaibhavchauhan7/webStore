@@ -1,84 +1,84 @@
-<!--<div class="container-fluid vh-100 overflow-auto pl-0">-->
-<div class="wrap-signUp100">
+<ng-container *ngIf="!isCustomerAuthenticated">
+    <div class="wrap-signUp100">
     <span class="signUp100-form-title">
         Sign Up
     </span>
 
-    <div class="overflow-auto" style="max-height: 520px;">
-        <form #signUpFormData="ngForm" (ngSubmit)="customerSignUp(signUpFormData)"
-              class="signUp100-form validate-form p-l-55 p-r-55 p-t-20"
-              id="signUpForm" method="post">
-            <div class="row">
-                <div class="col-6">
-                    <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" name="name" ngModel
-                               placeholder="Name" required="required" type="text"/>
-                        <span class="focus-input100"></span>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" minlength="10" name="phone" ngModel
-                               placeholder="Phone" required="required" type="text"/>
-                        <span class="focus-input100"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" email name="email" ngModel
-                               placeholder="Email" required="required" type="text"/>
-                        <span class="focus-input100"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-6">
-                    <div class="wrap-input100 validate-input m-b-16">
-                        <input class="input100" minlength="8" name="password" ngModel
-                               placeholder="Password" required="required" type="password"/>
-                        <span class="focus-input100"></span>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="wrap-input100 validate-input">
-                        <input class="input100" minlength="8" name="confirmPassword" ngModel
-                               placeholder="Confirm Password" required="required" type="password"/>
-                        <span class="focus-input100"></span>
-                    </div>
-                </div>
-            </div>
-            <br/>
-            <div class="container-signUp100-form-btn">
+        <div class="overflow-auto" style="max-height: 520px;">
+            <form #signUpFormData="ngForm" (ngSubmit)="customerSignUp(signUpFormData)"
+                  class="signUp100-form validate-form p-l-55 p-r-55 p-t-20"
+                  id="signUpForm" method="post">
                 <div class="row">
                     <div class="col-6">
-                        <button class="backToHome" routerLink="/">
-                            Back to Home
-                        </button>
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" name="name" ngModel
+                                   placeholder="Name" required="required" type="text"/>
+                            <span class="focus-input100"></span>
+                        </div>
                     </div>
                     <div class="col-6">
-                        <button [disabled]="signUpFormData.invalid"
-                                class="signUp100-form-btn"
-                                type="submit" value="submit">
-                            Sign Up
-                        </button>
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" minlength="10" name="phone" ngModel
+                                   placeholder="Phone" required="required" type="text"/>
+                            <span class="focus-input100"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex-col-c p-t-20 p-b-23">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" email name="email" ngModel
+                                   placeholder="Email" required="required" type="text"/>
+                            <span class="focus-input100"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="wrap-input100 validate-input m-b-16">
+                            <input class="input100" minlength="8" name="password" ngModel
+                                   placeholder="Password" required="required" type="password"/>
+                            <span class="focus-input100"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="wrap-input100 validate-input">
+                            <input class="input100" minlength="8" name="confirmPassword" ngModel
+                                   placeholder="Confirm Password" required="required" type="password"/>
+                            <span class="focus-input100"></span>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="container-signUp100-form-btn">
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="backToHome" routerLink="/">
+                                Back to Home
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button [disabled]="signUpFormData.invalid"
+                                    class="signUp100-form-btn"
+                                    type="submit" value="submit">
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-col-c p-t-20 p-b-23">
                 <span>Already have an account?
                     <a class="text" routerLink="/{{login}}">
                         Log In
                     </a>
                 </span>
-            </div>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<!--</div>-->
+</ng-container>

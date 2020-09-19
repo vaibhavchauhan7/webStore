@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
+import {Router} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WebStoreRouting} from '../../../shared/entity/constants';
 
@@ -15,14 +17,18 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 export class SignUpComponent implements OnInit, OnDestroy {
 
     login = WebStoreRouting.LOGIN;
+    isCustomerAuthenticated: boolean;
 
     private subscription$: Subscription;
 
-    constructor(private toastService: ToastService,
-                private authenticationService: AuthenticationService) {
+    constructor(private authenticationService: AuthenticationService,
+                private commonControllerService: CommonControllerService,
+                private router: Router,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
+        this.getCustomerAuthenticationObserver();
     }
 
     customerSignUp(signUpFormData: NgForm): void {
@@ -32,11 +38,22 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
                     this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
                     signUpFormData.reset();
+                    this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+                    // TODO : Auto-Login after Successful Sign-Up
                 }, () => {
                     this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
                 }
             );
         }
+    }
+
+    getCustomerAuthenticationObserver(): void {
+        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+            this.isCustomerAuthenticated = data;
+            if (this.isCustomerAuthenticated) {
+                this.router.navigateByUrl('/').then();
+            }
+        });
     }
 
     ngOnDestroy(): void {

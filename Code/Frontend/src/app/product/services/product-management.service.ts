@@ -14,6 +14,7 @@ export class ProductManagementService {
 
     cartProduct: Product[] = [];
     wishlistProduct: Product[] = [];
+    previousRoute: string;
 
     private allProducts: Product[];  // Basic State Management
 

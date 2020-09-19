@@ -18,7 +18,8 @@
                     <p class="text-center">webStore says Hello :)</p>
                     <li>
                         <a [routerLinkActiveOptions]="{exact: true}"
-                           routerLink="/" routerLinkActive="active">Home
+                           routerLink="/" routerLinkActive="active">
+                            Home
                         </a>
                     </li>
                     <li>
@@ -43,8 +44,8 @@
                                    routerLinkActive="active">
                                     Profile
                                 </a>
-                                <a routerLink="/{{routes.account}}/{{routes.orders}}"
-                                   routerLinkActive="active">
+                                <a (click)="getOrdersForCustomer()"
+                                   routerLink="/{{routes.account}}/{{routes.orders}}" routerLinkActive="active">
                                     Orders
                                 </a>
                                 <a routerLink="/{{routes.account}}/{{routes.wishlist}}"

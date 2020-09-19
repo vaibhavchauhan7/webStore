@@ -144,4 +144,10 @@ a.hide-sidebar {
     #hide-sidebar {
         display: block;
     }
+
+    .sidebar {
+        position: absolute;
+        z-index: 1000;
+        width: inherit;
+    }
 }

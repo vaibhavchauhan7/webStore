@@ -22,19 +22,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private subscription$: Subscription[] = [];
 
-    constructor(private router: Router,
-                private titleService: Title,
-                private sidebarService: SidebarService,
-                private activatedRoute: ActivatedRoute,
+    constructor(private activatedRoute: ActivatedRoute,
                 private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService) {
+                private commonControllerService: CommonControllerService,
+                private router: Router,
+                private sidebarService: SidebarService,
+                private titleService: Title) {
     }
 
     ngOnInit(): void {
         this.getPageTitle();
         this.checkAuthentication();
         this.getSidebarObserver();
-        this.openPageFromTop();
     }
 
     getPageTitle(): void {
@@ -73,17 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
             this.isSidebarOpen = data;
         });
-    }
-
-    // For every router page to open from top
-    openPageFromTop(): void {
-        this.subscription$.push(this.router.events.subscribe(event => {
-                if (!(event instanceof NavigationEnd)) {
-                    return;
-                }
-                window.scrollTo(0, 0);
-            })
-        );
     }
 
     ngOnDestroy(): void {

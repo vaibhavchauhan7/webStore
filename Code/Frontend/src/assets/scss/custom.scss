@@ -10,9 +10,22 @@
     background-color: red;
 }
 
+.center-align-hv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.emptyText {
+    font-size: 40px;
+}
+
 .custom-toast {
+    font-size: 17px;
     bottom: auto;
-    top: 4px;
+    top: 2px;
     z-index: inherit;
     border-radius: 20px;
 }

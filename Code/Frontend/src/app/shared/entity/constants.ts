@@ -1,9 +1,11 @@
 export enum WebStoreAPI {
     BASE_URL = 'webStoreAPI',
+    CHECKOUT = 'checkout',
     CONTACT = 'contact',
     CUSTOMERS = 'customers',
     CUSTOMER = 'customer',
     LOGIN = 'login',
+    ORDERS = 'orders',
     PRODUCTS = 'products',
     SIGN_UP = 'sign-up'
 }

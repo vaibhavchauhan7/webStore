@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 
+import {AccountService} from '../../account.service';
 import {Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ToastService} from '../../../shared/components/toast/toast.service';
 
 @Component({
     selector: 'app-cart',
@@ -11,8 +13,12 @@ import {ProductManagementService} from '../../../product/services/product-manage
 export class CartComponent implements OnInit {
 
     cartProducts: Product[];
+    product: Product = null;
+    modalID: string;
 
-    constructor(private productManagementService: ProductManagementService) {
+    constructor(private accountService: AccountService,
+                private productManagementService: ProductManagementService,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -28,16 +34,41 @@ export class CartComponent implements OnInit {
         }
     }
 
-    removeProduct(product: Product): void {
-        this.productManagementService.removeProduct(product, 'Cart');
+    removeProduct(product: Product, confirmation?: boolean): void {
+        this.product = product;
+        this.modalID = `cart_${product.id}`;
+        if (confirmation) {
+            this.productManagementService.removeProduct(product, 'Cart');
+            this.toastService.showToast(`${product.name} Removed!`, {classname: 'bg-success'});
+            this.resetValues();
+        }
     }
 
-    clearCart(): void {
-        this.cartProducts = this.productManagementService.cartProduct = [];
-        localStorage.removeItem('cartProduct');
+    clearCart(confirmation?: boolean): void {
+        this.modalID = 'clearCart';
+        if (confirmation) {
+            this.cartProducts = this.productManagementService.cartProduct = [];
+            localStorage.removeItem('cartProduct');
+            this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
+            this.resetValues();
+        }
     }
 
-    checkOut(): void {
-        alert('Checkout is Working!');
+    checkOut(cartProducts: Product[], confirmation?: boolean): void {
+        this.modalID = 'checkOut';
+        if (confirmation) {
+            this.accountService.checkOut(cartProducts).subscribe(() => {
+                this.cartProducts = [];
+                localStorage.removeItem('cartProduct');
+                this.productManagementService.cartProduct = [];
+                this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
+            });
+            this.resetValues();
+        }
+    }
+
+    resetValues(): void {
+        this.product = null;
+        this.modalID = '';
     }
 }

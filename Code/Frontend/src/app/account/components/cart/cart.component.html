@@ -1,17 +1,19 @@
-<div class="row mt-p5 mb-5">
-    <div class="col-md-3 cartHeadings">
-        <p>Product</p>
+<ng-container *ngIf="cartProducts && cartProducts.length !== 0">
+    <div class="row mt-p5 mb-5">
+        <div class="col-md-3 cartHeadings">
+            <p>Product</p>
+        </div>
+        <div class="col-md-5 cartHeadings text-left">
+            <p>Details</p>
+        </div>
+        <div class="col-md-2 cartHeadings text-right">
+            <p>Quantity</p>
+        </div>
+        <div class="col-md-2 cartHeadings">
+            <p>Price</p>
+        </div>
     </div>
-    <div class="col-md-5 cartHeadings text-left">
-        <p>Details</p>
-    </div>
-    <div class="col-md-2 cartHeadings text-right">
-        <p>Quantity</p>
-    </div>
-    <div class="col-md-2 cartHeadings">
-        <p>Price</p>
-    </div>
-</div>
+</ng-container>
 
 <ng-container *ngFor="let product of cartProducts">
     <div class="row mb-5">
@@ -25,7 +27,8 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
-            <button (click)="removeProduct(product)" class="removeProduct">
+            <button (click)="removeProduct(product)" [attr.data-target]="'#' + modalID"
+                    class="removeProduct" data-toggle="modal">
                 Remove Item
             </button>
         </div>
@@ -40,29 +43,91 @@
     </div>
 </ng-container>
 
-<ng-container *ngIf="cartProducts.length === 0">
-    <div style="font-size: 40px; text-align: center; margin: 100px 0;">
-        Cart is empty!
+<ng-container *ngIf="cartProducts && cartProducts.length === 0">
+    <div class="center-align-hv emptyText">
+        Cart is Empty &nbsp;:(
     </div>
 </ng-container>
 
-<div class="row mt-p5">
-    <div class="col-12 text-center">
-        <button (click)="clearCart()"
-                [disabled]="cartProducts.length === 0"
-                class="removeProduct clearCart">
-            Clear Cart
-        </button>&nbsp; &nbsp;
+<ng-container *ngIf="cartProducts && cartProducts.length !== 0">
+    <div class="row mt-p5">
+        <div class="col-12 text-center">
+            <button (click)="clearCart()" [attr.data-target]="'#' + modalID" [disabled]="cartProducts.length === 0"
+                    class="removeProduct clearCart" data-toggle="modal">
+                Clear Cart
+            </button>&nbsp; &nbsp;
 
-        <button class="continueShopping"
-                routerLink="/"
-                routerLinkActive="active">
-            Continue Shopping
-        </button>&nbsp; &nbsp;
+            <button class="continueShopping"
+                    routerLink="/"
+                    routerLinkActive="active">
+                Continue Shopping
+            </button>&nbsp; &nbsp;
 
-        <button [disabled]="cartProducts.length === 0" class="checkout">
-            Checkout
-        </button>
+            <button (click)="checkOut(cartProducts)" [attr.data-target]="'#' + modalID"
+                    [disabled]="cartProducts.length === 0" class="checkout" data-toggle="modal">
+                Checkout
+            </button>
+        </div>
     </div>
-</div>
-<br/>
+    <br/>
+</ng-container>
+
+<!--Remove Product From Cart - Confirmation Modal-->
+<ng-container *ngIf="product">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Warning</modalTitle>
+        <modalBody>Are you sure you want to remove <b>{{product.name}}</b> from your cart?</modalBody>
+        <modalDoneButton>
+            <button (click)="removeProduct(product, true)" class="btn btn-danger" data-dismiss="modal"
+                    type="button">
+                Yes, Remove It
+            </button>
+        </modalDoneButton>
+        <modalCloseButton>
+            <button (click)="resetValues()" class="btn btn-secondary"
+                    data-dismiss="modal" type="button">
+                No, Keep It
+            </button>
+        </modalCloseButton>
+    </app-modal>
+</ng-container>
+
+<!--Clear Cart - Confirmation Modal-->
+<ng-container *ngIf="cartProducts && modalID !== 'checkOut'">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Warning</modalTitle>
+        <modalBody>Are you sure you want to clear your cart?</modalBody>
+        <modalDoneButton>
+            <button (click)="clearCart(true)" class="btn btn-danger" data-dismiss="modal"
+                    type="button">
+                Yes, Clear Cart
+            </button>
+        </modalDoneButton>
+        <modalCloseButton>
+            <button (click)="resetValues()" class="btn btn-secondary"
+                    data-dismiss="modal" type="button">
+                No, Keep Everything
+            </button>
+        </modalCloseButton>
+    </app-modal>
+</ng-container>
+
+<!--Checkout - Confirmation Modal-->
+<ng-container *ngIf="cartProducts">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Alert</modalTitle>
+        <modalBody>Are you sure you are ready to checkout?</modalBody>
+        <modalDoneButton>
+            <button (click)="checkOut(cartProducts,true)" class="btn btn-success" data-dismiss="modal"
+                    type="button">
+                Yes, Checkout
+            </button>
+        </modalDoneButton>
+        <modalCloseButton>
+            <button (click)="resetValues()" class="btn btn-secondary"
+                    data-dismiss="modal" type="button">
+                No, Take Me Back
+            </button>
+        </modalCloseButton>
+    </app-modal>
+</ng-container>

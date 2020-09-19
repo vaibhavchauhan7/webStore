@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 import {Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ToastService} from '../../../shared/components/toast/toast.service';
 
 @Component({
     selector: 'app-wishlist',
@@ -11,8 +12,11 @@ import {ProductManagementService} from '../../../product/services/product-manage
 export class WishlistComponent implements OnInit {
 
     wishlistProducts: Product[];
+    product: Product = null;
+    modalID: string;
 
-    constructor(private productManagementService: ProductManagementService) {
+    constructor(private productManagementService: ProductManagementService,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -28,12 +32,28 @@ export class WishlistComponent implements OnInit {
         }
     }
 
-    removeProduct(product: Product): void {
-        this.productManagementService.removeProduct(product, 'Wishlist');
+    removeProduct(product: Product, confirmation?: boolean): void {
+        this.product = product;
+        this.modalID = `wishlist_${product.id}`;
+        if (confirmation) {
+            this.productManagementService.removeProduct(product, 'Wishlist');
+            this.toastService.showToast(`${product.name} Removed!`, {classname: 'bg-success'});
+            this.resetValues();
+        }
     }
 
-    clearWishlist(): void {
-        this.wishlistProducts = this.productManagementService.wishlistProduct = [];
-        localStorage.removeItem('wishlistProduct');
+    clearWishlist(confirmation?: boolean): void {
+        this.modalID = 'clearWishlist';
+        if (confirmation) {
+            this.wishlistProducts = this.productManagementService.wishlistProduct = [];
+            localStorage.removeItem('wishlistProduct');
+            this.toastService.showToast('Wishlist Cleared!', {classname: 'bg-success'});
+            this.resetValues();
+        }
+    }
+
+    resetValues(): void {
+        this.product = null;
+        this.modalID = '';
     }
 }

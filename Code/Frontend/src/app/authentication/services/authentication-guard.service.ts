@@ -13,8 +13,8 @@ export class AuthenticationGuardService implements CanActivate {
 
     isCustomerAuthenticated: boolean;
 
-    constructor(private router: Router,
-                private commonControllerService: CommonControllerService) {
+    constructor(private commonControllerService: CommonControllerService,
+                private router: Router) {
         this.getCustomerAuthenticationObserver();
     }
 

@@ -1,12 +1,12 @@
 USE [WEB_MASTER]
 GO
 
-/****** Object:  Table [dbo].[customers]    Script Date: 13-09-2020 01:18:24 AM ******/
+/****** Object:  Table [dbo].[customers]    Script Date: 19-09-2020 06:00:33 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[customers]') AND type in (N'U'))
 DROP TABLE [dbo].[customers]
 GO
 
-/****** Object:  Table [dbo].[customers]    Script Date: 13-09-2020 01:18:24 AM ******/
+/****** Object:  Table [dbo].[customers]    Script Date: 19-09-2020 06:00:33 PM ******/
 SET ANSI_NULLS ON
 GO
 

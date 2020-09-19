@@ -1,103 +1,62 @@
-<div class="row mt-p5 mb-5">
-    <div class="col-md-2 orderHeadings">
-        <p>Product</p>
+<ng-container *ngIf="orders && orders.length !== 0">
+    <div class="row mt-p5 mb-5">
+        <div class="col-md-2 orderHeadings">
+            <p>Product</p>
+        </div>
+        <div class="col-md-4 orderHeadings">
+            <p>Details</p>
+        </div>
+        <div class="col-md-2 orderHeadings">
+            <p>Ordered On</p>
+        </div>
+        <div class="col-md-2 orderHeadings">
+            <p>Status</p>
+        </div>
+        <div class="col-md-2 orderHeadings">
+            <p>Price</p>
+        </div>
     </div>
-    <div class="col-md-4 orderHeadings">
-        <p>Details</p>
-    </div>
-    <div class="col-md-2 orderHeadings">
-        <p>Ordered On</p>
-    </div>
-    <div class="col-md-2 orderHeadings">
-        <p>Status</p>
-    </div>
-    <div class="col-md-2 orderHeadings">
-        <p>Price</p>
-    </div>
-</div>
+</ng-container>
 
-<div class="row mb-5">
-    <div class="col-md-2 text-center">
-        <img alt="ProductImage" class="image-size"
-             src="../../../../assets/Images/Products/T-Shirts/Jet%20Black.png">
+<ng-container *ngIf="orders && orders.length === 0">
+    <div class="center-align-hv emptyText">
+        No Orders Yet &nbsp;:(
     </div>
+</ng-container>
 
-    <div class="col-md-4 orderDetails">
-        <p>Men's Black Sports T-Shirt</p>
-    </div>
+<ng-container *ngFor="let product of orders; last as last">
+    <div class="row mb-5">
+        <div [routerLink]="['/product', product.id, product.name]" class="col-md-2 text-center cursor-pointer"
+             routerLinkActive="active">
+            <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
+        </div>
 
-    <div class="col-md-2 orderDetails">
-        <p>12/09/2019</p>
-    </div>
+        <div class="col-md-4 orderDetails">
+            <p [routerLink]="['/product', product.id, product.name]"
+               class="cursor-pointer" routerLinkActive="active">
+                {{product.name}}
+            </p>
+        </div>
 
-    <div class="col-md-2 orderDetails">
-        <p style="color: #0fa336;">Delivered</p>
-        <button class="invoice mt-5">
-            Get Invoice
-        </button>
-    </div>
+        <div class="col-md-2 orderDetails">
+            <p>12/09/2019</p>
+        </div>
 
-    <div class="col-md-2 orderDetails">
-        <p>Rs. 499</p>
-    </div>
-</div>
+        <div class="col-md-2 orderDetails">
+            <p style="color: #0fa336;">Delivered</p>
+            <button class="invoice mt-5">
+                Get Invoice
+            </button>
+        </div>
 
-<hr/>
-<br/>
-<br/>
-
-<div class="row mb-5">
-    <div class="col-md-2 text-center">
-        <img alt="ProductImage" class="image-size"
-             src="../../../../assets/Images/Products/T-Shirts/Pink%20Red.png">
-    </div>
-
-    <div class="col-md-4 orderDetails">
-        <p>Men's Red Sports T-Shirt</p>
+        <div class="col-md-2 orderDetails">
+            <p>Rs. {{product.price}}</p>
+        </div>
     </div>
 
-    <div class="col-md-2 orderDetails">
-        <p>12/08/2019</p>
-    </div>
-
-    <div class="col-md-2 orderDetails">
-        <p style="color: #f08018;">In Transit</p>
-        <button class="invoice mt-5">
-            Track Order
-        </button>
-    </div>
-
-    <div class="col-md-2 orderDetails">
-        <p>Rs. 499</p>
-    </div>
-</div>
-
-<hr/>
-<br/>
-<br/>
-
-<div class="row mb-5">
-    <div class="col-md-2 text-center">
-        <img alt="ProductImage" class="image-size"
-             src="../../../../assets/Images/Products/T-Shirts/Concrete%20Grey.png">
-    </div>
-
-    <div class="col-md-4 orderDetails">
-        <p>Men's Grey Sports T-Shirt</p>
-    </div>
-
-    <div class="col-md-2 orderDetails">
-        <p>11/30/2019</p>
-    </div>
-
-    <div class="col-md-2 orderDetails">
-        <p style="color: red;">Returned</p>
-        <button class="invoice mt-5">
-            Give Feedback
-        </button>
-    </div>
-
-    <div class="col-md-2 orderDetails">
-        <p>Rs. 499</p>
-    </div>
-</div>
+    <ng-container *ngIf="!last">
+        <hr/>
+        <br/>
+        <br/>
+    </ng-container>
+</ng-container>

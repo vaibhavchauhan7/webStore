@@ -1,0 +1,20 @@
+<div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
+     data-keyboard="false"
+     id="{{modalID}}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                    <ng-content select="modalTitle"></ng-content>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <ng-content select="modalBody"></ng-content>
+            </div>
+            <div class="modal-footer">
+                <ng-content select="modalDoneButton"></ng-content>
+                <ng-content select="modalCloseButton"></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

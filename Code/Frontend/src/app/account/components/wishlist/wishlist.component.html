@@ -1,14 +1,16 @@
-<div class="row mt-p5 mb-5">
-    <div class="col-md-3 wishlistHeadings">
-        <p>Product</p>
+<ng-container *ngIf="wishlistProducts && wishlistProducts.length !== 0">
+    <div class="row mt-p5 mb-5">
+        <div class="col-md-3 wishlistHeadings">
+            <p>Product</p>
+        </div>
+        <div class="col-md-6 wishlistHeadings text-left">
+            <p>Details</p>
+        </div>
+        <div class="col-md-3 wishlistHeadings">
+            <p>Price</p>
+        </div>
     </div>
-    <div class="col-md-6 wishlistHeadings text-left">
-        <p>Details</p>
-    </div>
-    <div class="col-md-3 wishlistHeadings">
-        <p>Price</p>
-    </div>
-</div>
+</ng-container>
 
 <ng-container *ngFor="let product of wishlistProducts">
     <div class="row mb-5">
@@ -22,7 +24,8 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
-            <button (click)="removeProduct(product)" class="removeProduct">
+            <button (click)="removeProduct(product)" [attr.data-target]="'#' + modalID"
+                    class="removeProduct" data-toggle="modal">
                 Remove Item
             </button>
         </div>
@@ -33,20 +36,61 @@
     </div>
 </ng-container>
 
-<ng-container *ngIf="wishlistProducts.length === 0">
-    <div class="text-center"
-         style="font-size: 40px; margin: 100px 0;">
-        Wishlist is empty!
+<ng-container *ngIf="wishlistProducts && wishlistProducts.length === 0">
+    <div class="center-align-hv emptyText">
+        Wishlist is Empty &nbsp;:(
     </div>
 </ng-container>
 
-<div class="row mt-p5">
-    <div class="col-12 text-center">
-        <button (click)="clearWishlist()"
-                [disabled]="wishlistProducts.length === 0"
-                class="removeProduct">
-            Clear Wishlist
-        </button>
+<ng-container *ngIf="wishlistProducts && wishlistProducts.length !== 0">
+    <div class="row mt-p5">
+        <div class="col-12 text-center">
+            <button (click)="clearWishlist()" [attr.data-target]="'#' + modalID"
+                    [disabled]="wishlistProducts.length === 0"
+                    class="removeProduct" data-toggle="modal">
+                Clear Wishlist
+            </button>
+        </div>
     </div>
-</div>
-<br/>
+    <br/>
+</ng-container>
+
+<!--Remove Product From Wishlist - Confirmation Modal-->
+<ng-container *ngIf="product">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Warning</modalTitle>
+        <modalBody>Are you sure you want to remove <b>{{product.name}}</b> from your wishlist?</modalBody>
+        <modalDoneButton>
+            <button (click)="removeProduct(product, true)" class="btn btn-danger" data-dismiss="modal"
+                    type="button">
+                Yes, Remove It
+            </button>
+        </modalDoneButton>
+        <modalCloseButton>
+            <button (click)="resetValues()" class="btn btn-secondary"
+                    data-dismiss="modal" type="button">
+                No, Keep It
+            </button>
+        </modalCloseButton>
+    </app-modal>
+</ng-container>
+
+<!--Clear Wishlist - Confirmation Modal-->
+<ng-container *ngIf="wishlistProducts">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Warning</modalTitle>
+        <modalBody>Are you sure you want to clear your wishlist?</modalBody>
+        <modalDoneButton>
+            <button (click)="clearWishlist(true)" class="btn btn-danger" data-dismiss="modal"
+                    type="button">
+                Yes, Clear Wishlist
+            </button>
+        </modalDoneButton>
+        <modalCloseButton>
+            <button (click)="resetValues()" class="btn btn-secondary"
+                    data-dismiss="modal" type="button">
+                No, Keep Everything
+            </button>
+        </modalCloseButton>
+    </app-modal>
+</ng-container>

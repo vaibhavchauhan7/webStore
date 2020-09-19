@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 
 import {ContactComponent} from './contact.component';
 import {ContactRoutingModule} from './contact-routing.module';
+import {ContactService} from './contact.service';
 
 @NgModule({
     declarations: [ContactComponent],
@@ -11,6 +12,9 @@ import {ContactRoutingModule} from './contact-routing.module';
         CommonModule,
         ContactRoutingModule,
         FormsModule
+    ],
+    providers: [
+        ContactService
     ]
 })
 export class ContactModule {
