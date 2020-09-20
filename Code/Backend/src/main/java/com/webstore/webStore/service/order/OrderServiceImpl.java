@@ -1,5 +1,6 @@
 package com.webstore.webStore.service.order;
 
+import com.webstore.webStore.entity.order.Order;
 import com.webstore.webStore.entity.product.Product;
 import com.webstore.webStore.repository.order.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Product> getOrdersForCustomer(Integer customerID) {
+    public List<Order> getOrdersForCustomer(Integer customerID) {
         return orderDAO.getOrdersForCustomer(customerID);
     }
 

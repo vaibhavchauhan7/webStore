@@ -1,16 +1,17 @@
 USE [WEB_MASTER]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 19-09-2020 05:53:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 20-09-2020 10:24:47 PM ******/
 DROP PROCEDURE IF EXISTS [dbo].[spCustomerSignUp]
 GO
 
-/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 19-09-2020 05:53:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[spCustomerSignUp]    Script Date: 20-09-2020 10:24:47 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE PROCEDURE [dbo].[spCustomerSignUp]
 @name varchar(50),

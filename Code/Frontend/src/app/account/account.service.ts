@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {Customer, Product} from '../shared/entity/models';
+import {Customer, Order, Product} from '../shared/entity/models';
 import {CommonControllerService} from '../shared/services/common-controller.service';
 import {WebStoreAPI} from '../shared/entity/constants';
 
@@ -13,7 +13,7 @@ import {WebStoreAPI} from '../shared/entity/constants';
 })
 export class AccountService {
 
-    orders: Product[];
+    orders: Order[];
     private customer: Customer;
 
     constructor(private commonControllerService: CommonControllerService,
@@ -27,10 +27,10 @@ export class AccountService {
         });
     }
 
-    getOrdersForCustomer(customerID: number): Observable<Product[]> {
-        return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${customerID}`).pipe(
-            tap((productList: Product[]) =>
-                this.orders = productList
+    getOrdersForCustomer(customerID: number): Observable<Order[]> {
+        return this.http.get<Order[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${customerID}`).pipe(
+            tap((orderList: Order[]) =>
+                this.orders = orderList
             )
         );
     }

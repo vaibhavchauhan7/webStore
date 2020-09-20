@@ -1,8 +1,7 @@
 package com.webstore.webStore.repository.order;
 
+import com.webstore.webStore.entity.order.Order;
 import com.webstore.webStore.entity.product.Product;
-import com.webstore.webStore.repository.product.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -12,12 +11,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {
-
-    private final ProductRepository productRepository;
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -28,14 +24,9 @@ public class OrderDAOImpl implements OrderDAO {
     @Value("${spring.datasource.password}")
     private String password;
 
-    @Autowired
-    public OrderDAOImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
     @Override
-    public List<Product> getOrdersForCustomer(Integer customerID) {
-        List<Product> products = new ArrayList<>();
+    public List<Order> getOrdersForCustomer(Integer customerID) {
+        List<Order> orders = new ArrayList<>();
 
         String sql = "{call spInsertAndGetOrdersForCustomer(?,null)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
@@ -46,8 +37,20 @@ public class OrderDAOImpl implements OrderDAO {
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                Optional<Product> optionalProduct = productRepository.findById(resultSet.getInt("ProductID"));
-                products.add(optionalProduct.orElse(null));
+                Order order = new Order();
+                order.setOrderID(resultSet.getInt("OrderID"));
+                order.setOrderNumber(resultSet.getInt("OrderNumber"));
+                order.setCustomerID(resultSet.getInt("CustomerID"));
+                order.setCustomerName(resultSet.getString("CustomerName"));
+                order.setCustomerEmail(resultSet.getString("CustomerEmail"));
+                order.setCustomerPhone(resultSet.getString("CustomerPhone"));
+                order.setProductID(resultSet.getInt("ProductID"));
+                order.setProductName(resultSet.getString("ProductName"));
+                order.setProductPrice(resultSet.getInt("ProductPrice"));
+                order.setPurchaseDate(resultSet.getString("PurchaseDate"));
+                order.setPurchaseTime(resultSet.getString("PurchaseTime"));
+                order.setProductImagePath(resultSet.getString("ProductImagePath"));
+                orders.add(order);
             }
 
             resultSet.close();
@@ -55,7 +58,7 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return products;
+        return orders;
     }
 
     @Override

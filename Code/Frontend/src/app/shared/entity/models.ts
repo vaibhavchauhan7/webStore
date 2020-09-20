@@ -19,6 +19,21 @@ export interface Login {
     password: string;
 }
 
+export interface Order {
+    orderID: number;
+    orderNumber: number;
+    customerID: number;
+    customerName: string;
+    customerEmail: string;
+    customerPhone: string;
+    productID: number;
+    productName: string;
+    productPrice: number;
+    purchaseDate: string;
+    purchaseTime: string;
+    productImagePath: string;
+}
+
 export interface Product {
     id: number;
     name: string;

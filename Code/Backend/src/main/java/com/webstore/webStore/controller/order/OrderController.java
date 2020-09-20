@@ -1,5 +1,6 @@
 package com.webstore.webStore.controller.order;
 
+import com.webstore.webStore.entity.order.Order;
 import com.webstore.webStore.entity.product.Product;
 import com.webstore.webStore.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{customerID}")
-    public List<Product> getOrdersForCustomer(@PathVariable Integer customerID) {
+    public List<Order> getOrdersForCustomer(@PathVariable Integer customerID) {
         return orderService.getOrdersForCustomer(customerID);
     }
 

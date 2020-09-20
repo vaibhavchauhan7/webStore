@@ -7,12 +7,12 @@ GO
 ALTER TABLE [dbo].[orders] DROP CONSTRAINT [FK_orders_customers]
 GO
 
-/****** Object:  Table [dbo].[orders]    Script Date: 19-09-2020 06:00:46 PM ******/
+/****** Object:  Table [dbo].[orders]    Script Date: 20-09-2020 10:26:46 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[orders]') AND type in (N'U'))
 DROP TABLE [dbo].[orders]
 GO
 
-/****** Object:  Table [dbo].[orders]    Script Date: 19-09-2020 06:00:46 PM ******/
+/****** Object:  Table [dbo].[orders]    Script Date: 20-09-2020 10:26:46 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -23,7 +23,9 @@ CREATE TABLE [dbo].[orders](
 	[OrderID] [int] IDENTITY(1,1) NOT NULL,
 	[OrderNumber] [int] NOT NULL,
 	[CustomerID] [int] NOT NULL,
-	[ProductID] [int] NULL,
+	[ProductID] [int] NOT NULL,
+	[PurchaseDate] [varchar](10) NOT NULL,
+	[PurchaseTime] [varchar](8) NOT NULL,
  CONSTRAINT [CK_Unique_OrderID_OrderNumber] PRIMARY KEY CLUSTERED
 (
 	[OrderID] ASC,

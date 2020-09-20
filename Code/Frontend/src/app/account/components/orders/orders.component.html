@@ -24,22 +24,22 @@
     </div>
 </ng-container>
 
-<ng-container *ngFor="let product of orders; last as last">
+<ng-container *ngFor="let order of orders; last as last">
     <div class="row mb-5">
-        <div [routerLink]="['/product', product.id, product.name]" class="col-md-2 text-center cursor-pointer"
+        <div [routerLink]="['/product', order.productID, order.productName]" class="col-md-2 text-center cursor-pointer"
              routerLinkActive="active">
-            <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
+            <img alt="ProductImage" class="image-size" src="{{order.productImagePath}}">
         </div>
 
         <div class="col-md-4 orderDetails">
-            <p [routerLink]="['/product', product.id, product.name]"
+            <p [routerLink]="['/product', order.productID, order.productName]"
                class="cursor-pointer" routerLinkActive="active">
-                {{product.name}}
+                {{order.productName}}
             </p>
         </div>
 
         <div class="col-md-2 orderDetails">
-            <p>12/09/2019</p>
+            <p>{{order.purchaseDate}}<br/>{{order.purchaseTime}}</p>
         </div>
 
         <div class="col-md-2 orderDetails">
@@ -50,7 +50,7 @@
         </div>
 
         <div class="col-md-2 orderDetails">
-            <p>Rs. {{product.price}}</p>
+            <p>Rs. {{order.productPrice}}</p>
         </div>
     </div>
 

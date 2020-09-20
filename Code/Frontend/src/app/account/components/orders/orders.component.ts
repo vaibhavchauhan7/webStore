@@ -3,7 +3,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {Customer, Product} from '../../../shared/entity/models';
+import {Customer, Order} from '../../../shared/entity/models';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {CommonControllerService} from '../../../shared/services/common-controlle
 })
 export class OrdersComponent implements OnInit, OnDestroy {
 
-    orders: Product[];
+    orders: Order[];
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
@@ -32,8 +32,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
     getOrdersForCustomer(customerID: number): void {
         if (customerID) { // customerID is getting undefined sometimes on page reload
-            this.subscription$.push(this.accountService.getOrdersForCustomer(customerID).subscribe((productList: Product[]) => {
-                this.orders = productList;
+            this.subscription$.push(this.accountService.getOrdersForCustomer(customerID).subscribe((orderList: Order[]) => {
+                this.orders = orderList;
             }));
         }
     }
