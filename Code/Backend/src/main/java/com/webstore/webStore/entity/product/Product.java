@@ -15,7 +15,7 @@ public class Product {
     private String name;
     private String description;
     private String imagePath;
-    private Integer price;
+    private String price;
     private String category;
 
     public Integer getId() {
@@ -50,11 +50,11 @@ public class Product {
         this.imagePath = imagePath;
     }
 
-    public Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

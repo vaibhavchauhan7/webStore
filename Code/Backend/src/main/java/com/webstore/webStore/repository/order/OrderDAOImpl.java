@@ -46,7 +46,7 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setCustomerPhone(resultSet.getString("CustomerPhone"));
                 order.setProductID(resultSet.getInt("ProductID"));
                 order.setProductName(resultSet.getString("ProductName"));
-                order.setProductPrice(resultSet.getInt("ProductPrice"));
+                order.setProductPrice(resultSet.getString("ProductPrice"));
                 order.setPurchaseDate(resultSet.getString("PurchaseDate"));
                 order.setPurchaseTime(resultSet.getString("PurchaseTime"));
                 order.setProductImagePath(resultSet.getString("ProductImagePath"));

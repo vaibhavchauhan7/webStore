@@ -13,7 +13,7 @@ public class Order {
     private String customerPhone;
     private Integer productID;
     private String productName;
-    private Integer productPrice;
+    private String productPrice;
     private String purchaseDate;
     private String purchaseTime;
     private String productImagePath;
@@ -82,11 +82,11 @@ public class Order {
         this.productName = productName;
     }
 
-    public Integer getProductPrice() {
+    public String getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(Integer productPrice) {
+    public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
     }
 

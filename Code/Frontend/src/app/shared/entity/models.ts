@@ -39,7 +39,7 @@ export interface Product {
     name: string;
     description: string;
     imagePath: string;
-    price: number;
+    price: string;
     category: string;
 }
 
