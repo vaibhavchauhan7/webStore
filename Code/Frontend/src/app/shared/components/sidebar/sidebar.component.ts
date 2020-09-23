@@ -1,8 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+
+import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../../account/account.service';
 import {CommonControllerService} from '../../services/common-controller.service';
 import {Customer} from '../../entity/models';
+import {ProductManagementService} from '../../../product/services/product-management.service';
 import {SidebarService} from './sidebar.service';
 import {ToastService} from '../toast/toast.service';
 import {WebStoreRouting} from '../../entity/constants';
@@ -12,7 +15,7 @@ import {WebStoreRouting} from '../../entity/constants';
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
     routes = {
         account: WebStoreRouting.ACCOUNT,
@@ -23,53 +26,77 @@ export class SidebarComponent implements OnInit {
         profile: WebStoreRouting.PROFILE,
         wishlist: WebStoreRouting.WISHLIST
     };
-    customer: Customer;
 
-    isSidebarOpen: boolean;
+    customer: Customer;
     isCustomerAuthenticated: boolean;
+    isSidebarOpen: boolean;
+
+    private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
                 private commonControllerService: CommonControllerService,
+                private productManagementService: ProductManagementService,
                 private sidebarService: SidebarService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getSidebarObserver();
-        this.getCustomerAuthenticationObserver();
         this.getCustomerObserver();
-    }
-
-    getSidebarObserver(): void {
-        this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
-            this.isSidebarOpen = data;
-        });
-    }
-
-    getCustomerAuthenticationObserver(): void {
-        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
-            this.isCustomerAuthenticated = data;
-        });
+        this.getSidebarObserver();
     }
 
     getCustomerObserver(): void {
-        this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
-            this.customer = customer;
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                    this.getCustomerAuthenticationObserver();
+                }
+            })
+        );
+    }
+
+    getCustomerAuthenticationObserver(): void {
+        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+                this.isCustomerAuthenticated = data;
+            })
+        );
+    }
+
+    getSidebarObserver(): void {
+        this.subscription$.push(this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
+                this.isSidebarOpen = data;
+            })
+        );
     }
 
     getOrdersForCustomer(): void {
-        this.accountService.getOrdersForCustomer(this.customer.id);
+        this.subscription$.push(this.accountService.getOrdersForCustomer().subscribe());
+    }
+
+    getWishlistProducts(): void {
+        this.subscription$.push(this.productManagementService.initializeCartAndWishlist(this.customer.id).subscribe());
+    }
+
+    logout(): void {
+        // TODO: Improvise Logout
+        localStorage.clear();
+        this.commonControllerService.revokeCustomerAuthentication();
+        this.commonControllerService.resetCustomerData();
+        this.productManagementService.previousRoute = '/';
+        this.productManagementService.cartProducts = [];
+        this.productManagementService.wishlistProducts = [];
+        this.toastService.showToast(`Successfully Logged Out`, {classname: 'bg-success'});
     }
 
     hideSidebar(): void {
         this.sidebarService.closeSidebar();
     }
 
-    logout(): void {
-        localStorage.clear();
-        this.commonControllerService.revokeCustomerAuthentication();
-        this.commonControllerService.resetCustomerData();
-        this.toastService.showToast(`Successfully Logged Out`, {classname: 'bg-success'});
+    ngOnDestroy(): void {
+        if (this.subscription$) {
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
+        }
     }
 }

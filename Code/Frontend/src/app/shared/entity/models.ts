@@ -57,3 +57,11 @@ export interface Toast {
     options: {};
     toastMessage: string;
 }
+
+export interface Wishlist {
+    customerId: number;
+    productId: number;
+    name: string;
+    image_path: string;
+    price: string;
+}

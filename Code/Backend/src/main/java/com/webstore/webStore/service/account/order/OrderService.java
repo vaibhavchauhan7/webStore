@@ -1,6 +1,6 @@
-package com.webstore.webStore.service.order;
+package com.webstore.webStore.service.account.order;
 
-import com.webstore.webStore.entity.order.Order;
+import com.webstore.webStore.entity.account.Order;
 import com.webstore.webStore.entity.product.Product;
 import org.springframework.stereotype.Service;
 

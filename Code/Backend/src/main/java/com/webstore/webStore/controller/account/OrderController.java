@@ -1,8 +1,8 @@
-package com.webstore.webStore.controller.order;
+package com.webstore.webStore.controller.account;
 
-import com.webstore.webStore.entity.order.Order;
+import com.webstore.webStore.entity.account.Order;
 import com.webstore.webStore.entity.product.Product;
-import com.webstore.webStore.service.order.OrderService;
+import com.webstore.webStore.service.account.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

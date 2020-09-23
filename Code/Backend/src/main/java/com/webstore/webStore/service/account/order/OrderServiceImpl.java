@@ -1,8 +1,8 @@
-package com.webstore.webStore.service.order;
+package com.webstore.webStore.service.account.order;
 
-import com.webstore.webStore.entity.order.Order;
+import com.webstore.webStore.entity.account.Order;
 import com.webstore.webStore.entity.product.Product;
-import com.webstore.webStore.repository.order.OrderDAO;
+import com.webstore.webStore.repository.account.order.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

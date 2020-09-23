@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+
+import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
 import {Product} from '../../../shared/entity/models';
@@ -10,11 +12,13 @@ import {ToastService} from '../../../shared/components/toast/toast.service';
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
 
     cartProducts: Product[];
-    product: Product = null;
+    product: Product;
     modalID: string;
+
+    private subscription$: Subscription;
 
     constructor(private accountService: AccountService,
                 private productManagementService: ProductManagementService,
@@ -27,10 +31,10 @@ export class CartComponent implements OnInit {
     }
 
     getCartProducts(): void {
-        if (this.productManagementService.cartProduct) {
-            this.cartProducts = this.productManagementService.cartProduct;
+        if (this.productManagementService.cartProducts.length !== 0) {
+            this.cartProducts = this.productManagementService.cartProducts;
         } else {
-            this.cartProducts = this.productManagementService.cartProduct = [];
+            this.cartProducts = this.productManagementService.cartProducts = [];
         }
     }
 
@@ -47,7 +51,7 @@ export class CartComponent implements OnInit {
     clearCart(confirmation?: boolean): void {
         this.modalID = 'clearCart';
         if (confirmation) {
-            this.cartProducts = this.productManagementService.cartProduct = [];
+            this.cartProducts = this.productManagementService.cartProducts = [];
             localStorage.removeItem('cartProduct');
             this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
             this.resetValues();
@@ -57,10 +61,10 @@ export class CartComponent implements OnInit {
     checkOut(cartProducts: Product[], confirmation?: boolean): void {
         this.modalID = 'checkOut';
         if (confirmation) {
-            this.accountService.checkOut(cartProducts).subscribe(() => {
+            this.subscription$ = this.accountService.checkOut(cartProducts).subscribe(() => {
                 this.cartProducts = [];
                 localStorage.removeItem('cartProduct');
-                this.productManagementService.cartProduct = [];
+                this.productManagementService.cartProducts = [];
                 this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
             });
             this.resetValues();
@@ -70,5 +74,11 @@ export class CartComponent implements OnInit {
     resetValues(): void {
         this.product = null;
         this.modalID = '';
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription$) {
+            this.subscription$.unsubscribe();
+        }
     }
 }

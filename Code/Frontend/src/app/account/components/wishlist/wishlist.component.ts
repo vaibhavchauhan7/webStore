@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
-import {Product} from '../../../shared/entity/models';
+import {Subscription} from 'rxjs';
+
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {Customer, Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 
@@ -9,44 +12,64 @@ import {ToastService} from '../../../shared/components/toast/toast.service';
     templateUrl: './wishlist.component.html',
     styleUrls: ['./wishlist.component.scss']
 })
-export class WishlistComponent implements OnInit {
+export class WishlistComponent implements OnInit, OnDestroy {
 
-    wishlistProducts: Product[];
-    product: Product = null;
     modalID: string;
+    customer: Customer;
+    product: Product; // Used for Remove Product Confirmation Modal
+    wishlistProducts: Product[]; // Sometimes there's an issue with initializing array like: arrayName[] = [];
 
-    constructor(private productManagementService: ProductManagementService,
+    private subscription$: Subscription[] = [];
+
+    constructor(private commonControllerService: CommonControllerService,
+                private productManagementService: ProductManagementService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.productManagementService.initializeCartAndWishlist();
-        this.getWishlistProducts();
+        this.getCustomerObserver();
     }
 
-    getWishlistProducts(): void {
-        if (this.productManagementService.wishlistProduct) {
-            this.wishlistProducts = this.productManagementService.wishlistProduct;
-        } else {
-            this.wishlistProducts = this.productManagementService.wishlistProduct = [];
-        }
+    getCustomerObserver(): void {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                    this.initializeCartAndWishlist();
+                }
+            })
+        );
+    }
+
+    initializeCartAndWishlist(): void {
+        this.subscription$.push(this.productManagementService.initializeCartAndWishlist(this.customer.id)
+            .subscribe((productList: Product[]) => {
+                this.wishlistProducts = productList;
+            })
+        );
     }
 
     removeProduct(product: Product, confirmation?: boolean): void {
         this.product = product;
         this.modalID = `wishlist_${product.id}`;
         if (confirmation) {
-            this.productManagementService.removeProduct(product, 'Wishlist');
-            this.toastService.showToast(`${product.name} Removed!`, {classname: 'bg-success'});
-            this.resetValues();
+            this.subscription$.push(this.productManagementService.removeProduct(product, 'Wishlist', this.customer.id)
+                .subscribe(() => {
+                    this.productManagementService.wishlistProducts
+                        .splice(this.productManagementService.wishlistProducts.indexOf(product), 1);
+                    this.toastService.showToast(`Removed ${product.name}!`, {classname: 'bg-success'});
+                    this.resetValues();
+                }, () => {
+                    this.toastService.showToast(`Couldn't Remove Product!`, {classname: 'bg-red'});
+                })
+            );
         }
     }
 
     clearWishlist(confirmation?: boolean): void {
         this.modalID = 'clearWishlist';
         if (confirmation) {
-            this.wishlistProducts = this.productManagementService.wishlistProduct = [];
-            localStorage.removeItem('wishlistProduct');
+            // TODO: Make API Call Here - Update Proc to Handle This
+            this.wishlistProducts = this.productManagementService.wishlistProducts = [];
             this.toastService.showToast('Wishlist Cleared!', {classname: 'bg-success'});
             this.resetValues();
         }
@@ -55,5 +78,13 @@ export class WishlistComponent implements OnInit {
     resetValues(): void {
         this.product = null;
         this.modalID = '';
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription$) {
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
+        }
     }
 }

@@ -1,6 +1,6 @@
-package com.webstore.webStore.repository.order;
+package com.webstore.webStore.repository.account.order;
 
-import com.webstore.webStore.entity.order.Order;
+import com.webstore.webStore.entity.account.Order;
 import com.webstore.webStore.entity.product.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;

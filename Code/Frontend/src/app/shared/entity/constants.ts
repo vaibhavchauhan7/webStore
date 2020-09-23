@@ -1,5 +1,6 @@
 export enum WebStoreAPI {
     BASE_URL = 'webStoreAPI',
+    CART = 'cart',
     CHECKOUT = 'checkout',
     CONTACT = 'contact',
     CUSTOMERS = 'customers',
@@ -7,7 +8,8 @@ export enum WebStoreAPI {
     LOGIN = 'login',
     ORDERS = 'orders',
     PRODUCTS = 'products',
-    SIGN_UP = 'sign-up'
+    SIGN_UP = 'sign-up',
+    WISHLIST = 'wishlist'
 }
 
 export enum WebStoreRouting {

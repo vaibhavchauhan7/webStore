@@ -31,9 +31,26 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.checkCustomerAuthentication();
         this.getPageTitle();
-        this.checkAuthentication();
         this.getSidebarObserver();
+    }
+
+    checkCustomerAuthentication(): void {
+        if ('token' in localStorage) {
+            this.getCustomerDataByToken();
+        }
+    }
+
+    getCustomerDataByToken(): void {
+        this.subscription$.push(this.authenticationService.getCustomerDataByToken(localStorage.getItem('token'))
+            .subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.commonControllerService.setCustomerData(customer);
+                    this.commonControllerService.authenticateCustomer();
+                }
+            })
+        );
     }
 
     getPageTitle(): void {
@@ -57,21 +74,11 @@ export class AppComponent implements OnInit, OnDestroy {
         );
     }
 
-    checkAuthentication(): void {
-        if ('token' in localStorage) {
-            this.commonControllerService.authenticateCustomer();
-            this.subscription$.push(this.authenticationService.getCustomerDataByToken(localStorage.getItem('token'))
-                .subscribe((customer: Customer) => {
-                    this.commonControllerService.setCustomerData(customer);
-                })
-            );
-        }
-    }
-
     getSidebarObserver(): void {
-        this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
-            this.isSidebarOpen = data;
-        });
+        this.subscription$.push(this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
+                this.isSidebarOpen = data;
+            })
+        );
     }
 
     ngOnDestroy(): void {

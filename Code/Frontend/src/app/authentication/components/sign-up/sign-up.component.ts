@@ -19,7 +19,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     login = WebStoreRouting.LOGIN;
     isCustomerAuthenticated: boolean;
 
-    private subscription$: Subscription;
+    private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
@@ -35,30 +35,36 @@ export class SignUpComponent implements OnInit, OnDestroy {
         if (signUpFormData.invalid || signUpFormData.untouched) {
             this.toastService.showToast('Invalid Data!', {classname: 'bg-red'});
         } else {
-            this.subscription$ = this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
-                    this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
-                    signUpFormData.reset();
-                    this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
-                    // TODO : Auto-Login after Successful Sign-Up
-                }, () => {
-                    this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
-                }
+            this.subscription$.push(this.authenticationService.customerSignUp(signUpFormData.value)
+                .subscribe(() => {
+                        this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
+                        signUpFormData.reset();
+                        this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+                        // TODO : Auto-Login after Successful Sign-Up
+                    }, () => {
+                        this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
+                    }
+                )
             );
         }
     }
 
     getCustomerAuthenticationObserver(): void {
-        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
-            this.isCustomerAuthenticated = data;
-            if (this.isCustomerAuthenticated) {
-                this.router.navigateByUrl('/').then();
-            }
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+            .subscribe((data: boolean) => {
+                this.isCustomerAuthenticated = data;
+                if (this.isCustomerAuthenticated) {
+                    this.router.navigateByUrl('/').then();
+                }
+            })
+        );
     }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }

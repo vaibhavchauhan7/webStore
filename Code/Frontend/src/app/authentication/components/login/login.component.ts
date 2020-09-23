@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     signUp = WebStoreRouting.SIGN_UP;
     isCustomerAuthenticated: boolean;
 
-    private subscription$: Subscription;
+    private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
@@ -37,35 +37,42 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (loginFormData.invalid || loginFormData.untouched) {
             this.toastService.showToast('Invalid Credentials!', {classname: 'bg-red'});
         } else {
-            this.subscription$ = this.authenticationService.customerLogin(loginFormData.value).subscribe(data => {
-                // Local Storage - Should be the first line here otherwise lazy loaded components make API calls without JWT
-                localStorage.setItem('token', data.token);
-                this.commonControllerService.setCustomerData(data.customer);
-                this.commonControllerService.authenticateCustomer();
-                this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
-                if (this.productManagementService.previousRoute) {
-                    this.router.navigateByUrl(`${this.productManagementService.previousRoute}`).then();
-                } else {
-                    this.router.navigateByUrl('/').then();
-                }
-            }, () => {
-                this.toastService.showToast('Wrong Email / Password', {classname: 'bg-red'});
-            });
+            this.subscription$.push(this.authenticationService.customerLogin(loginFormData.value)
+                .subscribe(data => {
+                    // TODO: Add JWT in HTTP Only Cookie and not in local storage
+                    // Local Storage - Should be the first line here otherwise lazy loaded components make API calls without JWT
+                    localStorage.setItem('token', data.token);
+                    this.commonControllerService.setCustomerData(data.customer);
+                    this.commonControllerService.authenticateCustomer();
+                    this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
+                    if (this.productManagementService.previousRoute) {
+                        this.router.navigateByUrl(`${this.productManagementService.previousRoute}`).then();
+                    } else {
+                        this.router.navigateByUrl('/').then();
+                    }
+                }, () => {
+                    this.toastService.showToast('Wrong Email / Password', {classname: 'bg-red'});
+                })
+            );
         }
     }
 
     getCustomerAuthenticationObserver(): void {
-        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
-            this.isCustomerAuthenticated = data;
-            if (this.isCustomerAuthenticated) {
-                this.router.navigateByUrl('/').then();
-            }
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+            .subscribe((data: boolean) => {
+                this.isCustomerAuthenticated = data;
+                if (data) {
+                    this.router.navigateByUrl('/').then();
+                }
+            })
+        );
     }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }

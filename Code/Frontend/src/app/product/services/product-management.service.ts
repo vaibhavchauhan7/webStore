@@ -12,8 +12,8 @@ import {WebStoreAPI} from '../../shared/entity/constants';
 })
 export class ProductManagementService {
 
-    cartProduct: Product[] = [];
-    wishlistProduct: Product[] = [];
+    cartProducts: Product[] = [];
+    wishlistProducts: Product[] = [];
     previousRoute: string;
 
     private allProducts: Product[];  // Basic State Management
@@ -33,13 +33,15 @@ export class ProductManagementService {
 
     // Temporary Methods End
 
-    initializeCartAndWishlist(): void {
+    initializeCartAndWishlist(customerID?: number): Observable<Product[]> {
         if ('cartProduct' in localStorage) {
-            this.cartProduct = JSON.parse(localStorage.getItem('cartProduct'));
+            this.cartProducts = JSON.parse(localStorage.getItem('cartProduct'));
         }
-        if ('wishlistProduct' in localStorage) {
-            this.wishlistProduct = JSON.parse(localStorage.getItem('wishlistProduct'));
-        }
+        return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/getProducts/${customerID}`)
+            .pipe(tap((productList: Product[]) => {
+                    this.wishlistProducts = productList;
+                })
+            );
     }
 
     getProducts(): Observable<Product[]> {
@@ -65,31 +67,27 @@ export class ProductManagementService {
         );
     }
 
-    addProduct(product: Product, productType: string): void {
+    addProduct(product: Product, productType: string, customerID?: number): Observable<Product[]> {
         if (productType === 'Cart') {
-            this.cartProduct.push(product);
-            localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
+            this.cartProducts.push(product);
+            localStorage.setItem('cartProduct', JSON.stringify(this.cartProducts));
         } else {
-            this.wishlistProduct.push(product);
-            localStorage.setItem('wishlistProduct', JSON.stringify(this.wishlistProduct));
+            const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/addProduct/${customerID}`;
+            return this.http.post<Product[]>(addProductURL, product);
         }
     }
 
-    removeProduct(product: Product, productType: string): void {
+    removeProduct(product: Product, productType: string, customerID?: number): Observable<Product[]> {
         if (productType === 'Cart') {
-            this.cartProduct.splice(this.cartProduct.indexOf(product), 1);
-            if (this.cartProduct.length !== 0) {
-                localStorage.setItem('cartProduct', JSON.stringify(this.cartProduct));
+            this.cartProducts.splice(this.cartProducts.indexOf(product), 1);
+            if (this.cartProducts.length !== 0) {
+                localStorage.setItem('cartProduct', JSON.stringify(this.cartProducts));
             } else {
                 localStorage.removeItem('cartProduct');
             }
         } else {
-            this.wishlistProduct.splice(this.wishlistProduct.indexOf(product), 1);
-            if (this.wishlistProduct.length !== 0) {
-                localStorage.setItem('wishlistProduct', JSON.stringify(this.wishlistProduct));
-            } else {
-                localStorage.removeItem('wishlistProduct');
-            }
+            const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/removeProduct/${customerID}`;
+            return this.http.post<Product[]>(removeProductURL, product);
         }
     }
 

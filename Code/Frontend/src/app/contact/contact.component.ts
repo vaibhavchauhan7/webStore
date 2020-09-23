@@ -21,7 +21,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     customer: Customer;
     isCustomerAuthenticated: boolean;
 
-    private subscription$: Subscription;
+    private subscription$: Subscription[] = [];
 
     constructor(private commonControllerService: CommonControllerService,
                 private contactService: ContactService,
@@ -34,15 +34,19 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     getCustomerAuthenticationObserver(): void {
-        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
-            this.isCustomerAuthenticated = data;
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+                this.isCustomerAuthenticated = data;
+            })
+        );
     }
 
     getCustomerObserver(): void {
-        this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
-            this.customer = customer;
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                }
+            })
+        );
     }
 
     customerContact(contactFormData: NgForm): void {
@@ -53,23 +57,27 @@ export class ContactComponent implements OnInit, OnDestroy {
                 contactFormData.value.name = this.customer.name;
                 contactFormData.value.email = this.customer.email;
             }
-            this.subscription$ = this.contactService.customerContact(contactFormData.value).subscribe(() => {
-                    this.toastService.showToast('Form Successfully Submitted!', {classname: 'bg-success'});
-                    contactFormData.reset();
-                    if (this.isCustomerAuthenticated) {
-                        this.contactName.nativeElement.value = this.customer.name;
-                        this.contactEmail.nativeElement.value = this.customer.email;
+            this.subscription$.push(this.contactService.customerContact(contactFormData.value)
+                .subscribe(() => {
+                        this.toastService.showToast('Form Successfully Submitted!', {classname: 'bg-success'});
+                        contactFormData.reset();
+                        if (this.isCustomerAuthenticated) {
+                            this.contactName.nativeElement.value = this.customer.name;
+                            this.contactEmail.nativeElement.value = this.customer.email;
+                        }
+                    }, () => {
+                        this.toastService.showToast('Something Went Wrong - Form Not Submitted', {classname: 'bg-red'});
                     }
-                }, () => {
-                    this.toastService.showToast('Something Went Wrong - Form Not Submitted', {classname: 'bg-red'});
-                }
+                )
             );
         }
     }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }

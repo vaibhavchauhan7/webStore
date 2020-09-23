@@ -1,4 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+
+import {Subscription} from 'rxjs';
 
 import {LoadingSpinnerService} from './loading-spinner.service';
 
@@ -7,9 +9,11 @@ import {LoadingSpinnerService} from './loading-spinner.service';
     templateUrl: './loading-spinner.component.html',
     styleUrls: ['./loading-spinner.component.scss']
 })
-export class LoadingSpinnerComponent implements OnInit {
+export class LoadingSpinnerComponent implements OnInit, OnDestroy {
 
     showLoadingSpinner = false;
+
+    private subscription$: Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
                 private loadingSpinnerService: LoadingSpinnerService) {
@@ -20,9 +24,15 @@ export class LoadingSpinnerComponent implements OnInit {
     }
 
     initializeLoadingSpinner(): void {
-        this.loadingSpinnerService.getLoadingSpinnerObserver().subscribe((status: string) => {
+        this.subscription$ = this.loadingSpinnerService.getLoadingSpinnerObserver().subscribe((status: string) => {
             this.showLoadingSpinner = status === 'start';
             this.changeDetectorRef.detectChanges();
         });
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription$) {
+            this.subscription$.unsubscribe();
+        }
     }
 }
