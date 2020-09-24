@@ -1,6 +1,6 @@
-package com.webstore.webStore.repository.account.wishlist;
+package com.webstore.webStore.repository.account.cart;
 
-import com.webstore.webStore.entity.account.Wishlist;
+import com.webstore.webStore.entity.account.Cart;
 import com.webstore.webStore.entity.product.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class WishlistDAOImpl implements WishlistDAO {
+public class CartDAOImpl implements CartDAO {
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -25,10 +25,10 @@ public class WishlistDAOImpl implements WishlistDAO {
     private String password;
 
     @Override
-    public List<Wishlist> getWishlistProducts(Integer customerID) {
-        List<Wishlist> wishListProducts = new ArrayList<>();
+    public List<Cart> getCartProducts(Integer customerID) {
+        List<Cart> cartProducts = new ArrayList<>();
 
-        String sql = "{call spManageCartWishlist(?,null,'Wishlist',0)}";
+        String sql = "{call spManageCartWishlist(?,null,'Cart',0)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
@@ -38,12 +38,13 @@ public class WishlistDAOImpl implements WishlistDAO {
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                Wishlist wishlist = new Wishlist();
-                wishlist.setId(resultSet.getInt("ProductID"));
-                wishlist.setName(resultSet.getString("ProductName"));
-                wishlist.setImagePath(resultSet.getString("ProductImagePath"));
-                wishlist.setPrice(resultSet.getString("ProductPrice"));
-                wishListProducts.add(wishlist);
+                Cart cart = new Cart();
+                cart.setId(resultSet.getInt("ProductID"));
+                cart.setName(resultSet.getString("ProductName"));
+                cart.setImagePath(resultSet.getString("ProductImagePath"));
+                cart.setPrice(resultSet.getString("ProductPrice"));
+                cart.setQuantity(resultSet.getInt("ProductQuantity"));
+                cartProducts.add(cart);
             }
 
             resultSet.close();
@@ -51,11 +52,11 @@ public class WishlistDAOImpl implements WishlistDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return wishListProducts;
+        return cartProducts;
     }
 
     @Override
-    public void addRemoveWishlistProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
+    public void addRemoveCartProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
         String sql = "{call spManageCartWishlist(?,?,?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
@@ -74,8 +75,8 @@ public class WishlistDAOImpl implements WishlistDAO {
     }
 
     @Override
-    public void clearWishlist(Integer customerID) {
-        String sql = "{call spClearCartOrWishlist(?,'Wishlist')}";
+    public void clearCart(Integer customerID) {
+        String sql = "{call spClearCartOrWishlist(?,'Cart')}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 

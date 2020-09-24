@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 
 import {Subscription} from 'rxjs';
 
-import {AuthenticationService} from '../authentication/services/authentication.service';
+import {AccountService} from '../account/account.service';
 import {CommonControllerService} from '../shared/services/common-controller.service';
 import {Customer, Product} from '../shared/entity/models';
 import {ProductManagementService} from './services/product-management.service';
@@ -33,7 +33,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private customer: Customer;
     private subscription$: Subscription[] = [];
 
-    constructor(private authenticationService: AuthenticationService,
+    constructor(private accountService: AccountService,
                 private commonControllerService: CommonControllerService,
                 private productManagementService: ProductManagementService,
                 private route: ActivatedRoute,
@@ -67,17 +67,29 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     initializeCartAndWishlist(): void {
-        // TODO: Add Cart Functionality to below IF Condition
+        this.selectedProduct();
         if (this.productManagementService.wishlistProducts.length === 0) {
-            this.selectedProduct();
-            this.subscription$.push(this.productManagementService.initializeCartAndWishlist(this.customer.id)
-                .subscribe(() => {
-                    this.checkProductAvailability(this.product);
-                })
-            );
-        } else {
-            this.selectedProduct();
+            this.initializeWishlist();
         }
+        if (this.productManagementService.cartProducts.length === 0) {
+            this.initializeCart();
+        }
+    }
+
+    initializeCart(): void {
+        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
+            .subscribe(() => {
+                this.checkProductAvailability(this.product);
+            })
+        );
+    }
+
+    initializeWishlist(): void {
+        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
+            .subscribe(() => {
+                this.checkProductAvailability(this.product);
+            })
+        );
     }
 
     selectedProduct(): void {
@@ -92,25 +104,34 @@ export class ProductComponent implements OnInit, OnDestroy {
         ));
     }
 
-    addProduct(product: Product, productType: string): void {
+    addProductToWishlist(product: Product): void {
         if (this.isCustomerAuthenticated) {
-            if (productType === 'Cart') {
-                this.productManagementService.addProduct(product, productType);
-                this.cartButton = `${WebStoreCart.ADDED_TO_CART}`;
-                this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
-                this.disableCartButton = true;
-            } else {
-                this.subscription$.push(this.productManagementService.addProduct(product, productType, this.customer.id)
-                    .subscribe(() => {
-                        this.wishlistButton = `${WebStoreWishlist.ADDED_TO_WISHLIST}`;
-                        this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
-                        this.disableWishlistButton = true;
-                    }, () => {
-                        // TODO: Check If The Button Class Changes on Error
-                        this.toastService.showToast(`Error - Couldn't Add Product!`, {classname: 'bg-red'});
-                    })
-                );
-            }
+            this.subscription$.push(this.accountService.addProductToWishlist(product, this.customer.id)
+                .subscribe(() => {
+                    this.wishlistButton = `${WebStoreWishlist.ADDED_TO_WISHLIST}`;
+                    this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
+                    this.disableWishlistButton = true;
+                }, () => {
+                    this.toastService.showToast(`Error - Couldn't Add Product!`, {classname: 'bg-red'});
+                })
+            );
+        } else {
+            this.productManagementService.previousRoute = this.router.url;
+            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+        }
+    }
+
+    addProductToCart(product: Product): void {
+        if (this.isCustomerAuthenticated) {
+            this.subscription$.push(this.accountService.addProductToCart(product, this.customer.id)
+                .subscribe(() => {
+                    this.cartButton = `${WebStoreCart.ADDED_TO_CART}`;
+                    this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
+                    this.disableCartButton = true;
+                }, () => {
+                    this.toastService.showToast(`Error - Couldn't Add Product!`, {classname: 'bg-red'});
+                })
+            );
         } else {
             this.productManagementService.previousRoute = this.router.url;
             this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();

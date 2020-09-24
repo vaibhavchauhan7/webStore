@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 
-import {Customer, Product} from '../../shared/entity/models';
+import {Cart, Customer, Product, Wishlist} from '../../shared/entity/models';
 import {WebStoreAPI} from '../../shared/entity/constants';
 
 @Injectable({
@@ -12,8 +12,8 @@ import {WebStoreAPI} from '../../shared/entity/constants';
 })
 export class ProductManagementService {
 
-    cartProducts: Product[] = [];
-    wishlistProducts: Product[] = [];
+    cartProducts: Cart[] = [];
+    wishlistProducts: Wishlist[] = [];
     previousRoute: string;
 
     private allProducts: Product[];  // Basic State Management
@@ -33,17 +33,6 @@ export class ProductManagementService {
 
     // Temporary Methods End
 
-    initializeCartAndWishlist(customerID?: number): Observable<Product[]> {
-        if ('cartProduct' in localStorage) {
-            this.cartProducts = JSON.parse(localStorage.getItem('cartProduct'));
-        }
-        return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/getProducts/${customerID}`)
-            .pipe(tap((productList: Product[]) => {
-                    this.wishlistProducts = productList;
-                })
-            );
-    }
-
     getProducts(): Observable<Product[]> {
         if (this.allProducts) {
             return of(this.allProducts);
@@ -52,6 +41,22 @@ export class ProductManagementService {
             tap((productList: Product[]) =>
                 this.allProducts = productList
             )
+        );
+    }
+
+    initializeWishlist(customerID: number): Observable<Wishlist[]> {
+        const getProductsURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/getProducts/${customerID}`;
+        return this.http.get<Wishlist[]>(getProductsURL).pipe(tap((productList: Wishlist[]) => {
+                this.wishlistProducts = productList;
+            })
+        );
+    }
+
+    initializeCart(customerID: number): Observable<Cart[]> {
+        const getProductsURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/getProducts/${customerID}`;
+        return this.http.get<Cart[]>(getProductsURL).pipe(tap((productList: Cart[]) => {
+                this.cartProducts = productList;
+            })
         );
     }
 
@@ -67,35 +72,10 @@ export class ProductManagementService {
         );
     }
 
-    addProduct(product: Product, productType: string, customerID?: number): Observable<Product[]> {
-        if (productType === 'Cart') {
-            this.cartProducts.push(product);
-            localStorage.setItem('cartProduct', JSON.stringify(this.cartProducts));
-        } else {
-            const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/addProduct/${customerID}`;
-            return this.http.post<Product[]>(addProductURL, product);
-        }
-    }
-
-    removeProduct(product: Product, productType: string, customerID?: number): Observable<Product[]> {
-        if (productType === 'Cart') {
-            this.cartProducts.splice(this.cartProducts.indexOf(product), 1);
-            if (this.cartProducts.length !== 0) {
-                localStorage.setItem('cartProduct', JSON.stringify(this.cartProducts));
-            } else {
-                localStorage.removeItem('cartProduct');
-            }
-        } else {
-            const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/removeProduct/${customerID}`;
-            return this.http.post<Product[]>(removeProductURL, product);
-        }
-    }
-
     ifArrayIncludes(product: Product, array: any[]): boolean {
         if (array.length !== 0) {
-            const productFound = array.find(
-                (item: Product) =>
-                    item.id === product.id
+            const productFound = array.find((item: Product) =>
+                item.id === product.id
             );
             return !!productFound;
         } else {

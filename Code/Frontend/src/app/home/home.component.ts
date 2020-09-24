@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     searchInput = '';
     productList: Product[] = [];
 
+    private customer: Customer;
     private subscription$: Subscription[] = [];
 
     constructor(private commonControllerService: CommonControllerService,
@@ -32,13 +33,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     getCustomerObserver(): void {
         this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
-                    // TODO: Add Support for Cart Here
-                    if (this.productManagementService.wishlistProducts.length === 0) {
-                        this.subscription$.push(this.productManagementService.initializeCartAndWishlist(customer.id).subscribe());
-                    }
+                    this.customer = customer;
+                    this.initializeCartAndWishlist();
                 }
             })
         );
+    }
+
+    initializeCartAndWishlist(): void {
+        if (this.productManagementService.wishlistProducts.length === 0) {
+            this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id).subscribe());
+        }
+        if (this.productManagementService.cartProducts.length === 0) {
+            this.subscription$.push(this.productManagementService.initializeCart(this.customer.id).subscribe());
+        }
     }
 
     trackBy(index, item): void {

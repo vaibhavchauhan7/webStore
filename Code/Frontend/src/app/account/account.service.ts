@@ -3,8 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 
-import {Customer, Order, Product} from '../shared/entity/models';
-import {CommonControllerService} from '../shared/services/common-controller.service';
+import {Cart, Order, Product, Wishlist} from '../shared/entity/models';
 import {WebStoreAPI} from '../shared/entity/constants';
 
 @Injectable({
@@ -12,29 +11,46 @@ import {WebStoreAPI} from '../shared/entity/constants';
 })
 export class AccountService {
 
-    orders: Order[];
-    private customer: Customer;
-
-    constructor(private commonControllerService: CommonControllerService,
-                private http: HttpClient) {
-        this.getCustomerObserver();
+    constructor(private http: HttpClient) {
     }
 
-    getCustomerObserver(): void {
-        this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length !== 0) {
-                    this.customer = customer;
-                }
-            }
-        );
+    getOrdersForCustomer(customerID: number): Observable<Order[]> {
+        const getOrdersURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${customerID}`;
+        return this.http.get<Order[]>(getOrdersURL);
     }
 
-    getOrdersForCustomer(): Observable<Order[]> {
-        return this.http.get<Order[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${this.customer.id}`);
+    addProductToWishlist(product: Product, customerID: number): Observable<void> {
+        const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/addProduct/${customerID}`;
+        return this.http.post<void>(addProductURL, product);
     }
 
-    checkOut(cartProducts: Product[]): Observable<boolean> {
-        const checkOutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CHECKOUT}/${this.customer.id}`;
+    addProductToCart(product: Product, customerID: number): Observable<void> {
+        const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/addProduct/${customerID}`;
+        return this.http.post<void>(addProductURL, product);
+    }
+
+    removeProductFromWishlist(wishlistProduct: Wishlist, customerID: number): Observable<void> {
+        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/removeProduct/${customerID}`;
+        return this.http.post<void>(removeProductURL, wishlistProduct);
+    }
+
+    removeProductFromCart(cartProduct: Cart, customerID: number): Observable<void> {
+        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/removeProduct/${customerID}`;
+        return this.http.post<void>(removeProductURL, cartProduct);
+    }
+
+    clearWishlist(customerID: number): Observable<void> {
+        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/clearWishlist/${customerID}`;
+        return this.http.post<void>(removeProductURL, {});
+    }
+
+    clearCart(customerID: number): Observable<void> {
+        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/clearCart/${customerID}`;
+        return this.http.post<void>(removeProductURL, {});
+    }
+
+    checkOut(cartProducts: Product[], customerID: number): Observable<boolean> {
+        const checkOutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CHECKOUT}/${customerID}`;
         return this.http.post<boolean>(checkOutURL, cartProducts);
     }
 }

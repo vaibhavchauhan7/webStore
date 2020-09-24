@@ -29,7 +29,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
             callableStatement.setString(1, customerEmail);
-            callableStatement.execute();
+            callableStatement.executeQuery();
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {

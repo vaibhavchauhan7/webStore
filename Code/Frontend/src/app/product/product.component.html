@@ -29,13 +29,13 @@
             </div>
 
             <div class="row no-gutters displayCenter flex-row no-gutters flex-wrap">
-                <button (click)="addProduct(product, 'Cart')"
+                <button (click)="addProductToCart(product)"
                         [disabled]="disableCartButton"
                         [ngClass]="cartButtonClass">
                     {{cartButton}}
                 </button> &nbsp;
 
-                <button (click)="addProduct(product, 'Wishlist')"
+                <button (click)="addProductToWishlist(product)"
                         [disabled]="disableWishlistButton"
                         [ngClass]="wishlistButtonClass">
                     {{wishlistButton}}

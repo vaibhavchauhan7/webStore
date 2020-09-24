@@ -1,3 +1,8 @@
+export interface Cart extends Product {
+    customerId: number;
+    quantity: number;
+}
+
 export interface Contact {
     id: number;
     name: string;
@@ -58,10 +63,6 @@ export interface Toast {
     toastMessage: string;
 }
 
-export interface Wishlist {
+export interface Wishlist extends Product {
     customerId: number;
-    productId: number;
-    name: string;
-    image_path: string;
-    price: string;
 }

@@ -1,5 +1,6 @@
 package com.webstore.webStore.service.account.wishlist;
 
+import com.webstore.webStore.entity.account.Wishlist;
 import com.webstore.webStore.entity.product.Product;
 import com.webstore.webStore.repository.account.wishlist.WishlistDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,17 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     @Override
+    public List<Wishlist> getWishlistProducts(Integer customerID) {
+        return wishlistDAO.getWishlistProducts(customerID);
+    }
+
+    @Override
     public void addRemoveWishlistProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
         wishlistDAO.addRemoveWishlistProducts(product, customerID, productType, removeProduct);
     }
 
     @Override
-    public List<Product> getWishlistProducts(Integer customerID) {
-        return wishlistDAO.getWishlistProducts(customerID);
+    public void clearWishlist(Integer customerID) {
+        wishlistDAO.clearWishlist(customerID);
     }
 }

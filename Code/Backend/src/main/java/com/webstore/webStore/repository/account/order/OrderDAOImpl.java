@@ -33,7 +33,7 @@ public class OrderDAOImpl implements OrderDAO {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
             callableStatement.setInt(1, customerID);
-            callableStatement.execute();
+            callableStatement.executeQuery();
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {

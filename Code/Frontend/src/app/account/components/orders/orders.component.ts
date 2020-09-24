@@ -3,7 +3,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {Order} from '../../../shared/entity/models';
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {Customer, Order} from '../../../shared/entity/models';
 
 @Component({
     selector: 'app-orders',
@@ -14,24 +15,40 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
     orders: Order[];
 
-    private subscription$: Subscription;
+    private customer: Customer;
+    private subscription$: Subscription[] = [];
 
-    constructor(private accountService: AccountService) {
+    constructor(private accountService: AccountService,
+                private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
-        this.getOrdersForCustomer();
+        this.getCustomerObserver();
+    }
+
+    getCustomerObserver(): void {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                    this.getOrdersForCustomer();
+                }
+            })
+        );
     }
 
     getOrdersForCustomer(): void {
-        this.subscription$ = this.accountService.getOrdersForCustomer().subscribe((orderList: Order[]) => {
-            this.orders = orderList;
-        });
+        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id)
+            .subscribe((orderList: Order[]) => {
+                this.orders = orderList;
+            })
+        );
     }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }

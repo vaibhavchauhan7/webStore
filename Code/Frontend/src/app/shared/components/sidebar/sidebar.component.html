@@ -52,8 +52,8 @@
                                    routerLink="/{{routes.account}}/{{routes.wishlist}}" routerLinkActive="active">
                                     Wishlist
                                 </a>
-                                <a routerLink="/{{routes.account}}/{{routes.cart}}"
-                                   routerLinkActive="active">
+                                <a (click)="getCartProducts()"
+                                   routerLink="/{{routes.account}}/{{routes.cart}}" routerLinkActive="active">
                                     Cart
                                 </a>
                             </ul>

@@ -24,7 +24,7 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
-            <button (click)="removeProduct(product)" [attr.data-target]="'#' + modalID"
+            <button (click)="removeProductFromWishlist(product)" [attr.data-target]="'#' + modalID"
                     class="removeProduct" data-toggle="modal">
                 Remove Item
             </button>
@@ -56,13 +56,13 @@
 </ng-container>
 
 <!--Remove Product From Wishlist - Confirmation Modal-->
-<ng-container *ngIf="product">
+<ng-container *ngIf="wishlistProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to remove <b>{{product.name}}</b> from your wishlist?</modalBody>
+        <modalBody>Are you sure you want to remove <b>{{wishlistProduct.name}}</b> from your wishlist?</modalBody>
         <modalDoneButton>
-            <button (click)="removeProduct(product, true)" class="btn btn-danger" data-dismiss="modal"
-                    type="button">
+            <button (click)="removeProductFromWishlist(wishlistProduct, true)"
+                    class="btn btn-danger" data-dismiss="modal" type="button">
                 Yes, Remove It
             </button>
         </modalDoneButton>

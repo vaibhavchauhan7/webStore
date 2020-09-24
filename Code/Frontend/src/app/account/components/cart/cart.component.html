@@ -27,14 +27,14 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
-            <button (click)="removeProduct(product)" [attr.data-target]="'#' + modalID"
+            <button (click)="removeProductFromCart(product)" [attr.data-target]="'#' + modalID"
                     class="removeProduct" data-toggle="modal">
                 Remove Item
             </button>
         </div>
 
         <div class="col-md-2 cartDetails text-right" style="right: 50px;">
-            <p>1</p>
+            <p>{{product.quantity}}</p>
         </div>
 
         <div class="col-md-2 cartDetails">
@@ -73,12 +73,12 @@
 </ng-container>
 
 <!--Remove Product From Cart - Confirmation Modal-->
-<ng-container *ngIf="product">
+<ng-container *ngIf="cartProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to remove <b>{{product.name}}</b> from your cart?</modalBody>
+        <modalBody>Are you sure you want to remove <b>{{cartProduct.name}}</b> from your cart?</modalBody>
         <modalDoneButton>
-            <button (click)="removeProduct(product, true)" class="btn btn-danger" data-dismiss="modal"
+            <button (click)="removeProductFromCart(cartProduct, true)" class="btn btn-danger" data-dismiss="modal"
                     type="button">
                 Yes, Remove It
             </button>

@@ -70,11 +70,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     getOrdersForCustomer(): void {
-        this.subscription$.push(this.accountService.getOrdersForCustomer().subscribe());
+        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id).subscribe());
     }
 
     getWishlistProducts(): void {
-        this.subscription$.push(this.productManagementService.initializeCartAndWishlist(this.customer.id).subscribe());
+        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
+            .subscribe()
+        );
+    }
+
+    getCartProducts(): void {
+        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
+            .subscribe()
+        );
     }
 
     logout(): void {

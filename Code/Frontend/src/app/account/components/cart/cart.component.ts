@@ -3,7 +3,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {Product} from '../../../shared/entity/models';
+import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {Cart, Customer, Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 
@@ -14,71 +15,102 @@ import {ToastService} from '../../../shared/components/toast/toast.service';
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-    cartProducts: Product[];
-    product: Product;
     modalID: string;
+    cartProduct: Cart; // Used for Remove Product Confirmation Modal
+    cartProducts: Cart[];
 
-    private subscription$: Subscription;
+    private customer: Customer;
+    private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
+                private commonControllerService: CommonControllerService,
                 private productManagementService: ProductManagementService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.productManagementService.initializeCartAndWishlist();
-        this.getCartProducts();
+        this.getCustomerObserver();
     }
 
-    getCartProducts(): void {
-        if (this.productManagementService.cartProducts.length !== 0) {
-            this.cartProducts = this.productManagementService.cartProducts;
-        } else {
-            this.cartProducts = this.productManagementService.cartProducts = [];
-        }
+    getCustomerObserver(): void {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                    this.initializeCart();
+                }
+            })
+        );
     }
 
-    removeProduct(product: Product, confirmation?: boolean): void {
-        this.product = product;
-        this.modalID = `cart_${product.id}`;
+    initializeCart(): void {
+        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
+            .subscribe((productList: Cart[]) => {
+                this.cartProducts = productList;
+            })
+        );
+    }
+
+    removeProductFromCart(cartProduct: Cart, confirmation?: boolean): void {
+        this.cartProduct = cartProduct;
+        this.modalID = `cart_${cartProduct.id}`;
         if (confirmation) {
-            this.productManagementService.removeProduct(product, 'Cart');
-            this.toastService.showToast(`${product.name} Removed!`, {classname: 'bg-success'});
-            this.resetValues();
+            this.subscription$.push(this.accountService.removeProductFromCart(cartProduct, this.customer.id)
+                .subscribe(() => {
+                    this.productManagementService.cartProducts
+                        .splice(this.productManagementService.cartProducts.indexOf(cartProduct), 1);
+                    this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: 'bg-success'});
+                    this.resetValues();
+                }, () => {
+                    this.toastService.showToast(`Couldn't Remove Product!`, {classname: 'bg-red'});
+                })
+            );
         }
     }
 
     clearCart(confirmation?: boolean): void {
         this.modalID = 'clearCart';
         if (confirmation) {
-            this.cartProducts = this.productManagementService.cartProducts = [];
-            localStorage.removeItem('cartProduct');
-            this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
-            this.resetValues();
+            this.subscription$.push(this.accountService.clearCart(this.customer.id)
+                .subscribe(() => {
+                    this.cartProducts = this.productManagementService.cartProducts = [];
+                    this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
+                    this.resetValues();
+                }, () => {
+                    this.toastService.showToast('Error in Clearing Cart!', {classname: 'bg-red'});
+                })
+            );
         }
     }
 
     checkOut(cartProducts: Product[], confirmation?: boolean): void {
         this.modalID = 'checkOut';
         if (confirmation) {
-            this.subscription$ = this.accountService.checkOut(cartProducts).subscribe(() => {
-                this.cartProducts = [];
-                localStorage.removeItem('cartProduct');
-                this.productManagementService.cartProducts = [];
-                this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
-            });
+            this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe(() => {
+                    this.subscription$.push(this.accountService.clearCart(this.customer.id)
+                        .subscribe(() => {
+                            this.cartProducts = [];
+                            this.productManagementService.cartProducts = [];
+                            this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
+                        }, () => {
+                            this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
+                        })
+                    );
+                })
+            );
             this.resetValues();
         }
     }
 
     resetValues(): void {
-        this.product = null;
+        this.cartProduct = null;
         this.modalID = '';
     }
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }
