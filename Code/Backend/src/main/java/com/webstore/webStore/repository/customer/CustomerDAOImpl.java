@@ -34,7 +34,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             while (resultSet.next()) {
                 customer.setId(resultSet.getInt("id"));
-                customer.setName(resultSet.getString("name"));
+                customer.setFirstName(resultSet.getString("first_name"));
+                customer.setLastName(resultSet.getString("last_name"));
                 customer.setEmail(resultSet.getString("email"));
                 customer.setPhone(resultSet.getString("phone"));
                 customer.setPassword(resultSet.getString("password"));

@@ -14,8 +14,9 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Name</p>
-                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.name}}"
-                                   type="text" value="{{customer.name}}"/>
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading"
+                                   name="{{customer.firstName}} {{customer.lastName}}"
+                                   type="text" value="{{customer.firstName}} {{customer.lastName}}"/>
                         </div>
                     </div>
 

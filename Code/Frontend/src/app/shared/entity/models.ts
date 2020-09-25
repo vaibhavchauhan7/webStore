@@ -13,7 +13,8 @@ export interface Contact {
 
 export interface Customer {
     id: number;
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: string;
     password: string;

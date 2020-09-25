@@ -54,7 +54,7 @@ export class ContactComponent implements OnInit, OnDestroy {
             this.toastService.showToast('Invalid Data!', {classname: 'bg-red'});
         } else {
             if (this.isCustomerAuthenticated && contactFormData.value.name === null && contactFormData.value.email === null) {
-                contactFormData.value.name = this.customer.name;
+                contactFormData.value.name = this.customer.firstName + ' ' + this.customer.lastName;
                 contactFormData.value.email = this.customer.email;
             }
             this.subscription$.push(this.contactService.customerContact(contactFormData.value)
@@ -62,7 +62,7 @@ export class ContactComponent implements OnInit, OnDestroy {
                         this.toastService.showToast('Form Successfully Submitted!', {classname: 'bg-success'});
                         contactFormData.reset();
                         if (this.isCustomerAuthenticated) {
-                            this.contactName.nativeElement.value = this.customer.name;
+                            this.contactName.nativeElement.value = this.customer.firstName + ' ' + this.customer.lastName;
                             this.contactEmail.nativeElement.value = this.customer.email;
                         }
                     }, () => {

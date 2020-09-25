@@ -10,8 +10,8 @@
                 <div class="form-group">
                     <label class="w-100">
                         <ng-container *ngIf="isCustomerAuthenticated">
-                            <input #contactName name="name" ngModel="{{customer.name}}"
-                                   readonly type="text" value="{{customer.name}}"/>
+                            <input #contactName name="name" ngModel="{{customer.firstName}} {{customer.lastName}}"
+                                   readonly type="text" value="{{customer.firstName}} {{customer.lastName}}"/>
                         </ng-container>
                         <ng-container *ngIf="!isCustomerAuthenticated">
                             <input name="name" ngModel placeholder="Your Name" required="required" type="text"/>

@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.cookieService.set('token', data.token);
                     this.commonControllerService.setCustomerData(data.customer);
                     this.commonControllerService.authenticateCustomer();
-                    this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});
+                    this.toastService.showToast(`Welcome Back, ${data.customer.firstName}`, {classname: 'bg-success'});
                     if (this.productManagementService.previousRoute) {
                         this.router.navigateByUrl(`${this.productManagementService.previousRoute}`).then();
                     } else {

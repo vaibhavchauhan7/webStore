@@ -54,20 +54,17 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     @Override
     public void customerSignUp(Customer customer) throws Exception {
-//        If Using AuthenticationRepository - Needs Work
-//        String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
-//        customer.setPassword(bCryptEncodedPassword);
-//        authenticationRepository.save(customer);
-        String sql = "{call spCustomerSignUp(?,?,?,?)}";
+        String sql = "{call spCustomerSignUp(?,?,?,?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
             String bCryptEncodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
 
-            callableStatement.setString(1, customer.getName());
-            callableStatement.setString(2, customer.getEmail());
-            callableStatement.setString(3, customer.getPhone());
-            callableStatement.setString(4, bCryptEncodedPassword);
+            callableStatement.setString(1, customer.getFirstName());
+            callableStatement.setString(2, customer.getLastName());
+            callableStatement.setString(3, customer.getEmail());
+            callableStatement.setString(4, customer.getPhone());
+            callableStatement.setString(5, bCryptEncodedPassword);
             callableStatement.execute();
 
             callableStatement.close();
