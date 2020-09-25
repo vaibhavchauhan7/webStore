@@ -11,8 +11,9 @@ export class CommonControllerService {
 
     redirectUrl = '';
 
-    customerData$ = new BehaviorSubject({} as Customer);
-    isCustomerAuthenticated$ = new BehaviorSubject(false);
+    private customerData$ = new BehaviorSubject({} as Customer);
+    private isCustomerAuthenticated$ = new BehaviorSubject(false);
+    private loadingSpinner$ = new BehaviorSubject<string>('');
 
     constructor() {
     }
@@ -41,5 +42,18 @@ export class CommonControllerService {
 
     revokeCustomerAuthentication(): void {
         this.isCustomerAuthenticated$.next(false);
+    }
+
+    // LoadingSpinner
+    getLoadingSpinnerObserver(): Observable<string> {
+        return this.loadingSpinner$.asObservable();
+    }
+
+    httpRequestInitiated(): void {
+        this.loadingSpinner$.next('start');
+    }
+
+    httpRequestCompleted(): void {
+        this.loadingSpinner$.next('stop');
     }
 }

@@ -5,6 +5,8 @@ import {Subscription} from 'rxjs';
 
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
 import {Customer} from '../../../shared/entity/models';
+import {ToastService} from '../../../shared/components/toast/toast.service';
+import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-profile',
@@ -13,12 +15,20 @@ import {Customer} from '../../../shared/entity/models';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
+    routes = {
+        account: WebStoreRouting.ACCOUNT,
+        cart: WebStoreRouting.CART,
+        orders: WebStoreRouting.ORDERS,
+        wishlist: WebStoreRouting.WISHLIST
+    };
+
     customer: Customer;
     allowEditProfile = false;
 
     private subscription$: Subscription;
 
-    constructor(private commonControllerService: CommonControllerService) {
+    constructor(private commonControllerService: CommonControllerService,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -34,7 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     saveEditedProfile(editProfileData: NgForm): void {
-        alert('Changes Saved');
+        this.toastService.showToast('Profile Updated!', {classname: 'bg-success'});
         this.toggleEditProfile();
     }
 

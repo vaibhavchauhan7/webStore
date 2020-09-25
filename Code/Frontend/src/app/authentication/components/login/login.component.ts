@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CookieService} from 'ngx-cookie-service';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WebStoreRouting} from '../../../shared/entity/constants';
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
+                private cookieService: CookieService,
                 private productManagementService: ProductManagementService,
                 private router: Router,
                 private toastService: ToastService) {
@@ -39,9 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         } else {
             this.subscription$.push(this.authenticationService.customerLogin(loginFormData.value)
                 .subscribe(data => {
-                    // TODO: Add JWT in HTTP Only Cookie and not in local storage
-                    // Local Storage - Should be the first line here otherwise lazy loaded components make API calls without JWT
-                    localStorage.setItem('token', data.token);
+                    // TODO: Make JWT Cookie HTTP Only and Secure
+                    // Set Cookie - Should be the first line here otherwise lazy loaded components make API calls without JWT
+                    this.cookieService.set('token', data.token);
                     this.commonControllerService.setCustomerData(data.customer);
                     this.commonControllerService.authenticateCustomer();
                     this.toastService.showToast(`Welcome Back, ${data.customer.name}`, {classname: 'bg-success'});

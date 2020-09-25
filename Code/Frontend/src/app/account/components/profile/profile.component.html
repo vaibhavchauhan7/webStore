@@ -1,90 +1,102 @@
-<form #editProfile="ngForm" (ngSubmit)="saveEditedProfile(editProfile)" method="post">
-    <div class="row text-center">
-        <div class="col-12">
-            <img alt="ProfilePicture" class="profilePic" src="../../../../assets/Images/Person.png">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2 col-lg-3"></div>
-
-        <div class="col-md-8 col-lg-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="primaryHeading">
-                        <p>Name</p>
-                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.name}}"
-                               type="text" value="{{customer.name}}"/>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="primaryHeading">
-                        <p>Email</p>
-                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.email}}"
-                               type="text" value="{{customer.email}}"/>
-                    </div>
-                </div>
+<ng-container *ngIf="customer">
+    <form #editProfile="ngForm" (ngSubmit)="saveEditedProfile(editProfile)" method="post">
+        <div class="row text-center">
+            <div class="col-12">
+                <img alt="ProfilePicture" class="profilePic" src="../../../../assets/Images/Person.png">
             </div>
-
-            <br/><br/>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="primaryHeading">
-                        <p>Phone</p>
-                        <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.phone}}"
-                               type="text" value="{{customer.phone}}"/>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="primaryHeading">
-                        <p>Something</p>
-                        <input class="secondaryHeading" disabled name="Something"
-                               type="text" value="Something"/>
-                    </div>
-                </div>
-            </div>
-
-            <br/>
-            <br/>
-            <hr/>
-
-            <div class="row text-center">
-                <div class="col-md-6">
-                    <button class="myOrders" routerLink="/account/orders"
-                            routerLinkActive="active">
-                        My Orders
-                    </button>
-                </div>
-
-                <div class="col-md-6">
-                    <button class="myWishlist" routerLink="/account/wishlist"
-                            routerLinkActive="active">
-                        My Wishlist
-                    </button>
-                </div>
-            </div>
-            <hr/>
-            <ng-container *ngIf="!allowEditProfile; else saveProfile">
-                <div class="text-center">
-                    <button (click)="toggleEditProfile()" class="editProfile" type="button">
-                        Edit Profile
-                    </button>
-                    <hr/>
-                </div>
-            </ng-container>
-            <ng-template #saveProfile>
-                <div class="text-center">
-                    <button class="editProfile" type="submit" value="submit">
-                        Save
-                    </button>
-                    <hr/>
-                </div>
-            </ng-template>
         </div>
 
-        <div class="col-md-2 col-lg-3"></div>
-    </div>
-</form>
+        <div class="row">
+            <div class="col-md-2 col-lg-3"></div>
+
+            <div class="col-md-8 col-lg-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="primaryHeading">
+                            <p>Name</p>
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.name}}"
+                                   type="text" value="{{customer.name}}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="primaryHeading">
+                            <p>Email</p>
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.email}}"
+                                   type="text" value="{{customer.email}}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <br/><br/>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="primaryHeading">
+                            <p>Phone</p>
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="{{customer.phone}}"
+                                   type="text" value="{{customer.phone}}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="primaryHeading">
+                            <p>Something</p>
+                            <input class="secondaryHeading" disabled name="Something"
+                                   type="text" value="Something"/>
+                        </div>
+                    </div>
+                </div>
+
+                <br/>
+                <br/>
+                <hr/>
+
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <button class="myOrders" routerLink="/{{routes.account}}/{{routes.orders}}"
+                                routerLinkActive="active"
+                                type="button">
+                            My Orders
+                        </button>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button class="myWishlist" routerLink="/{{routes.account}}/{{routes.wishlist}}"
+                                routerLinkActive="active"
+                                type="button">
+                            My Wishlist
+                        </button>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button class="myCart" routerLink="/{{routes.account}}/{{routes.cart}}"
+                                routerLinkActive="active"
+                                type="button">
+                            My Cart
+                        </button>
+                    </div>
+                </div>
+                <hr/>
+                <ng-container *ngIf="!allowEditProfile; else saveProfile">
+                    <div class="text-center">
+                        <button (click)="toggleEditProfile()" class="editProfile" type="button">
+                            Edit Profile
+                        </button>
+                        <hr/>
+                    </div>
+                </ng-container>
+                <ng-template #saveProfile>
+                    <div class="text-center">
+                        <button class="editProfile" type="submit" value="submit">
+                            Save
+                        </button>
+                        <hr/>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="col-md-2 col-lg-3"></div>
+        </div>
+    </form>
+</ng-container>

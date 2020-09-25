@@ -24,6 +24,11 @@ public class CartController {
         return cartService.getCartProducts(customerID);
     }
 
+    @PostMapping("/checkout/{customerID}")
+    public Boolean checkOut(@RequestBody List<Product> cartProducts, @PathVariable Integer customerID) {
+        return cartService.checkOut(cartProducts, customerID);
+    }
+
     @PostMapping("/cart/addProduct/{customerID}")
     public void addProductToCart(@PathVariable Integer customerID, @RequestBody Product product) {
         cartService.addRemoveCartProducts(product, customerID, "Cart", 0);

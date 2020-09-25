@@ -11,20 +11,23 @@ import {
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-import {LoadingSpinnerService} from '../../components/loading-spinner/loading-spinner.service';
+import {CookieService} from 'ngx-cookie-service';
+import {CommonControllerService} from '../common-controller.service';
 
 @Injectable()
 export class HttpRequestHandler implements HttpInterceptor {
 
-    constructor(private loadingSpinnerService: LoadingSpinnerService) {
+    constructor(private cookieService: CookieService,
+                private commonControllerService: CommonControllerService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loadingSpinnerService.httpRequestInitiated();
+        const tokenCookie = this.cookieService.get('token');
+        this.commonControllerService.httpRequestInitiated();
 
-        if ('token' in localStorage) {
+        if (tokenCookie) {
             const authRequest = request.clone({
-                setHeaders: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                setHeaders: {Authorization: `Bearer ${tokenCookie}`}
             });
             // return next.handle(authRequest);
             return this.requestHandler(authRequest, next);
@@ -37,10 +40,10 @@ export class HttpRequestHandler implements HttpInterceptor {
         return next.handle(request).pipe(
             tap(event => {
                 if (event instanceof HttpResponse) {
-                    this.loadingSpinnerService.httpRequestCompleted();
+                    this.commonControllerService.httpRequestCompleted();
                 }
             }, (error: HttpErrorResponse) => {
-                this.loadingSpinnerService.resetLoadingSpinner();
+                this.commonControllerService.httpRequestCompleted();
                 throw error;
             })
         );

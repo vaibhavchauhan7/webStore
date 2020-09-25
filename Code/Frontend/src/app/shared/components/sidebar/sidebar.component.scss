@@ -77,6 +77,11 @@ a {
     }
 }
 
+.wsHello {
+    padding: 10px;
+    background-color: $webStorePrimaryColor;
+}
+
 .dropdown-toggle {
     &::after {
         display: block;

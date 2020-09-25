@@ -11,6 +11,8 @@ public interface CartDAO {
 
     List<Cart> getCartProducts(Integer customerID);
 
+    Boolean checkOut(List<Product> cartProducts, Integer customerID);
+
     void addRemoveCartProducts(Product product, Integer customerID, String productType, Integer removeProduct);
 
     void clearCart(Integer customerID);

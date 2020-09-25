@@ -24,6 +24,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Boolean checkOut(List<Product> cartProducts, Integer customerID) {
+        return cartDAO.checkOut(cartProducts, customerID);
+    }
+
+    @Override
     public void addRemoveCartProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
         cartDAO.addRemoveCartProducts(product, customerID, productType, removeProduct);
     }

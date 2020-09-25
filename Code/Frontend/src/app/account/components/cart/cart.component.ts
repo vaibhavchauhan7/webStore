@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
@@ -7,6 +8,7 @@ import {CommonControllerService} from '../../../shared/services/common-controlle
 import {Cart, Customer, Product} from '../../../shared/entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
+import {WebStoreRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-cart',
@@ -25,6 +27,7 @@ export class CartComponent implements OnInit, OnDestroy {
     constructor(private accountService: AccountService,
                 private commonControllerService: CommonControllerService,
                 private productManagementService: ProductManagementService,
+                private router: Router,
                 private toastService: ToastService) {
     }
 
@@ -91,6 +94,7 @@ export class CartComponent implements OnInit, OnDestroy {
                             this.cartProducts = [];
                             this.productManagementService.cartProducts = [];
                             this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
+                            this.router.navigateByUrl(`/${WebStoreRouting.ACCOUNT}/${WebStoreRouting.ORDERS}`).then();
                         }, () => {
                             this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
                         })

@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../../account/account.service';
 import {CommonControllerService} from '../../services/common-controller.service';
+import {CookieService} from 'ngx-cookie-service';
 import {Customer} from '../../entity/models';
 import {ProductManagementService} from '../../../product/services/product-management.service';
 import {SidebarService} from './sidebar.service';
@@ -35,6 +36,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     constructor(private accountService: AccountService,
                 private commonControllerService: CommonControllerService,
+                private cookieService: CookieService,
                 private productManagementService: ProductManagementService,
                 private sidebarService: SidebarService,
                 private toastService: ToastService) {
@@ -87,7 +89,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     logout(): void {
         // TODO: Improvise Logout
-        localStorage.clear();
+        this.cookieService.delete('token');
         this.commonControllerService.revokeCustomerAuthentication();
         this.commonControllerService.resetCustomerData();
         this.productManagementService.previousRoute = '/';

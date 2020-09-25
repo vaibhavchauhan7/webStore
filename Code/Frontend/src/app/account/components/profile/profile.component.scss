@@ -42,10 +42,10 @@ input:focus::placeholder {
 }
 
 /*Edit Profile*/
-.editProfile, .myOrders, .myWishlist {
+.editProfile, .myOrders, .myWishlist, .myCart {
     border: 2px solid black;
     border-radius: 10px;
-    width: 200px;
+    width: inherit;
     height: 55px;
     color: black;
     background-color: transparent;
@@ -55,6 +55,10 @@ input:focus::placeholder {
     text-align: center;
     display: inline-block;
     outline: none;
+}
+
+.editProfile {
+    width: 200px;
 }
 
 .editProfile:hover {
@@ -81,6 +85,17 @@ input:focus::placeholder {
 
 .myWishlist:hover {
     background-color: red;
+    color: white;
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
+}
+
+.myCart {
+    border: 2px solid #0fa336;
+    color: #0fa336;
+}
+
+.myCart:hover {
+    background-color: #0fa336;
     color: white;
     /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
 }

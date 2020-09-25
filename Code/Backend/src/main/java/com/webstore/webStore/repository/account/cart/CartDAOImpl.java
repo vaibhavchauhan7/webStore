@@ -56,6 +56,26 @@ public class CartDAOImpl implements CartDAO {
     }
 
     @Override
+    public Boolean checkOut(List<Product> cartProducts, Integer customerID) {
+        String sql = "{call spInsertAndGetOrdersForCustomer(?,?)}";
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            CallableStatement callableStatement = connection.prepareCall(sql);
+
+            callableStatement.setInt(1, customerID);
+            for (Product cartProduct : cartProducts) {
+                callableStatement.setInt(2, cartProduct.getId());
+                callableStatement.execute();
+            }
+
+            callableStatement.close();
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public void addRemoveCartProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
         String sql = "{call spManageCartWishlist(?,?,?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
@@ -76,7 +96,7 @@ public class CartDAOImpl implements CartDAO {
 
     @Override
     public void clearCart(Integer customerID) {
-        String sql = "{call spClearCartOrWishlist(?,'Cart')}";
+        String sql = "{call spClearCartWishlist(?,'Cart')}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 
 import {Subscription} from 'rxjs';
 
-import {LoadingSpinnerService} from './loading-spinner.service';
+import {CommonControllerService} from '../../services/common-controller.service';
 
 @Component({
     selector: 'app-loading-spinner',
@@ -16,7 +16,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
     private subscription$: Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
-                private loadingSpinnerService: LoadingSpinnerService) {
+                private commonControllerService: CommonControllerService) {
     }
 
     ngOnInit(): void {
@@ -24,7 +24,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
     }
 
     initializeLoadingSpinner(): void {
-        this.subscription$ = this.loadingSpinnerService.getLoadingSpinnerObserver().subscribe((status: string) => {
+        this.subscription$ = this.commonControllerService.getLoadingSpinnerObserver().subscribe((status: string) => {
             this.showLoadingSpinner = status === 'start';
             this.changeDetectorRef.detectChanges();
         });

@@ -7,6 +7,7 @@ import {filter, map} from 'rxjs/operators';
 
 import {AuthenticationService} from './authentication/services/authentication.service';
 import {CommonControllerService} from './shared/services/common-controller.service';
+import {CookieService} from 'ngx-cookie-service';
 import {Customer} from './shared/entity/models';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
 
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(private activatedRoute: ActivatedRoute,
                 private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
+                private cookieService: CookieService,
                 private router: Router,
                 private sidebarService: SidebarService,
                 private titleService: Title) {
@@ -37,13 +39,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     checkCustomerAuthentication(): void {
-        if ('token' in localStorage) {
-            this.getCustomerDataByToken();
+        const tokenCookie = this.cookieService.get('token');
+        if (tokenCookie) {
+            this.getCustomerDataByToken(tokenCookie);
         }
     }
 
-    getCustomerDataByToken(): void {
-        this.subscription$.push(this.authenticationService.getCustomerDataByToken(localStorage.getItem('token'))
+    getCustomerDataByToken(tokenCookie): void {
+        this.subscription$.push(this.authenticationService.getCustomerDataByToken(tokenCookie)
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.commonControllerService.setCustomerData(customer);

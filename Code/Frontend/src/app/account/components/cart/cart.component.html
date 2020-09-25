@@ -28,7 +28,7 @@
                 {{product.name}}
             </p>
             <button (click)="removeProductFromCart(product)" [attr.data-target]="'#' + modalID"
-                    class="removeProduct" data-toggle="modal">
+                    class="removeProduct" data-toggle="modal" type="button">
                 Remove Item
             </button>
         </div>
@@ -53,18 +53,17 @@
     <div class="row mt-p5">
         <div class="col-12 text-center">
             <button (click)="clearCart()" [attr.data-target]="'#' + modalID" [disabled]="cartProducts.length === 0"
-                    class="removeProduct clearCart" data-toggle="modal">
+                    class="removeProduct clearCart" data-toggle="modal" type="button">
                 Clear Cart
             </button>&nbsp; &nbsp;
 
-            <button class="continueShopping"
-                    routerLink="/"
-                    routerLinkActive="active">
+            <button class="continueShopping" routerLink="/"
+                    routerLinkActive="active" type="button">
                 Continue Shopping
             </button>&nbsp; &nbsp;
 
             <button (click)="checkOut(cartProducts)" [attr.data-target]="'#' + modalID"
-                    [disabled]="cartProducts.length === 0" class="checkout" data-toggle="modal">
+                    [disabled]="cartProducts.length === 0" class="checkout" data-toggle="modal" type="button">
                 Checkout
             </button>
         </div>
@@ -78,8 +77,8 @@
         <modalTitle>Warning</modalTitle>
         <modalBody>Are you sure you want to remove <b>{{cartProduct.name}}</b> from your cart?</modalBody>
         <modalDoneButton>
-            <button (click)="removeProductFromCart(cartProduct, true)" class="btn btn-danger" data-dismiss="modal"
-                    type="button">
+            <button (click)="removeProductFromCart(cartProduct, true)"
+                    class="btn btn-danger" data-dismiss="modal" type="button">
                 Yes, Remove It
             </button>
         </modalDoneButton>
@@ -98,8 +97,8 @@
         <modalTitle>Warning</modalTitle>
         <modalBody>Are you sure you want to clear your cart?</modalBody>
         <modalDoneButton>
-            <button (click)="clearCart(true)" class="btn btn-danger" data-dismiss="modal"
-                    type="button">
+            <button (click)="clearCart(true)" class="btn btn-danger"
+                    data-dismiss="modal" type="button">
                 Yes, Clear Cart
             </button>
         </modalDoneButton>
@@ -118,8 +117,8 @@
         <modalTitle>Alert</modalTitle>
         <modalBody>Are you sure you are ready to checkout?</modalBody>
         <modalDoneButton>
-            <button (click)="checkOut(cartProducts,true)" class="btn btn-success" data-dismiss="modal"
-                    type="button">
+            <button (click)="checkOut(cartProducts,true)" class="btn btn-success"
+                    data-dismiss="modal" type="button">
                 Yes, Checkout
             </button>
         </modalDoneButton>

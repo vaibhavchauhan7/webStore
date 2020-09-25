@@ -75,7 +75,7 @@ public class WishlistDAOImpl implements WishlistDAO {
 
     @Override
     public void clearWishlist(Integer customerID) {
-        String sql = "{call spClearCartOrWishlist(?,'Wishlist')}";
+        String sql = "{call spClearCartWishlist(?,'Wishlist')}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 

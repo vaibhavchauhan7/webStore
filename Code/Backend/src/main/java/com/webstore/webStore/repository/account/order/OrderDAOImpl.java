@@ -1,7 +1,6 @@
 package com.webstore.webStore.repository.account.order;
 
 import com.webstore.webStore.entity.account.Order;
-import com.webstore.webStore.entity.product.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -59,25 +58,5 @@ public class OrderDAOImpl implements OrderDAO {
             exception.printStackTrace();
         }
         return orders;
-    }
-
-    @Override
-    public Boolean checkOut(List<Product> cartProducts, Integer customerID) {
-        String sql = "{call spInsertAndGetOrdersForCustomer(?,?)}";
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            CallableStatement callableStatement = connection.prepareCall(sql);
-
-            callableStatement.setInt(1, customerID);
-            for (Product cartProduct : cartProducts) {
-                callableStatement.setInt(2, cartProduct.getId());
-                callableStatement.execute();
-            }
-
-            callableStatement.close();
-            return true;
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return false;
     }
 }

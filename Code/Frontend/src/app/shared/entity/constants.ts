@@ -39,16 +39,16 @@ export enum WebStoreTitle {
 }
 
 export enum WebStoreCart {
-    ADDED_TO_CART = 'Added to Cart!',
-    ALREADY_IN_CART = 'Already in Cart!',
+    ADDED_TO_CART = 'Added to Cart',
+    ALREADY_IN_CART = 'Already in Cart',
     CLASS_ADDED_TO_CART = 'cartButton',
     DEFAULT_BUTTON_TITLE = 'Add to Cart',
     DEFAULT_CLASS = 'cart'
 }
 
 export enum WebStoreWishlist {
-    ADDED_TO_WISHLIST = 'Added to Wishlist!',
-    ALREADY_IN_WISHLIST = 'Already in Wishlist!',
+    ADDED_TO_WISHLIST = 'Added to Wishlist',
+    ALREADY_IN_WISHLIST = 'Already in Wishlist',
     CLASS_ADDED_TO_WISHLIST = 'wishlistButton',
     DEFAULT_BUTTON_TITLE = 'Add to Wishlist',
     DEFAULT_CLASS = 'wishlist'
