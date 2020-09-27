@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthenticationDAO {
 
-    void customerSignUp(Customer customer) throws Exception;
+    void customerSignUp(Customer customer);
 
     ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception;
+
+    void updatePassword(Customer customer, String newPassword);
 }

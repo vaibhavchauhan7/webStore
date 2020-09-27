@@ -46,6 +46,8 @@ export class WishlistComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
             .subscribe((productList: Wishlist[]) => {
                 this.wishlistProducts = productList;
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Wishlist!`, {classname: 'bg-red'});
             })
         );
     }
@@ -76,7 +78,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
                     this.toastService.showToast('Wishlist Cleared!', {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
-                    this.toastService.showToast('Error in Clearing Wishlist!', {classname: 'bg-red'});
+                    this.toastService.showToast('Error Clearing Wishlist!', {classname: 'bg-red'});
                 })
             );
         }

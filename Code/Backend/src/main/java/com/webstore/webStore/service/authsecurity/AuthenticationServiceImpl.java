@@ -23,11 +23,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void customerSignUp(Customer customer) throws Exception {
+    public void customerSignUp(Customer customer) {
         Customer dbCustomer = customerDAO.getCustomerByEmail(customer.getEmail());
-        if (dbCustomer.getEmail() != null) {
-            throw new Exception("Customer Already Exist");
-        } else {
+        if (dbCustomer.getEmail() == null) {
             authenticationDAO.customerSignUp(customer);
         }
     }
@@ -35,5 +33,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception {
         return authenticationDAO.customerLogin(authenticationRequest);
+    }
+
+    @Override
+    public void updatePassword(Customer customer, String newPassword) {
+        authenticationDAO.updatePassword(customer, newPassword);
     }
 }

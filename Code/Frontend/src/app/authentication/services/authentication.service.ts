@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 
-import {Customer, Login, SignUp} from '../../shared/entity/models';
+import {Customer, ForgotPassword, Login, SignUp, UpdatePassword} from '../../shared/entity/models';
 import {WebStoreAPI} from '../../shared/entity/constants';
 
 @Injectable({
@@ -24,5 +24,13 @@ export class AuthenticationService {
 
     getCustomerDataByToken(token): Observable<Customer> {
         return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/details/${token}`);
+    }
+
+    forgotPassword(forgotPasswordFormValue: ForgotPassword): Observable<boolean> {
+        return this.http.post<boolean>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.FORGOT}/confirmAccount`, forgotPasswordFormValue);
+    }
+
+    updatePassword(updatePasswordFormValue: UpdatePassword): Observable<void> {
+        return this.http.post<void>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.FORGOT}/updatePassword`, updatePasswordFormValue);
     }
 }

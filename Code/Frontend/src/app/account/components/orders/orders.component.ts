@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {AccountService} from '../../account.service';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
 import {Customer, Order} from '../../../shared/entity/models';
+import {ToastService} from '../../../shared/components/toast/toast.service';
 
 @Component({
     selector: 'app-orders',
@@ -19,7 +20,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
-                private commonControllerService: CommonControllerService) {
+                private commonControllerService: CommonControllerService,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -40,6 +42,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id)
             .subscribe((orderList: Order[]) => {
                 this.orders = orderList;
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Orders!`, {classname: 'bg-red'});
             })
         );
     }

@@ -36,6 +36,7 @@ public class SecurityController extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/sign-up").permitAll().and()
                 .authorizeRequests().antMatchers("/login").permitAll().and()
+                .authorizeRequests().antMatchers("/forgot/**").permitAll().and()
                 .authorizeRequests().antMatchers("/contact").permitAll().and()
                 .authorizeRequests().antMatchers("/products").permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().and()

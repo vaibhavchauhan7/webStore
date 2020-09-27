@@ -80,6 +80,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
             })
         );
     }
@@ -88,6 +90,8 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Wishlist!`, {classname: 'bg-red'});
             })
         );
     }
@@ -100,6 +104,8 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.product = product;
                 this.titleService.setTitle(`webStore - ${this.product.name}`);
                 this.checkProductAvailability(this.product);
+            }, () => {
+                this.toastService.showToast(`Error - Couldn't Get This Product!`, {classname: 'bg-red'});
             }
         ));
     }

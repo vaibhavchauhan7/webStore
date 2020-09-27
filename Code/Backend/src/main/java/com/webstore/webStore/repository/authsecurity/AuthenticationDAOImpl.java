@@ -53,7 +53,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     }
 
     @Override
-    public void customerSignUp(Customer customer) throws Exception {
+    public void customerSignUp(Customer customer) {
         String sql = "{call spCustomerSignUp(?,?,?,?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
@@ -69,7 +69,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
             callableStatement.close();
         } catch (SQLException sqlException) {
-            throw new Exception("Couldn't SignUp. An error occurred!", sqlException);
+            sqlException.printStackTrace();
         }
     }
 
@@ -87,5 +87,24 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(customerDAO.getCustomerByEmail(authenticationRequest.getEmail()), token));
+    }
+
+    @Override
+    public void updatePassword(Customer customer, String newPassword) {
+        String sql = "{call spForgotPassword(?,?,?)}";
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            CallableStatement callableStatement = connection.prepareCall(sql);
+
+            String bCryptEncodedPassword = bCryptPasswordEncoder.encode(newPassword);
+
+            callableStatement.setString(1, customer.getEmail());
+            callableStatement.setString(2, customer.getPhone());
+            callableStatement.setString(3, bCryptEncodedPassword);
+            callableStatement.execute();
+
+            callableStatement.close();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 }

@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     };
 
     customer: Customer;
+    customerFullName: string;
     isCustomerAuthenticated: boolean;
     isSidebarOpen: boolean;
 
@@ -51,6 +52,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
+                    this.customerFullName = this.customer.firstName + ' ' + this.customer.lastName;
                     this.getCustomerAuthenticationObserver();
                 }
             })
@@ -72,19 +74,27 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     getOrdersForCustomer(): void {
-        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id).subscribe());
+        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id).subscribe(() => {
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Orders!`, {classname: 'bg-red'});
+            }
+        ));
     }
 
     getWishlistProducts(): void {
-        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
-            .subscribe()
-        );
+        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id).subscribe(() => {
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Wishlist!`, {classname: 'bg-red'});
+            }
+        ));
     }
 
     getCartProducts(): void {
-        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
-            .subscribe()
-        );
+        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id).subscribe(() => {
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
+            }
+        ));
     }
 
     logout(): void {

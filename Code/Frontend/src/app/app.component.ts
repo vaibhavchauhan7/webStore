@@ -10,6 +10,7 @@ import {CommonControllerService} from './shared/services/common-controller.servi
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from './shared/entity/models';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
+import {ToastService} from './shared/components/toast/toast.service';
 
 @Component({
     selector: 'app-root',
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 private cookieService: CookieService,
                 private router: Router,
                 private sidebarService: SidebarService,
-                private titleService: Title) {
+                private titleService: Title,
+                private toastService: ToastService) {
     }
 
     ngOnInit(): void {
@@ -52,6 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.commonControllerService.setCustomerData(customer);
                     this.commonControllerService.authenticateCustomer();
                 }
+            }, () => {
+                this.toastService.showToast(`An Error Occurred - Please Try Refreshing Page!`, {classname: 'bg-red'});
             })
         );
     }

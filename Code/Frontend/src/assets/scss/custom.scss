@@ -28,6 +28,8 @@
     top: 2px;
     z-index: inherit;
     border-radius: 20px;
+    min-width: 300px;
+    max-width: max-content;
 }
 
 .image-size {

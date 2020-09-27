@@ -49,6 +49,8 @@ export class CartComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
             .subscribe((productList: Cart[]) => {
                 this.cartProducts = productList;
+            }, () => {
+                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
             })
         );
     }
@@ -79,7 +81,7 @@ export class CartComponent implements OnInit, OnDestroy {
                     this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
-                    this.toastService.showToast('Error in Clearing Cart!', {classname: 'bg-red'});
+                    this.toastService.showToast('Error Clearing Cart!', {classname: 'bg-red'});
                 })
             );
         }
@@ -99,6 +101,8 @@ export class CartComponent implements OnInit, OnDestroy {
                             this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
                         })
                     );
+                }, () => {
+                    this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
                 })
             );
             this.resetValues();

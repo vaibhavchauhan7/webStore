@@ -5,6 +5,7 @@ export enum WebStoreAPI {
     CONTACT = 'contact',
     CUSTOMERS = 'customers',
     CUSTOMER = 'customer',
+    FORGOT = 'forgot',
     LOGIN = 'login',
     ORDERS = 'orders',
     PRODUCTS = 'products',
@@ -16,6 +17,7 @@ export enum WebStoreRouting {
     ACCOUNT = 'account',
     CART = 'cart',
     CONTACT = 'contact',
+    FORGOT = 'forgot',
     LOGIN = 'login',
     ORDERS = 'orders',
     PAGE_NOT_FOUND = 'page-not-found',
@@ -29,6 +31,7 @@ export enum WebStoreRouting {
 export enum WebStoreTitle {
     CART = 'webStore - Cart',
     CONTACT = 'webStore - Contact',
+    FORGOT = 'webStore - Forgot Password',
     HOME = 'webStore - Home',
     LOGIN = 'webStore - Login',
     ORDERS = 'webStore - Orders',

@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
+import {ForgotPasswordComponent} from './authentication/components/forgot-password/forgot-password.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './authentication/components/login/login.component';
 import {ProductComponent} from './product/product.component';
@@ -37,6 +38,11 @@ const routes: Routes = [
         path: `${WebStoreRouting.SIGN_UP}`,
         component: SignUpComponent,
         data: {title: `${WebStoreTitle.SIGN_UP}`}
+    },
+    {
+        path: `${WebStoreRouting.FORGOT}`,
+        component: ForgotPasswordComponent,
+        data: {title: `${WebStoreTitle.FORGOT}`}
     },
     {
         path: `${WebStoreRouting.PAGE_NOT_FOUND}`,

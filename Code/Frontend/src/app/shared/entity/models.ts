@@ -20,6 +20,11 @@ export interface Customer {
     password: string;
 }
 
+export interface ForgotPassword {
+    email: string;
+    phone: string;
+}
+
 export interface Login {
     name: string;
     password: string;
@@ -62,6 +67,11 @@ export interface Toast {
     delay: number;
     options: {};
     toastMessage: string;
+}
+
+export interface UpdatePassword {
+    email: string;
+    password: string;
 }
 
 export interface Wishlist extends Product {

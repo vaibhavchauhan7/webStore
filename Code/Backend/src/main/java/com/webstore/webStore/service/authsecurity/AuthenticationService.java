@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 @Service("authenticationService")
 public interface AuthenticationService {
 
-    void customerSignUp(Customer customer) throws Exception;
+    void customerSignUp(Customer customer);
 
     ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception;
+
+    void updatePassword(Customer customer, String newPassword);
 }

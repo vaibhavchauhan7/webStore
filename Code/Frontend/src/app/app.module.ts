@@ -10,6 +10,7 @@ import {CommonControllerService} from './shared/services/common-controller.servi
 import {ContactService} from './contact/contact.service';
 import {CookieService} from 'ngx-cookie-service';
 import {FooterComponent} from './shared/components/footer/footer.component';
+import {ForgotPasswordComponent} from './authentication/components/forgot-password/forgot-password.component';
 import {HeaderComponent} from './shared/components/header/header.component';
 import {HomeComponent} from './home/home.component';
 import {HttpController} from './shared/services/http-interceptors/http-controller';
@@ -29,6 +30,7 @@ import {ToastComponent} from './shared/components/toast/toast.component';
     declarations: [
         AppComponent,
         FooterComponent,
+        ForgotPasswordComponent,
         HeaderComponent,
         HomeComponent,
         LoadingSpinnerComponent,
