@@ -3,6 +3,7 @@ import {NgForm} from '@angular/forms';
 
 import {Subscription} from 'rxjs';
 
+import {AccountService} from '../../account.service';
 import {CommonControllerService} from '../../../shared/services/common-controller.service';
 import {Customer} from '../../../shared/entity/models';
 import {ToastService} from '../../../shared/components/toast/toast.service';
@@ -25,9 +26,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     customer: Customer;
     allowEditProfile = false;
 
-    private subscription$: Subscription;
+    private subscription$: Subscription[] = [];
 
-    constructor(private commonControllerService: CommonControllerService,
+    constructor(private accountService: AccountService,
+                private commonControllerService: CommonControllerService,
                 private toastService: ToastService) {
     }
 
@@ -36,16 +38,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     getCustomerObserver(): void {
-        this.subscription$ = this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
-            if (customer && Object.keys(customer).length !== 0) {
-                this.customer = customer;
-            }
-        });
+        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+            .subscribe((customer: Customer) => {
+                if (customer && Object.keys(customer).length !== 0) {
+                    this.customer = customer;
+                }
+            })
+        );
     }
 
     saveEditedProfile(editProfileData: NgForm): void {
-        this.toastService.showToast('Profile Updated!', {classname: 'bg-success'});
-        this.toggleEditProfile();
+        editProfileData.value.id = +editProfileData.value.id;
+        if (editProfileData.value.firstName !== '' || editProfileData.value.lastName !== ''
+            || editProfileData.value.email !== '' || editProfileData.value.phone !== '') {
+            // TODO: Stabilize Profile Update with Verification Conditions
+            this.subscription$.push(this.accountService.updateCustomerProfile(editProfileData.value)
+                .subscribe((customer: Customer) => {
+                    this.commonControllerService.setCustomerData(customer);
+                    this.toggleEditProfile();
+                    this.toastService.showToast('Profile Updated!', {classname: 'bg-success'});
+                }, () => {
+                    this.toastService.showToast(`Couldn't Update Profile!`,
+                        {classname: 'bg-red'});
+                })
+            );
+        } else {
+            this.toastService.showToast(`Couldn't Update Empty Fields!`, {classname: 'bg-red'});
+        }
     }
 
     toggleEditProfile(): void {
@@ -54,7 +73,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         if (this.subscription$) {
-            this.subscription$.unsubscribe();
+            this.subscription$.forEach(subscription => {
+                subscription.unsubscribe();
+            });
         }
     }
 }

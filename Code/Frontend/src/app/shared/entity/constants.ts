@@ -9,6 +9,7 @@ export enum WebStoreAPI {
     LOGIN = 'login',
     ORDERS = 'orders',
     PRODUCTS = 'products',
+    PROFILE = 'profile',
     SIGN_UP = 'sign-up',
     WISHLIST = 'wishlist'
 }

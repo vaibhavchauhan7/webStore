@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 
-import {Cart, Order, Product, Wishlist} from '../shared/entity/models';
+import {Cart, Customer, Order, Product, Wishlist} from '../shared/entity/models';
 import {WebStoreAPI} from '../shared/entity/constants';
 
 @Injectable({
@@ -12,6 +12,11 @@ import {WebStoreAPI} from '../shared/entity/constants';
 export class AccountService {
 
     constructor(private http: HttpClient) {
+    }
+
+    updateCustomerProfile(editProfileDataValue: Customer): Observable<Customer> {
+        const updateProfileURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PROFILE}/update`;
+        return this.http.post<Customer>(updateProfileURL, editProfileDataValue);
     }
 
     getOrdersForCustomer(customerID: number): Observable<Order[]> {
