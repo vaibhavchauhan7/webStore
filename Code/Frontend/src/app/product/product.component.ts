@@ -102,7 +102,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.productManagementService.selectedProduct(+productID).subscribe(
             (product: Product) => {
                 this.product = product;
-                this.titleService.setTitle(`webStore - ${this.product.name}`);
+                this.titleService.setTitle(`webStore : ${this.product.name}`);
                 this.checkProductAvailability(this.product);
             }, () => {
                 this.toastService.showToast(`Error - Couldn't Get This Product!`, {classname: 'bg-red'});

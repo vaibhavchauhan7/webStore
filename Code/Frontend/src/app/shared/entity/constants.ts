@@ -30,16 +30,16 @@ export enum WebStoreRouting {
 }
 
 export enum WebStoreTitle {
-    CART = 'webStore - Cart',
-    CONTACT = 'webStore - Contact',
-    FORGOT = 'webStore - Forgot Password',
-    HOME = 'webStore - Home',
-    LOGIN = 'webStore - Login',
-    ORDERS = 'webStore - Orders',
-    PAGE_NOT_FOUND = 'webStore - Page Not Found',
-    PROFILE = 'webStore - Profile',
-    SIGN_UP = 'webStore - Sign Up',
-    WISHLIST = 'webStore - Wishlist'
+    CART = 'webStore : Cart',
+    CONTACT = 'webStore : Contact',
+    FORGOT = 'webStore : Forgot Password',
+    HOME = 'webStore : Home',
+    LOGIN = 'webStore : Login',
+    ORDERS = 'webStore : Orders',
+    PAGE_NOT_FOUND = 'webStore : Page Not Found',
+    PROFILE = 'webStore : Profile',
+    SIGN_UP = 'webStore : Sign Up',
+    WISHLIST = 'webStore : Wishlist'
 }
 
 export enum WebStoreCart {

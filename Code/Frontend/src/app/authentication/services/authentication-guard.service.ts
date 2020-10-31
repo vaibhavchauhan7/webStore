@@ -32,6 +32,7 @@ export class AuthenticationGuardService implements CanActivate {
         if (this.isCustomerAuthenticated) {
             return true;
         }
+        // TODO: Maybe I don't need 'redirectUrl'. It is replaced by 'previousRoute' at various places.
         this.commonControllerService.redirectUrl = url;
         this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
 

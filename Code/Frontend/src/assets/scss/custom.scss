@@ -1,3 +1,5 @@
+@import 'src/assets/scss/variables';
+
 .vh-n51 {
     height: calc(100vh - 51px) !important;
 }
@@ -20,6 +22,22 @@
 
 .emptyText {
     font-size: 40px;
+}
+
+.br-20 {
+    border-radius: 20px !important;
+}
+
+.btn-web {
+    background-color: $webStorePrimaryColor;
+    border-color: $webStorePrimaryColor;
+    color: $white;
+}
+
+.btn-web:hover {
+    background-color: $webStoreSecondaryColor;
+    border-color: $webStoreSecondaryColor;
+    color: $white;
 }
 
 .custom-toast {

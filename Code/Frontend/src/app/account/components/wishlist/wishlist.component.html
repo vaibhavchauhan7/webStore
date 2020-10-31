@@ -59,15 +59,15 @@
 <ng-container *ngIf="wishlistProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to remove <b>{{wishlistProduct.name}}</b> from your wishlist?</modalBody>
+        <modalBody><b>{{wishlistProduct.name}}</b> will be removed from your wishlist?</modalBody>
         <modalDoneButton>
             <button (click)="removeProductFromWishlist(wishlistProduct, true)"
-                    class="btn btn-danger" data-dismiss="modal" type="button">
+                    class="btn btn-web br-20" data-dismiss="modal" type="button">
                 Yes, Remove It
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary"
+            <button (click)="resetValues()" class="btn btn-secondary br-20"
                     data-dismiss="modal" type="button">
                 No, Keep It
             </button>
@@ -81,13 +81,13 @@
         <modalTitle>Warning</modalTitle>
         <modalBody>Are you sure you want to clear your wishlist?</modalBody>
         <modalDoneButton>
-            <button (click)="clearWishlist(true)" class="btn btn-danger" data-dismiss="modal"
-                    type="button">
+            <button (click)="clearWishlist(true)" class="btn btn-web br-20"
+                    data-dismiss="modal" type="button">
                 Yes, Clear Wishlist
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary"
+            <button (click)="resetValues()" class="btn btn-secondary br-20"
                     data-dismiss="modal" type="button">
                 No, Keep Everything
             </button>

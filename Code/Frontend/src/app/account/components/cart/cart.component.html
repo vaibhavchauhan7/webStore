@@ -75,15 +75,15 @@
 <ng-container *ngIf="cartProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to remove <b>{{cartProduct.name}}</b> from your cart?</modalBody>
+        <modalBody><b>{{cartProduct.name}}</b> will be removed from your cart?</modalBody>
         <modalDoneButton>
             <button (click)="removeProductFromCart(cartProduct, true)"
-                    class="btn btn-danger" data-dismiss="modal" type="button">
+                    class="btn btn-web br-20" data-dismiss="modal" type="button">
                 Yes, Remove It
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary"
+            <button (click)="resetValues()" class="btn btn-secondary br-20"
                     data-dismiss="modal" type="button">
                 No, Keep It
             </button>
@@ -97,13 +97,13 @@
         <modalTitle>Warning</modalTitle>
         <modalBody>Are you sure you want to clear your cart?</modalBody>
         <modalDoneButton>
-            <button (click)="clearCart(true)" class="btn btn-danger"
+            <button (click)="clearCart(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">
                 Yes, Clear Cart
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary"
+            <button (click)="resetValues()" class="btn btn-secondary br-20"
                     data-dismiss="modal" type="button">
                 No, Keep Everything
             </button>
@@ -117,13 +117,13 @@
         <modalTitle>Alert</modalTitle>
         <modalBody>Are you sure you are ready to checkout?</modalBody>
         <modalDoneButton>
-            <button (click)="checkOut(cartProducts,true)" class="btn btn-success"
+            <button (click)="checkOut(cartProducts,true)" class="btn btn-success br-20"
                     data-dismiss="modal" type="button">
                 Yes, Checkout
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary"
+            <button (click)="resetValues()" class="btn btn-secondary br-20"
                     data-dismiss="modal" type="button">
                 No, Take Me Back
             </button>
