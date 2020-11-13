@@ -1,4 +1,5 @@
 export enum WebStoreAPI {
+    AUTHENTICATION = 'authentication',
     BASE_URL = 'webStoreAPI',
     CART = 'cart',
     CHECKOUT = 'checkout',
@@ -7,6 +8,7 @@ export enum WebStoreAPI {
     CUSTOMER = 'customer',
     FORGOT = 'forgot',
     LOGIN = 'login',
+    LOGOUT = 'logout',
     ORDERS = 'orders',
     PRODUCTS = 'products',
     PROFILE = 'profile',

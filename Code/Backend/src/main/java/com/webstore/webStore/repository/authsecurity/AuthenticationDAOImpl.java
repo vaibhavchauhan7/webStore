@@ -4,7 +4,6 @@ import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
 import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
 import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
 import com.webstore.webStore.entity.customer.Customer;
-import com.webstore.webStore.repository.customer.CustomerDAO;
 import com.webstore.webStore.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +25,6 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
 
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final CustomerDAO customerDAO;
     private final CustomerService customerService;
     private final JwtUtil jwtTokenUtil;
 
@@ -42,12 +40,10 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
     @Autowired
     public AuthenticationDAOImpl(AuthenticationManager authenticationManager,
                                  BCryptPasswordEncoder bCryptPasswordEncoder,
-                                 CustomerDAO customerDAO,
                                  CustomerService customerService,
                                  JwtUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.customerDAO = customerDAO;
         this.customerService = customerService;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -86,7 +82,7 @@ public class AuthenticationDAOImpl implements AuthenticationDAO {
         final UserDetails userDetails = customerService.loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(customerDAO.getCustomerByEmail(authenticationRequest.getEmail()), token));
+        return ResponseEntity.ok(new AuthenticationResponse(customerService.getAuthenticatedCustomer(), token));
     }
 
     @Override

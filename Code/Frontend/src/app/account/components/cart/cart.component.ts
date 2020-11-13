@@ -18,6 +18,7 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 export class CartComponent implements OnInit, OnDestroy {
 
     modalID: string;
+    isSmallDevice: boolean;
     cartProduct: Cart; // Used for Remove Product Confirmation Modal
     cartProducts: Cart[];
 
@@ -33,6 +34,9 @@ export class CartComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getCustomerObserver();
+        if (window.innerWidth < 769) {
+            this.isSmallDevice = true;
+        }
     }
 
     getCustomerObserver(): void {

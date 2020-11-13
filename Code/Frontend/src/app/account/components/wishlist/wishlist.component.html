@@ -59,7 +59,11 @@
 <ng-container *ngIf="wishlistProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody><b>{{wishlistProduct.name}}</b> will be removed from your wishlist?</modalBody>
+        <modalBody>
+            Want to remove <b>{{wishlistProduct.name}}</b> from your wishlist?
+            <br *ngIf="isSmallDevice"/>
+            <p class="actionUndone">This action cannot be undone!</p>
+        </modalBody>
         <modalDoneButton>
             <button (click)="removeProductFromWishlist(wishlistProduct, true)"
                     class="btn btn-web br-20" data-dismiss="modal" type="button">
@@ -79,7 +83,11 @@
 <ng-container *ngIf="wishlistProducts">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to clear your wishlist?</modalBody>
+        <modalBody>
+            Are you sure you want to clear your wishlist?
+            <br *ngIf="isSmallDevice"/>
+            <p class="actionUndone">This action cannot be undone!</p>
+        </modalBody>
         <modalDoneButton>
             <button (click)="clearWishlist(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">

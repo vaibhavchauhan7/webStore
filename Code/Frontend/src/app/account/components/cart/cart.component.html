@@ -75,7 +75,11 @@
 <ng-container *ngIf="cartProduct">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody><b>{{cartProduct.name}}</b> will be removed from your cart?</modalBody>
+        <modalBody>
+            Want to remove <b>{{cartProduct.name}}</b> from your cart?
+            <br *ngIf="isSmallDevice"/>
+            <p class="actionUndone">This action cannot be undone!</p>
+        </modalBody>
         <modalDoneButton>
             <button (click)="removeProductFromCart(cartProduct, true)"
                     class="btn btn-web br-20" data-dismiss="modal" type="button">
@@ -95,7 +99,11 @@
 <ng-container *ngIf="cartProducts && modalID !== 'checkOut'">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
-        <modalBody>Are you sure you want to clear your cart?</modalBody>
+        <modalBody>
+            Are you sure you want to clear your cart?
+            <br *ngIf="isSmallDevice"/>
+            <p class="actionUndone">This action cannot be undone!</p>
+        </modalBody>
         <modalDoneButton>
             <button (click)="clearCart(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">
@@ -115,7 +123,11 @@
 <ng-container *ngIf="cartProducts">
     <app-modal [modalID]="modalID">
         <modalTitle>Alert</modalTitle>
-        <modalBody>Are you sure you are ready to checkout?</modalBody>
+        <modalBody>
+            Are you ready to checkout?
+            <br/>
+            <p class="actionUndone">Payment Server - Unavailable!</p>
+        </modalBody>
         <modalDoneButton>
             <button (click)="checkOut(cartProducts,true)" class="btn btn-success br-20"
                     data-dismiss="modal" type="button">

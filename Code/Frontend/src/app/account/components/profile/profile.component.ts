@@ -49,21 +49,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     saveEditedProfile(editProfileData: NgForm): void {
         editProfileData.value.id = +editProfileData.value.id;
-        if (editProfileData.value.firstName !== '' || editProfileData.value.lastName !== ''
-            || editProfileData.value.email !== '' || editProfileData.value.phone !== '') {
+        if (editProfileData.value.firstName !== '' && editProfileData.value.lastName !== ''
+            && editProfileData.value.email !== '' && editProfileData.value.phone !== '') {
             // TODO: Stabilize Profile Update with Verification Conditions
             this.subscription$.push(this.accountService.updateCustomerProfile(editProfileData.value)
                 .subscribe((customer: Customer) => {
                     this.commonControllerService.setCustomerData(customer);
                     this.toggleEditProfile();
-                    this.toastService.showToast('Profile Updated!', {classname: 'bg-success'});
+                    this.toastService.showToast('Changes Saved!', {classname: 'bg-success'});
                 }, () => {
-                    this.toastService.showToast(`Couldn't Update Profile!`,
-                        {classname: 'bg-red'});
+                    this.toastService.showToast(`Couldn't Update Profile!`, {classname: 'bg-red'});
                 })
             );
         } else {
-            this.toastService.showToast(`Couldn't Update Empty Fields!`, {classname: 'bg-red'});
+            this.toastService.showToast(`Invalid Profile Data!`, {classname: 'bg-red'});
         }
     }
 

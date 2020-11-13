@@ -47,10 +47,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                         this.forgotPasswordForm = false;
                         this.updatePasswordForm = true;
                     } else {
-                        this.toastService.showToast('Wrong Email / Phone', {classname: 'bg-red'});
+                        this.toastService.showToast('Wrong Email / Phone Combination', {classname: 'bg-red'});
                     }
                 }, () => {
-                    this.toastService.showToast('Wrong Email / Phone', {classname: 'bg-red'});
+                    this.toastService.showToast('Wrong Email / Phone Combination', {classname: 'bg-red'});
                 })
             );
         }

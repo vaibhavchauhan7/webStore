@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerDAO customerDAO;
+    private Customer customer;
 
     @Autowired
     public CustomerServiceImpl(CustomerDAO customerDAO) {
@@ -22,12 +23,19 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = customerDAO.getCustomerByEmail(email);
+        if (customer == null) {
+            customer = customerDAO.getCustomerByEmail(email);
+        }
         return new User(customer.getEmail(), customer.getPassword(), new ArrayList<>());
     }
 
     @Override
-    public Customer getCustomerByEmail(String customerEmail) {
-        return customerDAO.getCustomerByEmail(customerEmail);
+    public Customer getAuthenticatedCustomer() {
+        return customer;
+    }
+
+    @Override
+    public void resetCustomer() {
+        customer = null;
     }
 }

@@ -34,9 +34,7 @@ public class SecurityController extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/sign-up").permitAll().and()
-                .authorizeRequests().antMatchers("/login").permitAll().and()
-                .authorizeRequests().antMatchers("/forgot/**").permitAll().and()
+                .authorizeRequests().antMatchers("/authentication/**").permitAll().and()
                 .authorizeRequests().antMatchers("/contact").permitAll().and()
                 .authorizeRequests().antMatchers("/products").permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().and()

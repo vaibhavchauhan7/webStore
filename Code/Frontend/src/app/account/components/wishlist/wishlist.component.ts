@@ -16,6 +16,7 @@ import {ToastService} from '../../../shared/components/toast/toast.service';
 export class WishlistComponent implements OnInit, OnDestroy {
 
     modalID: string;
+    isSmallDevice: boolean;
     wishlistProduct: Wishlist; // Used for Remove Product Confirmation Modal
     wishlistProducts: Wishlist[]; // Sometimes there's an issue with initializing array like: arrayName[] = [];
 
@@ -30,6 +31,9 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getCustomerObserver();
+        if (window.innerWidth < 769) {
+            this.isSmallDevice = true;
+        }
     }
 
     getCustomerObserver(): void {

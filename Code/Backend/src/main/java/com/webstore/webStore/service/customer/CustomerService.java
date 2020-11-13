@@ -7,5 +7,7 @@ import org.springframework.stereotype.Service;
 @Service("customerService")
 public interface CustomerService extends UserDetailsService {
 
-    Customer getCustomerByEmail(String customerEmail);
+    Customer getAuthenticatedCustomer();
+
+    void resetCustomer();
 }

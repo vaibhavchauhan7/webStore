@@ -15,12 +15,12 @@ public class ContactController {
     private final ContactRepository contactRepository;
 
     @Autowired
-    public ContactController(ContactRepository contactRepository) {
+    private ContactController(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
 
     @PostMapping("/contact")
-    public void customerContact(@RequestBody Contact contactFormData) {
+    private void customerContact(@RequestBody Contact contactFormData) {
         contactRepository.save(contactFormData);
     }
 }

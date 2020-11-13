@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 
-import {Cart, Customer, Product, Wishlist} from '../../shared/entity/models';
+import {Cart, Product, Wishlist} from '../../shared/entity/models';
 import {WebStoreAPI} from '../../shared/entity/constants';
 
 @Injectable({
@@ -16,20 +16,20 @@ export class ProductManagementService {
     wishlistProducts: Wishlist[] = [];
     previousRoute: string;
 
-    private allProducts: Product[];  // Basic State Management
+    private allProducts: Product[];
 
     constructor(private http: HttpClient) {
     }
 
-    // Temporary Methods
+    // Temporary Methods Start
 
-    getCustomers(): Observable<Customer[]> {
-        return this.http.get<Customer[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}`);
-    }
-
-    getCustomerByID(customerID: number): Observable<Customer> {
-        return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${customerID}`);
-    }
+    // getCustomers(): Observable<Customer[]> {
+    //     return this.http.get<Customer[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}`);
+    // }
+    //
+    // getCustomerByID(customerID: number): Observable<Customer> {
+    //     return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${customerID}`);
+    // }
 
     // Temporary Methods End
 

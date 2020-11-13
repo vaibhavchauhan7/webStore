@@ -45,13 +45,13 @@ export class AccountService {
     }
 
     clearWishlist(customerID: number): Observable<void> {
-        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/clearWishlist/${customerID}`;
-        return this.http.post<void>(removeProductURL, {});
+        const clearURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/clearWishlist/${customerID}`;
+        return this.http.post<void>(clearURL, {});
     }
 
     clearCart(customerID: number): Observable<void> {
-        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/clearCart/${customerID}`;
-        return this.http.post<void>(removeProductURL, {});
+        const clearURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/clearCart/${customerID}`;
+        return this.http.post<void>(clearURL, {});
     }
 
     checkOut(cartProducts: Product[], customerID: number): Observable<boolean> {

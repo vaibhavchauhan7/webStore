@@ -9,8 +9,6 @@ import {Customer} from '../entity/models';
 })
 export class CommonControllerService {
 
-    redirectUrl = '';
-
     private customerData$ = new BehaviorSubject({} as Customer);
     private isCustomerAuthenticated$ = new BehaviorSubject(false);
     private loadingSpinner$ = new BehaviorSubject<string>('');

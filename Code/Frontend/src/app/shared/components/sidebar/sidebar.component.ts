@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../../account/account.service';
+import {AuthenticationService} from '../../../authentication/services/authentication.service';
 import {CommonControllerService} from '../../services/common-controller.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from '../../entity/models';
@@ -36,9 +38,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
+                private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
                 private cookieService: CookieService,
                 private productManagementService: ProductManagementService,
+                private router: Router,
                 private sidebarService: SidebarService,
                 private toastService: ToastService) {
     }
@@ -73,39 +77,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
         );
     }
 
-    getOrdersForCustomer(): void {
-        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id).subscribe(() => {
-            }, () => {
-                this.toastService.showToast(`Error Retrieving Your Orders!`, {classname: 'bg-red'});
-            }
-        ));
-    }
-
-    getWishlistProducts(): void {
-        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id).subscribe(() => {
-            }, () => {
-                this.toastService.showToast(`Error Retrieving Your Wishlist!`, {classname: 'bg-red'});
-            }
-        ));
-    }
-
-    getCartProducts(): void {
-        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id).subscribe(() => {
-            }, () => {
-                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
-            }
-        ));
-    }
-
     logout(): void {
-        // TODO: Improvise Logout
         this.cookieService.delete('token');
         this.commonControllerService.revokeCustomerAuthentication();
-        this.commonControllerService.resetCustomerData();
-        this.productManagementService.previousRoute = '/';
-        this.productManagementService.cartProducts = [];
-        this.productManagementService.wishlistProducts = [];
-        this.toastService.showToast(`Successfully Logged Out`, {classname: 'bg-success'});
+        this.subscription$.push(this.authenticationService.logout().subscribe(() => {
+                this.commonControllerService.resetCustomerData();
+                this.productManagementService.previousRoute = '/';
+                this.productManagementService.cartProducts = [];
+                this.productManagementService.wishlistProducts = [];
+                this.router.navigateByUrl('/').then();
+                this.toastService.showToast(`Successfully Logged Out!`, {classname: 'bg-success'});
+            }, () => {
+                this.toastService.showToast(`Error Logging Out!`, {classname: 'bg-red'});
+            }
+        ));
     }
 
     hideSidebar(): void {

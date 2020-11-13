@@ -26,6 +26,18 @@
 
 .br-20 {
     border-radius: 20px !important;
+    width: 180px;
+}
+
+.actionUndone {
+    display: inline-block;
+    width: 230px;
+    font-size: 15px;
+    color: red;
+    border: 2px solid red;
+    background-color: pink;
+    border-radius: 20px;
+    margin-top: 20px;
 }
 
 .btn-web {

@@ -4,6 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {Observable} from 'rxjs';
 
 import {CommonControllerService} from '../../shared/services/common-controller.service';
+import {ProductManagementService} from '../../product/services/product-management.service';
 import {WebStoreRouting} from '../../shared/entity/constants';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class AuthenticationGuardService implements CanActivate {
     isCustomerAuthenticated: boolean;
 
     constructor(private commonControllerService: CommonControllerService,
+                private productManagementService: ProductManagementService,
                 private router: Router) {
         this.getCustomerAuthenticationObserver();
     }
@@ -32,10 +34,8 @@ export class AuthenticationGuardService implements CanActivate {
         if (this.isCustomerAuthenticated) {
             return true;
         }
-        // TODO: Maybe I don't need 'redirectUrl'. It is replaced by 'previousRoute' at various places.
-        this.commonControllerService.redirectUrl = url;
+        this.productManagementService.previousRoute = url;
         this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
-
         return false;
     }
 }

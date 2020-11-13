@@ -1,6 +1,5 @@
 package com.webstore.webStore.controller.customer;
 
-import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
 import com.webstore.webStore.entity.customer.Customer;
 import com.webstore.webStore.repository.customer.CustomerRepository;
 import com.webstore.webStore.service.customer.CustomerService;
@@ -19,29 +18,26 @@ public class CustomerController {
 
     private final CustomerRepository customerRepository;
     private final CustomerService customerService;
-    private final JwtUtil jwtUtil;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository, CustomerService customerService, JwtUtil jwtUtil) {
+    private CustomerController(CustomerRepository customerRepository, CustomerService customerService) {
         this.customerRepository = customerRepository;
         this.customerService = customerService;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/customers")
-    public List<Customer> getCustomers() {
+    private List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
 
     @GetMapping("/customer/{customerID}")
-    public Customer getCustomerByID(@PathVariable int customerID) {
+    private Customer getCustomerByID(@PathVariable int customerID) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
         return optionalCustomer.orElse(null);
     }
 
-    @GetMapping("/customer/details/{token}")
-    public Customer getCustomerByEmail(@PathVariable String token) {
-        String email = jwtUtil.extractUsername(token);
-        return customerService.getCustomerByEmail(email);
+    @GetMapping("/customer/details")
+    private Customer getAuthenticatedCustomer() {
+        return customerService.getAuthenticatedCustomer();
     }
 }

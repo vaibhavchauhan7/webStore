@@ -29,17 +29,17 @@
                             Home
                         </a>
                     </li>
-                    <li>
-                        <a aria-expanded="false" class="dropdown-toggle"
-                           data-toggle="collapse" href="#categoriesSubMenu">
-                            Categories
-                        </a>
-                        <ul class="collapse" id="categoriesSubMenu">
-                            <a href="javascript:">T-Shirt</a>
-                            <a href="javascript:">Shoes</a>
-                            <a href="javascript:">Wrist Watch</a>
-                        </ul>
-                    </li>
+                    <!--                    <li>-->
+                    <!--                        <a aria-expanded="false" class="dropdown-toggle"-->
+                    <!--                           data-toggle="collapse" href="#categoriesSubMenu">-->
+                    <!--                            Categories-->
+                    <!--                        </a>-->
+                    <!--                        <ul class="collapse" id="categoriesSubMenu">-->
+                    <!--                            <a href="javascript:">T-Shirt</a>-->
+                    <!--                            <a href="javascript:">Shoes</a>-->
+                    <!--                            <a href="javascript:">Wrist Watch</a>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
 
                     <ng-container *ngIf="isCustomerAuthenticated">
                         <li>
@@ -47,20 +47,16 @@
                                 Account
                             </a>
                             <ul class="collapse" id="accountSubMenu">
-                                <a routerLink="/{{routes.account}}/{{routes.profile}}"
-                                   routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.profile}}" routerLinkActive="active">
                                     Profile
                                 </a>
-                                <a (click)="getOrdersForCustomer()"
-                                   routerLink="/{{routes.account}}/{{routes.orders}}" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.orders}}" routerLinkActive="active">
                                     Orders
                                 </a>
-                                <a (click)="getWishlistProducts()"
-                                   routerLink="/{{routes.account}}/{{routes.wishlist}}" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.wishlist}}" routerLinkActive="active">
                                     Wishlist
                                 </a>
-                                <a (click)="getCartProducts()"
-                                   routerLink="/{{routes.account}}/{{routes.cart}}" routerLinkActive="active">
+                                <a routerLink="/{{routes.account}}/{{routes.cart}}" routerLinkActive="active">
                                     Cart
                                 </a>
                             </ul>
@@ -81,8 +77,7 @@
                     </ng-container>
                     <ng-template #Authenticated>
                         <li>
-                            <a (click)="logout()" class="authentication"
-                               routerLink="/" routerLinkActive="active">
+                            <a (click)="logout()" class="authentication">
                                 Logout
                             </a>
                         </li>

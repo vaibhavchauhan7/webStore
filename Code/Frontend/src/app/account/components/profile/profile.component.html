@@ -35,7 +35,8 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Email</p>
-                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="email"
+                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile" class="secondaryHeading"
+                                   name="email"
                                    ngModel="{{customer.email}}" type="text" value="{{customer.email}}"/>
                         </div>
                     </div>
@@ -43,7 +44,8 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Phone</p>
-                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="phone"
+                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile" class="secondaryHeading"
+                                   name="phone"
                                    ngModel="{{customer.phone}}" type="text" value="{{customer.phone}}"/>
                         </div>
                     </div>

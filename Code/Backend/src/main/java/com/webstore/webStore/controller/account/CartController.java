@@ -15,32 +15,32 @@ public class CartController {
     private final CartService cartService;
 
     @Autowired
-    public CartController(CartService cartService) {
+    private CartController(CartService cartService) {
         this.cartService = cartService;
     }
 
     @GetMapping("/cart/getProducts/{customerID}")
-    public List<Cart> getWishlistProducts(@PathVariable Integer customerID) {
+    private List<Cart> getCartProducts(@PathVariable Integer customerID) {
         return cartService.getCartProducts(customerID);
     }
 
-    @PostMapping("/checkout/{customerID}")
-    public Boolean checkOut(@RequestBody List<Product> cartProducts, @PathVariable Integer customerID) {
-        return cartService.checkOut(cartProducts, customerID);
-    }
-
     @PostMapping("/cart/addProduct/{customerID}")
-    public void addProductToCart(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void addProductToCart(@PathVariable Integer customerID, @RequestBody Product product) {
         cartService.addRemoveCartProducts(product, customerID, "Cart", 0);
     }
 
     @PostMapping("/cart/removeProduct/{customerID}")
-    public void removeProductFromCart(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void removeProductFromCart(@PathVariable Integer customerID, @RequestBody Product product) {
         cartService.addRemoveCartProducts(product, customerID, "Cart", 1);
     }
 
     @PostMapping("/cart/clearCart/{customerID}")
-    public void clearCart(@PathVariable Integer customerID) {
+    private void clearCart(@PathVariable Integer customerID) {
         cartService.clearCart(customerID);
+    }
+
+    @PostMapping("/checkout/{customerID}")
+    private Boolean checkOut(@PathVariable Integer customerID, @RequestBody List<Product> cartProducts) {
+        return cartService.checkOut(cartProducts, customerID);
     }
 }

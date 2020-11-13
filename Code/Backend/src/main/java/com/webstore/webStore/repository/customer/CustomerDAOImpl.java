@@ -26,8 +26,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         Customer customer = new Customer();
         String sql = "{call spGetCustomerByEmail(?)}";
 
-        // 1) Below try block is called 'Try with Resources' where try takes an argument
-        // 2) connection.close() is redundant because 'Try with Resources' closes and cleans it up automatically
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 

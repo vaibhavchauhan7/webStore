@@ -9,6 +9,7 @@ import {AuthenticationService} from './authentication/services/authentication.se
 import {CommonControllerService} from './shared/services/common-controller.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from './shared/entity/models';
+import {ProductManagementService} from './product/services/product-management.service';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {ToastService} from './shared/components/toast/toast.service';
 
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 private authenticationService: AuthenticationService,
                 private commonControllerService: CommonControllerService,
                 private cookieService: CookieService,
+                private productManagementService: ProductManagementService,
                 private router: Router,
                 private sidebarService: SidebarService,
                 private titleService: Title,
@@ -43,19 +45,21 @@ export class AppComponent implements OnInit, OnDestroy {
     checkCustomerAuthentication(): void {
         const tokenCookie = this.cookieService.get('token');
         if (tokenCookie) {
-            this.getCustomerDataByToken(tokenCookie);
+            this.getAuthenticatedCustomer();
+        } else {
+            this.authenticationService.logout().subscribe();
         }
     }
 
-    getCustomerDataByToken(tokenCookie): void {
-        this.subscription$.push(this.authenticationService.getCustomerDataByToken(tokenCookie)
+    getAuthenticatedCustomer(): void {
+        this.subscription$.push(this.authenticationService.getAuthenticatedCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.commonControllerService.setCustomerData(customer);
                     this.commonControllerService.authenticateCustomer();
                 }
             }, () => {
-                this.toastService.showToast(`An Error Occurred - Please Try Refreshing Page!`, {classname: 'bg-red'});
+                this.toastService.showToast(`Error Occurred - Please Try Again Later!`, {classname: 'bg-red'});
             })
         );
     }

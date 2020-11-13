@@ -18,17 +18,17 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
+    private ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
+    private List<Product> getProducts() {
         return productRepository.findAll();
     }
 
     @GetMapping("/product/{productID}")
-    public Product getProductByID(@PathVariable int productID) {
+    private Product getProductByID(@PathVariable int productID) {
         Optional<Product> optionalProduct = productRepository.findById(productID);
         return optionalProduct.orElse(null);
     }
