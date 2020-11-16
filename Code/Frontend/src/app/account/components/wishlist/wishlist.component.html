@@ -24,8 +24,12 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
+            <!--            <button type="button" class="btn btn-green br-20 mb-2">-->
+            <!--                Move To Cart-->
+            <!--            </button>-->
+            <!--            <br/>-->
             <button (click)="removeProductFromWishlist(product)" [attr.data-target]="'#' + modalID"
-                    class="removeProduct" data-toggle="modal" type="button">
+                    class="btn btn-red br-20" data-toggle="modal" type="button">
                 Remove Item
             </button>
         </div>
@@ -47,7 +51,7 @@
         <div class="col-12 text-center">
             <button (click)="clearWishlist()" [attr.data-target]="'#' + modalID"
                     [disabled]="wishlistProducts.length === 0"
-                    class="removeProduct" data-toggle="modal" type="button">
+                    class="btn btn-red br-20" data-toggle="modal" type="button">
                 Clear Wishlist
             </button>
         </div>
@@ -71,7 +75,7 @@
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary br-20"
+            <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep It
             </button>
@@ -95,7 +99,7 @@
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary br-20"
+            <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep Everything
             </button>

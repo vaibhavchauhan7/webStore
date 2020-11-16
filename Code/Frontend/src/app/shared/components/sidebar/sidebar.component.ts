@@ -77,10 +77,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         );
     }
 
-    logout(): void {
+    customerLogout(): void {
         this.cookieService.delete('token');
         this.commonControllerService.revokeCustomerAuthentication();
-        this.subscription$.push(this.authenticationService.logout().subscribe(() => {
+        this.subscription$.push(this.authenticationService.customerLogout().subscribe(() => {
                 this.commonControllerService.resetCustomerData();
                 this.productManagementService.previousRoute = '/';
                 this.productManagementService.cartProducts = [];

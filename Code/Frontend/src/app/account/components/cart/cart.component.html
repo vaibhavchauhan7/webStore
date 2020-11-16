@@ -28,7 +28,7 @@
                 {{product.name}}
             </p>
             <button (click)="removeProductFromCart(product)" [attr.data-target]="'#' + modalID"
-                    class="removeProduct" data-toggle="modal" type="button">
+                    class="btn btn-red br-20" data-toggle="modal" type="button">
                 Remove Item
             </button>
         </div>
@@ -53,17 +53,18 @@
     <div class="row mt-p5">
         <div class="col-12 text-center">
             <button (click)="clearCart()" [attr.data-target]="'#' + modalID" [disabled]="cartProducts.length === 0"
-                    class="removeProduct clearCart" data-toggle="modal" type="button">
+                    class="btn btn-red br-20" data-toggle="modal" type="button">
                 Clear Cart
             </button>&nbsp; &nbsp;
 
-            <button class="continueShopping" routerLink="/"
+            <button class="btn btn-orange br-20" routerLink="/"
                     routerLinkActive="active" type="button">
                 Continue Shopping
             </button>&nbsp; &nbsp;
 
             <button (click)="checkOut(cartProducts)" [attr.data-target]="'#' + modalID"
-                    [disabled]="cartProducts.length === 0" class="checkout" data-toggle="modal" type="button">
+                    [disabled]="cartProducts.length === 0" class="btn btn-green br-20" data-toggle="modal"
+                    type="button">
                 Checkout
             </button>
         </div>
@@ -87,7 +88,7 @@
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary br-20"
+            <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep It
             </button>
@@ -111,7 +112,7 @@
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary br-20"
+            <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep Everything
             </button>
@@ -129,13 +130,13 @@
             <p class="actionUndone">Payment Server - Unavailable!</p>
         </modalBody>
         <modalDoneButton>
-            <button (click)="checkOut(cartProducts,true)" class="btn btn-success br-20"
+            <button (click)="checkOut(cartProducts,true)" class="btn btn-green br-20"
                     data-dismiss="modal" type="button">
                 Yes, Checkout
             </button>
         </modalDoneButton>
         <modalCloseButton>
-            <button (click)="resetValues()" class="btn btn-secondary br-20"
+            <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Take Me Back
             </button>

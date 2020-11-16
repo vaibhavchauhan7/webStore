@@ -16,7 +16,7 @@
 }
 
 p {
-    font-size: 1.1em;
+    font-size: 1em;
     line-height: 2em;
 }
 
@@ -41,7 +41,7 @@ a {
 .sidebar {
     height: calc(100vh + 5px);
     background: $webStorePrimaryColor;
-    color: $white;
+    color: white;
     transition: all 0.3s;
 
     .sidebar-header {
@@ -56,7 +56,7 @@ a {
     ul {
 
         p {
-            color: $white;
+            color: white;
             padding: 10px;
         }
 
@@ -65,12 +65,12 @@ a {
 
             a {
                 padding: 10px;
-                font-size: 1.1em;
+                font-size: 1em;
                 display: block;
 
                 &:hover {
                     color: $webStorePrimaryColor;
-                    background: $white;
+                    background: white;
                 }
             }
         }
@@ -108,7 +108,7 @@ ul.custom-buttons {
 
     a {
         display: block;
-        font-size: 1.1em !important;
+        font-size: 1em !important;
         text-align: center;
         border-radius: 20px;
     }
@@ -117,11 +117,11 @@ ul.custom-buttons {
 // Keeps link focused after clicking
 .active {
     color: $webStorePrimaryColor !important;
-    background-color: $white !important;
+    background-color: white !important;
 }
 
 a[aria-expanded="true"] {
-    color: $white;
+    color: white;
     background: $webStoreSecondaryColor;
 }
 
@@ -130,14 +130,15 @@ a[data-toggle="collapse"] {
 }
 
 a.authentication {
-    background: $white;
+    background: white;
     color: $webStorePrimaryColor;
     cursor: pointer;
+    font-size: 1em !important;
 }
 
 a.hide-sidebar {
     background: $webStoreSecondaryColor;
-    color: $white;
+    color: white;
     cursor: pointer;
 }
 

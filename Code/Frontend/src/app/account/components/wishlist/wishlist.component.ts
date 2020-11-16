@@ -94,6 +94,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.commonControllerService.httpRequestCompleted();
         if (this.subscription$) {
             this.subscription$.forEach(subscription => {
                 subscription.unsubscribe();

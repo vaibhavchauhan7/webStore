@@ -7,8 +7,8 @@ body {
 .box {
     width: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    grid-gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    //grid-gap: 15px;
     margin: 0 auto;
 }
 
@@ -19,32 +19,32 @@ body {
     background: #FFFFFF;
     margin: 0 auto;
     border-radius: 20px;
-    box-shadow: 0 15px 20px rgba(115, 134, 213, 1);
+    box-shadow: 0 5px 10px rgba(115, 134, 213, 1);
 }
 
-.card:before,
-.card:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
-    background: #FFFFFF;
-    transition: 0.25s;
-    z-index: -1;
-}
+//.card:before,
+//.card:after {
+//    content: "";
+//    position: absolute;
+//    top: 0;
+//    left: 0;
+//    width: 100%;
+//    height: 100%;
+//    border-radius: 20px;
+//    background: #FFFFFF;
+//    transition: 0.25s;
+//    z-index: -1;
+//}
 
-.card:hover:before {
-    transform: rotate(20deg);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
-}
-
-.card:hover:after {
-    transform: rotate(10deg);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
-}
+//.card:hover:before {
+//    transform: rotate(20deg);
+//    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
+//}
+//
+//.card:hover:after {
+//    transform: rotate(10deg);
+//    box-shadow: 0 2px 20px rgba(0, 0, 0, .2);
+//}
 
 .card .cardImage {
     position: absolute;
@@ -60,6 +60,7 @@ body {
 .card:hover {
     //bottom: 80px;
     cursor: pointer;
+    box-shadow: 0 15px 20px rgba(115, 134, 213, 1);
 }
 
 .card .cardImage img {

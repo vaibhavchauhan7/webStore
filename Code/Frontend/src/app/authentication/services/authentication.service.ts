@@ -24,7 +24,7 @@ export class AuthenticationService {
         return this.http.post<any>(loginURL, loginFormValue);
     }
 
-    logout(): Observable<void> {
+    customerLogout(): Observable<void> {
         const logoutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.LOGOUT}`;
         return this.http.post<void>(logoutURL, {});
     }

@@ -8,8 +8,58 @@
     margin-top: 56px !important;
 }
 
+.br-20 {
+    border-radius: 20px !important;
+    width: 180px;
+}
+
+.p-r-55 {
+    padding-right: 55px;
+}
+
+.p-l-55 {
+    padding-left: 55px;
+}
+
+.m-b-16 {
+    margin-bottom: 16px;
+}
+
+.p-t-35 {
+    padding-top: 35px;
+}
+
+.p-tb-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.p-t-20 {
+    padding-top: 20px;
+}
+
+.p-t-13 {
+    padding-top: 13px;
+}
+
+.p-b-23 {
+    padding-bottom: 23px;
+}
+
+.custom-width-20 {
+    width: 20% !important;
+}
+
+.custom-width-80 {
+    width: 80% !important;
+}
+
 .bg-red {
     background-color: red;
+}
+
+.emptyText {
+    font-size: 40px;
 }
 
 .center-align-hv {
@@ -18,15 +68,6 @@
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
-}
-
-.emptyText {
-    font-size: 40px;
-}
-
-.br-20 {
-    border-radius: 20px !important;
-    width: 180px;
 }
 
 .actionUndone {
@@ -40,16 +81,63 @@
     margin-top: 20px;
 }
 
+.btn-web, .btn-red, .btn-green, .btn-orange, .btn-gray {
+    background-color: white;
+    border: 2px solid red;
+    color: red;
+    transition: 0.5s;
+    outline: none !important;
+}
+
 .btn-web {
-    background-color: $webStorePrimaryColor;
+    background-color: white;
     border-color: $webStorePrimaryColor;
-    color: $white;
+    color: $webStorePrimaryColor;
 }
 
 .btn-web:hover {
-    background-color: $webStoreSecondaryColor;
-    border-color: $webStoreSecondaryColor;
-    color: $white;
+    background-color: $webStorePrimaryColor;
+    border-color: $webStorePrimaryColor;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: red;
+    border-color: red;
+    color: white;
+}
+
+.btn-orange {
+    border-color: #f08018;
+    color: #f08018;
+}
+
+.btn-orange:hover {
+    background-color: #f08018;
+    border-color: #f08018;
+    color: white;
+}
+
+.btn-green {
+    border-color: #0fa336;
+    color: #0fa336;
+}
+
+.btn-green:hover {
+    background-color: #0fa336;
+    border-color: #0fa336;
+    color: white;
+}
+
+.btn-gray {
+    border-color: gray;
+    color: gray;
+}
+
+.btn-gray:hover {
+    background-color: gray;
+    border-color: gray;
+    color: white;
 }
 
 .custom-toast {
@@ -62,6 +150,10 @@
     max-width: max-content;
 }
 
+.toast-body {
+    padding: 4px;
+}
+
 .image-size {
     max-height: 150px !important;
     max-width: 150px !important;
@@ -72,4 +164,76 @@
 .cursor-pointer {
     cursor: pointer;
     outline: none;
+}
+
+.flex-col-c {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.wrap-input100 {
+    width: 100%;
+    background-color: #7386D5;
+    border-radius: 27px;
+    position: relative;
+    z-index: 1;
+}
+
+.input100 {
+    font-size: 15px;
+    color: #000000;
+    line-height: 1.2;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 55px;
+    background: #EAEAEA;
+    border-radius: 27px;
+    padding: 0 35px;
+}
+
+.focus-input100 {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius: 31px;
+    background-color: #FFFFFF;
+    pointer-events: none;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s;
+}
+
+.wrap-signUp100, .wrap-login100, .wrap-forgot100 {
+    background: #FFFFFF;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -o-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    -ms-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    height: auto;
+    border: 1px solid #DEDEDE;
+    margin: 30px auto;
 }

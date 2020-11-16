@@ -3,8 +3,11 @@
         <div class="col-md-2 orderHeadings">
             <p>Product</p>
         </div>
-        <div class="col-md-4 orderHeadings">
+        <div class="col-md-2 orderHeadings">
             <p>Details</p>
+        </div>
+        <div class="col-md-2 orderHeadings">
+            <p>Order Number</p>
         </div>
         <div class="col-md-2 orderHeadings">
             <p>Ordered On</p>
@@ -31,11 +34,15 @@
             <img alt="ProductImage" class="image-size" src="{{order.productImagePath}}">
         </div>
 
-        <div class="col-md-4 orderDetails">
+        <div class="col-md-2 orderDetails">
             <p [routerLink]="['/product', order.productID, order.productName]"
                class="cursor-pointer" routerLinkActive="active">
                 {{order.productName}}
             </p>
+        </div>
+
+        <div class="col-md-2 orderDetails">
+            <p>{{order.orderNumber}}</p>
         </div>
 
         <div class="col-md-2 orderDetails">
@@ -44,7 +51,7 @@
 
         <div class="col-md-2 orderDetails">
             <p style="color: #0fa336;">Delivered</p>
-            <button class="invoice mt-5" type="button">
+            <button class="btn btn-green br-20 mt-5" type="button">
                 Get Invoice
             </button>
         </div>

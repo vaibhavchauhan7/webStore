@@ -41,7 +41,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    private void logout() {
+    private void customerLogout() {
         customerService.resetCustomer();
     }
 

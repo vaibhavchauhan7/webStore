@@ -7,15 +7,15 @@
         </div>
 
         <div class="row">
-            <div class="col-md-2 col-lg-3"></div>
+            <div class="col-md-1 col-lg-2"></div>
 
-            <div class="col-md-8 col-lg-6">
+            <div class="col-md-10 col-lg-8">
                 <input name="id" ngModel="{{customer.id}}" type="hidden" value="{{customer.id}}"/>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>First Name</p>
-                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="firstName"
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading text-center" name="firstName"
                                    ngModel="{{customer.firstName}}" type="text" value="{{customer.firstName}}"/>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Last Name</p>
-                            <input [disabled]="!allowEditProfile" class="secondaryHeading" name="lastName"
+                            <input [disabled]="!allowEditProfile" class="secondaryHeading text-center" name="lastName"
                                    ngModel="{{customer.lastName}}" type="text" value="{{customer.lastName}}"/>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Email</p>
-                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile" class="secondaryHeading"
-                                   name="email"
+                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile"
+                                   class="secondaryHeading text-center" name="email"
                                    ngModel="{{customer.email}}" type="text" value="{{customer.email}}"/>
                         </div>
                     </div>
@@ -44,8 +44,8 @@
                     <div class="col-md-6">
                         <div class="primaryHeading">
                             <p>Phone</p>
-                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile" class="secondaryHeading"
-                                   name="phone"
+                            <input [disabled]="!allowEditProfile" [readOnly]="allowEditProfile"
+                                   class="secondaryHeading text-center" name="phone"
                                    ngModel="{{customer.phone}}" type="text" value="{{customer.phone}}"/>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
 
                 <div class="row text-center">
                     <div class="col-md-4">
-                        <button class="myOrders" routerLink="/{{routes.account}}/{{routes.orders}}"
+                        <button class="btn btn-orange br-20" routerLink="/{{routes.account}}/{{routes.orders}}"
                                 routerLinkActive="active"
                                 type="button">
                             My Orders
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <button class="myWishlist" routerLink="/{{routes.account}}/{{routes.wishlist}}"
+                        <button class="btn btn-red br-20" routerLink="/{{routes.account}}/{{routes.wishlist}}"
                                 routerLinkActive="active"
                                 type="button">
                             My Wishlist
@@ -73,7 +73,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <button class="myCart" routerLink="/{{routes.account}}/{{routes.cart}}"
+                        <button class="btn btn-green br-20" routerLink="/{{routes.account}}/{{routes.cart}}"
                                 routerLinkActive="active"
                                 type="button">
                             My Cart
@@ -83,7 +83,7 @@
                 <hr/>
                 <ng-container *ngIf="!allowEditProfile; else saveProfile">
                     <div class="text-center">
-                        <button (click)="toggleEditProfile()" class="editProfile" type="button">
+                        <button (click)="toggleEditProfile()" class="btn btn-gray br-20" type="button">
                             Edit Profile
                         </button>
                         <hr/>
@@ -91,7 +91,7 @@
                 </ng-container>
                 <ng-template #saveProfile>
                     <div class="text-center">
-                        <button class="editProfile" type="submit" value="submit">
+                        <button class="btn btn-gray br-20" type="submit" value="submit">
                             Save
                         </button>
                         <hr/>
@@ -99,7 +99,7 @@
                 </ng-template>
             </div>
 
-            <div class="col-md-2 col-lg-3"></div>
+            <div class="col-md-1 col-lg-2"></div>
         </div>
     </form>
 </ng-container>

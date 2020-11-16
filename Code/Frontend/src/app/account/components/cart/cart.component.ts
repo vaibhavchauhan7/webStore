@@ -119,6 +119,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.commonControllerService.httpRequestCompleted();
         if (this.subscription$) {
             this.subscription$.forEach(subscription => {
                 subscription.unsubscribe();

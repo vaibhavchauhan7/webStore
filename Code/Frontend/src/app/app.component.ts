@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (tokenCookie) {
             this.getAuthenticatedCustomer();
         } else {
-            this.authenticationService.logout().subscribe();
+            this.authenticationService.customerLogout().subscribe();
         }
     }
 
