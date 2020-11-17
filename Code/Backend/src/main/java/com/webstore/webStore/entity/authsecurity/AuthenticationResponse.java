@@ -1,6 +1,6 @@
 package com.webstore.webStore.entity.authsecurity;
 
-import com.webstore.webStore.entity.customer.Customer;
+import com.webstore.webStore.entity.Customer;
 
 import java.io.Serializable;
 

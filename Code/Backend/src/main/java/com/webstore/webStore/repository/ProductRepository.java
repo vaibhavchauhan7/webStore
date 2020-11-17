@@ -1,6 +1,6 @@
-package com.webstore.webStore.repository.product;
+package com.webstore.webStore.repository;
 
-import com.webstore.webStore.entity.product.Product;
+import com.webstore.webStore.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {

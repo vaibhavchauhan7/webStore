@@ -1,10 +1,10 @@
 package com.webstore.webStore.controller.authsecurity;
 
+import com.webstore.webStore.entity.Customer;
 import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
 import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
 import com.webstore.webStore.entity.authsecurity.forgotpassword.ForgotPassword;
 import com.webstore.webStore.entity.authsecurity.forgotpassword.UpdatePassword;
-import com.webstore.webStore.entity.customer.Customer;
 import com.webstore.webStore.repository.customer.CustomerDAO;
 import com.webstore.webStore.service.authsecurity.AuthenticationService;
 import com.webstore.webStore.service.customer.CustomerService;

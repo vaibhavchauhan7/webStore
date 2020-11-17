@@ -1,4 +1,4 @@
-package com.webstore.webStore.entity.product;
+package com.webstore.webStore.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,7 +1,7 @@
-package com.webstore.webStore.controller.product;
+package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.product.Product;
-import com.webstore.webStore.repository.product.ProductRepository;
+import com.webstore.webStore.entity.Product;
+import com.webstore.webStore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

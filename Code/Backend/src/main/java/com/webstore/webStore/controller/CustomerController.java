@@ -1,6 +1,6 @@
-package com.webstore.webStore.controller.customer;
+package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.customer.Customer;
+import com.webstore.webStore.entity.Customer;
 import com.webstore.webStore.repository.customer.CustomerRepository;
 import com.webstore.webStore.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

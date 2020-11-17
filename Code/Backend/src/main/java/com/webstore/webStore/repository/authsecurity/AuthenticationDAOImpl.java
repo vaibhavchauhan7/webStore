@@ -1,9 +1,9 @@
 package com.webstore.webStore.repository.authsecurity;
 
 import com.webstore.webStore.controller.authsecurity.jwt.JwtUtil;
+import com.webstore.webStore.entity.Customer;
 import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
 import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
-import com.webstore.webStore.entity.customer.Customer;
 import com.webstore.webStore.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

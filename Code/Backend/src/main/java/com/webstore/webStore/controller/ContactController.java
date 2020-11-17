@@ -1,7 +1,7 @@
-package com.webstore.webStore.controller.contact;
+package com.webstore.webStore.controller;
 
-import com.webstore.webStore.entity.contact.Contact;
-import com.webstore.webStore.repository.contact.ContactRepository;
+import com.webstore.webStore.entity.Contact;
+import com.webstore.webStore.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

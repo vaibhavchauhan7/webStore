@@ -7,15 +7,15 @@ body {
 .box {
     width: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
     //grid-gap: 15px;
     margin: 0 auto;
 }
 
 .card {
     position: relative;
-    width: 300px;
-    height: 350px;
+    width: 230px;
+    height: 255px;
     background: #FFFFFF;
     margin: 0 auto;
     border-radius: 20px;
@@ -78,7 +78,7 @@ body {
     left: 10px;
     right: 10px;
     bottom: 10px;
-    height: 60px;
+    height: 50px;
     text-align: center;
 }
 
@@ -86,13 +86,13 @@ body {
     margin: 0;
     padding: 0;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 15px;
     color: #777;
 }
 
 .card .details h2 span {
     font-weight: 500;
-    font-size: 16px;
+    font-size: 15px;
     color: #7386D5;
     display: block;
     margin-top: 5px;

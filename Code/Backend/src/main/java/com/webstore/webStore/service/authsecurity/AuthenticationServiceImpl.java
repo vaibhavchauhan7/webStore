@@ -1,8 +1,8 @@
 package com.webstore.webStore.service.authsecurity;
 
+import com.webstore.webStore.entity.Customer;
 import com.webstore.webStore.entity.authsecurity.AuthenticationRequest;
 import com.webstore.webStore.entity.authsecurity.AuthenticationResponse;
-import com.webstore.webStore.entity.customer.Customer;
 import com.webstore.webStore.repository.authsecurity.AuthenticationDAO;
 import com.webstore.webStore.repository.customer.CustomerDAO;
 import org.springframework.beans.factory.annotation.Autowired;

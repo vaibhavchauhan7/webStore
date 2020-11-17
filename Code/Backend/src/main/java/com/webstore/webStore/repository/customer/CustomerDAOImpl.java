@@ -1,6 +1,6 @@
 package com.webstore.webStore.repository.customer;
 
-import com.webstore.webStore.entity.customer.Customer;
+import com.webstore.webStore.entity.Customer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
