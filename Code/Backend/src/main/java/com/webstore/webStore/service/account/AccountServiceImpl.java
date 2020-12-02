@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean checkOut(List<Product> cartProducts, Integer customerID) {
-        return accountDAO.checkOut(cartProducts, customerID);
+    public void checkOut(List<Product> cartProducts, Integer customerID) {
+        accountDAO.checkOut(cartProducts, customerID);
     }
 }

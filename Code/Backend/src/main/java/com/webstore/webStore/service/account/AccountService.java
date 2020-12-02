@@ -24,5 +24,5 @@ public interface AccountService {
 
     void clearProducts(Integer customerID, String productType);
 
-    boolean checkOut(List<Product> cartProducts, Integer customerID);
+    void checkOut(List<Product> cartProducts, Integer customerID);
 }

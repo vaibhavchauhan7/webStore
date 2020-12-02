@@ -54,8 +54,8 @@ export class AccountService {
         return this.http.post<void>(clearURL, {});
     }
 
-    checkOut(cartProducts: Product[], customerID: number): Observable<boolean> {
+    checkOut(cartProducts: Product[], customerID: number): Observable<void> {
         const checkOutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CHECKOUT}/${customerID}`;
-        return this.http.post<boolean>(checkOutURL, cartProducts);
+        return this.http.post<void>(checkOutURL, cartProducts);
     }
 }

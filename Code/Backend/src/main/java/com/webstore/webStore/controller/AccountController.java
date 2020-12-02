@@ -79,7 +79,7 @@ public class AccountController {
 
     // Checkout
     @PostMapping("/checkout/{customerID}")
-    private boolean checkOut(@PathVariable Integer customerID, @RequestBody List<Product> cartProducts) {
-        return accountService.checkOut(cartProducts, customerID);
+    private void checkOut(@PathVariable Integer customerID, @RequestBody List<Product> cartProducts) {
+        accountService.checkOut(cartProducts, customerID);
     }
 }

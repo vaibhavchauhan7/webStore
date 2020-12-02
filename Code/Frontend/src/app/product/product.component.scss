@@ -29,6 +29,11 @@
     color: white;
 }
 
+#cartButton:disabled,
+#wishlistButton:disabled {
+    opacity: 1;
+}
+
 .displayCenter {
     display: flex;
     justify-content: left;

@@ -168,7 +168,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public boolean checkOut(List<Product> cartProducts, Integer customerID) {
+    public void checkOut(List<Product> cartProducts, Integer customerID) {
         String sql = "{call spInsertAndGetOrdersForCustomer(?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
@@ -180,10 +180,8 @@ public class AccountDAOImpl implements AccountDAO {
             }
 
             callableStatement.close();
-            return true;
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return false;
     }
 }

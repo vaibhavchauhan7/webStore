@@ -40,7 +40,8 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+            .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
                     this.initializeCart();
