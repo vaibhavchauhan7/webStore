@@ -1,0 +1,30 @@
+USE [DEV_MASTER]
+GO
+
+/****** Object:  Table [dbo].[wishlist]    Script Date: 23-12-2020 01:09:20 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[wishlist]') AND type in (N'U'))
+DROP TABLE [dbo].[wishlist]
+GO
+
+/****** Object:  Table [dbo].[wishlist]    Script Date: 23-12-2020 01:09:20 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[wishlist](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[customer_id] [int] NOT NULL,
+	[product_id] [int] NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[image_path] [varchar](max) NOT NULL,
+	[price] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_wishlist] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+

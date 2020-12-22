@@ -48,7 +48,6 @@ public class AccountDAOImpl implements AccountDAO {
             callableStatement.setString(3, customer.getLastName());
             callableStatement.setString(4, customer.getEmail());
             callableStatement.setString(5, customer.getPhone());
-
             callableStatement.execute();
 
             callableStatement.close();
@@ -72,7 +71,7 @@ public class AccountDAOImpl implements AccountDAO {
             ResultSet resultSet = callableStatement.getResultSet();
 
             while (resultSet.next()) {
-                Order order = new Order();
+                Order order = new Order(); // Maybe we don't need everything from DB here
                 order.setOrderID(resultSet.getInt("OrderID"));
                 order.setOrderNumber(resultSet.getInt("OrderNumber"));
                 order.setCustomerID(resultSet.getInt("CustomerID"));
@@ -142,7 +141,6 @@ public class AccountDAOImpl implements AccountDAO {
             callableStatement.setInt(2, product.getId());
             callableStatement.setString(3, productType);
             callableStatement.setInt(4, removeProduct);
-
             callableStatement.execute();
 
             callableStatement.close();

@@ -44,11 +44,12 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getCustomerObserver();
-        this.selectedProduct();
+        this.selectedProduct(); // Called here and on line 71 (Need twice?)
     }
 
     getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+            .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
                     this.getCustomerAuthenticationObserver();
