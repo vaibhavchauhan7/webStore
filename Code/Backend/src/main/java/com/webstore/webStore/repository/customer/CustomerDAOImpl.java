@@ -4,9 +4,9 @@ import com.webstore.webStore.entity.Customer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 @Repository
@@ -24,14 +24,14 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public Customer getCustomerByEmail(String customerEmail) {
         Customer customer = new Customer();
-        String sql = "{call spGetCustomerByEmail(?)}";
+        String sql = "SELECT * FROM customers c WHERE c.email = ?";
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            CallableStatement callableStatement = connection.prepareCall(sql);
+            PreparedStatement preparedStatement = connection.prepareCall(sql);
 
-            callableStatement.setString(1, customerEmail);
-            callableStatement.executeQuery();
-            ResultSet resultSet = callableStatement.getResultSet();
+            preparedStatement.setString(1, customerEmail);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
 
             while (resultSet.next()) {
                 customer.setId(resultSet.getInt("id"));
@@ -43,7 +43,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             }
 
             resultSet.close();
-            callableStatement.close();
+            preparedStatement.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }

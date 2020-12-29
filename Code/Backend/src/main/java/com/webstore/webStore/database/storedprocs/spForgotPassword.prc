@@ -14,9 +14,9 @@ GO
 
 
 CREATE PROCEDURE [dbo].[spForgotPassword]
-@Email VARCHAR(50),
-@Phone VARCHAR(50),
-@NewPassword VARCHAR(70) = NULL
+@Email			VARCHAR(50),
+@Phone			VARCHAR(50),
+@NewPassword	VARCHAR(70) = NULL
 
 AS
 

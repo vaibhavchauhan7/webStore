@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,18 +36,16 @@ public class AccountDAOImpl implements AccountDAO {
     // TODO: Fix - Multiple Profile Issues
     @Override
     public Customer updateCustomerProfile(Customer customer) {
-        String sql = "{call spUpdateCustomerProfile(?,?,?,?,?)}";
+        String sql = "UPDATE customers SET first_name = ?, last_name = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            CallableStatement callableStatement = connection.prepareCall(sql);
+            PreparedStatement preparedStatement = connection.prepareCall(sql);
 
-            callableStatement.setInt(1, customer.getId());
-            callableStatement.setString(2, customer.getFirstName());
-            callableStatement.setString(3, customer.getLastName());
-            callableStatement.setString(4, customer.getEmail());
-            callableStatement.setString(5, customer.getPhone());
-            callableStatement.execute();
+            preparedStatement.setString(1, customer.getFirstName());
+            preparedStatement.setString(2, customer.getLastName());
+            preparedStatement.setInt(3, customer.getId());
+            preparedStatement.execute();
 
-            callableStatement.close();
+            preparedStatement.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -73,7 +68,7 @@ public class AccountDAOImpl implements AccountDAO {
             while (resultSet.next()) {
                 Order order = new Order(); // Maybe we don't need everything from DB here
                 order.setOrderID(resultSet.getInt("OrderID"));
-                order.setOrderNumber(resultSet.getInt("OrderNumber"));
+                order.setOrderNumber(resultSet.getString("OrderNumber"));
                 order.setCustomerID(resultSet.getInt("CustomerID"));
                 order.setCustomerName(resultSet.getString("CustomerName"));
                 order.setCustomerEmail(resultSet.getString("CustomerEmail"));
@@ -151,15 +146,21 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public void clearProducts(Integer customerID, String productType) {
-        String sql = "{call spClearCartWishlist(?,?)}";
+        String sql;
+        if (productType.equals("Cart")) {
+            sql = "DELETE FROM cart WHERE cart.customer_id = ?";
+        } else if (productType.equals("Wishlist")) {
+            sql = "DELETE FROM wishlist WHERE wishlist.customer_id = ?";
+        } else {
+            sql = "";
+        }
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
-            CallableStatement callableStatement = connection.prepareCall(sql);
+            PreparedStatement preparedStatement = connection.prepareCall(sql);
 
-            callableStatement.setInt(1, customerID);
-            callableStatement.setString(2, productType);
-            callableStatement.execute();
+            preparedStatement.setInt(1, customerID);
+            preparedStatement.execute();
 
-            callableStatement.close();
+            preparedStatement.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }

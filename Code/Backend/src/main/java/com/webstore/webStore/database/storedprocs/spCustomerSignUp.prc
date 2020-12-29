@@ -14,11 +14,11 @@ GO
 
 
 CREATE PROCEDURE [dbo].[spCustomerSignUp]
-@FirstName VARCHAR(50),
-@LastName VARCHAR(50),
-@Email VARCHAR(50),
-@Phone VARCHAR(50),
-@Password VARCHAR(70)
+@FirstName		VARCHAR(50),
+@LastName		VARCHAR(50),
+@Email			VARCHAR(50),
+@Phone			VARCHAR(50),
+@Password		VARCHAR(70)
 
 AS
 

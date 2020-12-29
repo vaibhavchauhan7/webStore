@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Order {
 
     private Integer orderID;
-    private Integer orderNumber;
+    private String orderNumber;
     private Integer customerID;
     private String customerName;
     private String customerEmail;
@@ -26,11 +26,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public Integer getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 

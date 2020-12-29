@@ -13,8 +13,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[spInsertAndGetOrdersForCustomer]
-@CustomerID INT,
-@ProductID INT = NULL
+@CustomerID		INT,
+@ProductID		INT = NULL
 
 AS
 
@@ -22,28 +22,22 @@ SET NOCOUNT ON
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
 BEGIN
-
     IF (@ProductID > 0)
     BEGIN
-        INSERT INTO orders
-        SELECT 
-		CASE
-			WHEN MAX(o.id) IS NULL THEN 1 
-			ELSE MAX(o.id) + 1
-		END,
+        INSERT INTO orders (order_number, customer_id, product_id, purchase_date, purchase_time)
+		VALUES (
+		'WB' + CAST(@CustomerID AS VARCHAR(20)) + CAST(@ProductID AS VARCHAR(20)) + 'STR' 
+		+ CONVERT(VARCHAR(10), GETDATE(), 112) 
+		+ SUBSTRING(REPLACE(CONVERT(VARCHAR(25), GETDATE(), 113), ':', ''), 13, 10),
         @CustomerID,
         @ProductID,
-        CONVERT(VARCHAR(10), GETDATE(), 103),
-        FORMAT(CONVERT(DATETIME, GETDATE()), 'hh:mm tt')
-        FROM orders o
-		JOIN customers c ON c.id = @CustomerID
-		JOIN products p ON p.id = @ProductID
-        WHERE o.id = o.order_number
+        CONVERT(VARCHAR(12), GETDATE(), 107),
+        FORMAT(CONVERT(DATETIME, GETDATE()), 'hh:mm tt'))
     END
 
     CREATE TABLE #tmp_orders_customers (
         OrderID				INT NOT NULL,
-        OrderNumber			INT NOT NULL,
+        OrderNumber			VARCHAR(70) NOT NULL,
         CustomerID			INT NOT NULL,
         CustomerName		VARCHAR(50) NOT NULL,
         CustomerEmail		VARCHAR(50) NOT NULL,
@@ -51,9 +45,9 @@ BEGIN
         ProductID			INT NOT NULL,
         ProductName			VARCHAR(50) NOT NULL,
         ProductPrice		VARCHAR(20) NOT NULL,
-        PurchaseDate		VARCHAR(10),
-        PurchaseTime		VARCHAR(8),
-        ProductImagePath	VARCHAR(MAX)
+        PurchaseDate		VARCHAR(12) NOT NULL,
+        PurchaseTime		VARCHAR(8) NOT NULL,
+        ProductImagePath	VARCHAR(MAX) NOT NULL
     )
 
     INSERT INTO #tmp_orders_customers
@@ -68,8 +62,7 @@ BEGIN
 
     IF (@ProductID > 0)
     BEGIN
-        SELECT *
-        FROM #tmp_orders_customers toc
+        SELECT * FROM #tmp_orders_customers toc
         WHERE toc.CustomerID = @CustomerID
         AND toc.ProductID = @ProductID
     END

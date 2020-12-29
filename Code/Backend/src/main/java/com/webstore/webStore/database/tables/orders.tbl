@@ -7,12 +7,12 @@ GO
 ALTER TABLE [dbo].[orders] DROP CONSTRAINT [FK_orders_customers]
 GO
 
-/****** Object:  Table [dbo].[orders]    Script Date: 23-12-2020 01:08:37 AM ******/
+/****** Object:  Table [dbo].[orders]    Script Date: 27-12-2020 09:52:49 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[orders]') AND type in (N'U'))
 DROP TABLE [dbo].[orders]
 GO
 
-/****** Object:  Table [dbo].[orders]    Script Date: 23-12-2020 01:08:37 AM ******/
+/****** Object:  Table [dbo].[orders]    Script Date: 27-12-2020 09:52:49 PM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -21,15 +21,14 @@ GO
 
 CREATE TABLE [dbo].[orders](
 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[order_number] [int] NOT NULL,
+	[order_number] [varchar](70) NOT NULL,
 	[customer_id] [int] NOT NULL,
 	[product_id] [int] NOT NULL,
-	[purchase_date] [varchar](10) NOT NULL,
+	[purchase_date] [varchar](12) NOT NULL,
 	[purchase_time] [varchar](8) NOT NULL,
- CONSTRAINT [CK_Unique_OrderID_OrderNumber] PRIMARY KEY CLUSTERED
+ CONSTRAINT [PK_orders] PRIMARY KEY CLUSTERED
 (
-	[id] ASC,
-	[order_number] ASC
+	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
