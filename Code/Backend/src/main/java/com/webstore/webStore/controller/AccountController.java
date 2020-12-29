@@ -46,23 +46,23 @@ public class AccountController {
 
     // Add Products
     @PostMapping("/wishlist/addProduct/{customerID}")
-    private void addProductToWishlist(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void addProductToWishlist(@RequestBody Product product, @PathVariable Integer customerID) {
         accountService.addRemoveProducts(product, customerID, "Wishlist", 0);
     }
 
     @PostMapping("/cart/addProduct/{customerID}")
-    private void addProductToCart(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void addProductToCart(@RequestBody Product product, @PathVariable Integer customerID) {
         accountService.addRemoveProducts(product, customerID, "Cart", 0);
     }
 
     // Remove Products
     @PostMapping("/wishlist/removeProduct/{customerID}")
-    private void removeProductFromWishlist(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void removeProductFromWishlist(@RequestBody Product product, @PathVariable Integer customerID) {
         accountService.addRemoveProducts(product, customerID, "Wishlist", 1);
     }
 
     @PostMapping("/cart/removeProduct/{customerID}")
-    private void removeProductFromCart(@PathVariable Integer customerID, @RequestBody Product product) {
+    private void removeProductFromCart(@RequestBody Product product, @PathVariable Integer customerID) {
         accountService.addRemoveProducts(product, customerID, "Cart", 1);
     }
 
@@ -79,7 +79,7 @@ public class AccountController {
 
     // Checkout
     @PostMapping("/checkout/{customerID}")
-    private void checkOut(@PathVariable Integer customerID, @RequestBody List<Product> cartProducts) {
+    private void checkOut(@RequestBody List<Product> cartProducts, @PathVariable Integer customerID) {
         accountService.checkOut(cartProducts, customerID);
     }
 }

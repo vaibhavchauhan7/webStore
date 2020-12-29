@@ -34,14 +34,16 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+            .subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
             })
         );
     }
 
     getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+            .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
                 }

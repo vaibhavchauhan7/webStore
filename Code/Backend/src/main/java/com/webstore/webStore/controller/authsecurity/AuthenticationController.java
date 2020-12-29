@@ -24,7 +24,9 @@ public class AuthenticationController {
     private Customer customer;
 
     @Autowired
-    private AuthenticationController(AuthenticationService authenticationService, CustomerService customerService, CustomerDAO customerDAO) {
+    private AuthenticationController(AuthenticationService authenticationService,
+                                     CustomerService customerService,
+                                     CustomerDAO customerDAO) {
         this.authenticationService = authenticationService;
         this.customerService = customerService;
         this.customerDAO = customerDAO;
@@ -36,7 +38,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    private ResponseEntity<AuthenticationResponse> customerLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+    private ResponseEntity<AuthenticationResponse>
+    customerLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         return authenticationService.customerLogin(authenticationRequest);
     }
 

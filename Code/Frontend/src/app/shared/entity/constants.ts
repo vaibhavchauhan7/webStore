@@ -1,18 +1,27 @@
 export enum WebStoreAPI {
+    ADD_PRODUCT = 'addProduct',
     AUTHENTICATION = 'authentication',
     BASE_URL = 'webStoreAPI',
     CART = 'cart',
     CHECKOUT = 'checkout',
+    CLEAR_CART = 'clearCart',
+    CLEAR_WISHLIST = 'clearWishlist',
+    CONFIRM_ACCOUNT = 'confirmAccount',
     CONTACT = 'contact',
     CUSTOMERS = 'customers',
     CUSTOMER = 'customer',
+    DETAILS = 'details',
     FORGOT = 'forgot',
+    GET_PRODUCTS = 'getProducts',
     LOGIN = 'login',
     LOGOUT = 'logout',
     ORDERS = 'orders',
     PRODUCTS = 'products',
     PROFILE = 'profile',
+    REMOVE_PRODUCT = 'removeProduct',
     SIGN_UP = 'sign-up',
+    UPDATE = 'update',
+    UPDATE_PASSWORD = 'updatePassword',
     WISHLIST = 'wishlist'
 }
 

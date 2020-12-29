@@ -14,48 +14,48 @@ export class AccountService {
     constructor(private http: HttpClient) {
     }
 
-    updateCustomerProfile(editProfileDataValue: Customer): Observable<Customer> {
-        const updateProfileURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PROFILE}/update`;
-        return this.http.post<Customer>(updateProfileURL, editProfileDataValue);
+    updateCustomerProfile(editProfileData: Customer): Observable<Customer> {
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PROFILE}/${WebStoreAPI.UPDATE}`;
+        return this.http.post<Customer>(URL, editProfileData);
     }
 
     getOrdersForCustomer(customerID: number): Observable<Order[]> {
-        const getOrdersURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${customerID}`;
-        return this.http.get<Order[]>(getOrdersURL);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.ORDERS}/${customerID}`;
+        return this.http.get<Order[]>(URL);
     }
 
     addProductToWishlist(product: Product, customerID: number): Observable<void> {
-        const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/addProduct/${customerID}`;
-        return this.http.post<void>(addProductURL, product);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/${WebStoreAPI.ADD_PRODUCT}/${customerID}`;
+        return this.http.post<void>(URL, product);
     }
 
     addProductToCart(product: Product, customerID: number): Observable<void> {
-        const addProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/addProduct/${customerID}`;
-        return this.http.post<void>(addProductURL, product);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/${WebStoreAPI.ADD_PRODUCT}/${customerID}`;
+        return this.http.post<void>(URL, product);
     }
 
     removeProductFromWishlist(wishlistProduct: Wishlist, customerID: number): Observable<void> {
-        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/removeProduct/${customerID}`;
-        return this.http.post<void>(removeProductURL, wishlistProduct);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/${WebStoreAPI.REMOVE_PRODUCT}/${customerID}`;
+        return this.http.post<void>(URL, wishlistProduct);
     }
 
     removeProductFromCart(cartProduct: Cart, customerID: number): Observable<void> {
-        const removeProductURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/removeProduct/${customerID}`;
-        return this.http.post<void>(removeProductURL, cartProduct);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/${WebStoreAPI.REMOVE_PRODUCT}/${customerID}`;
+        return this.http.post<void>(URL, cartProduct);
     }
 
     clearWishlist(customerID: number): Observable<void> {
-        const clearURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/clearWishlist/${customerID}`;
-        return this.http.post<void>(clearURL, {});
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/${WebStoreAPI.CLEAR_WISHLIST}/${customerID}`;
+        return this.http.post<void>(URL, {});
     }
 
     clearCart(customerID: number): Observable<void> {
-        const clearURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/clearCart/${customerID}`;
-        return this.http.post<void>(clearURL, {});
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/${WebStoreAPI.CLEAR_CART}/${customerID}`;
+        return this.http.post<void>(URL, {});
     }
 
     checkOut(cartProducts: Product[], customerID: number): Observable<void> {
-        const checkOutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CHECKOUT}/${customerID}`;
-        return this.http.post<void>(checkOutURL, cartProducts);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CHECKOUT}/${customerID}`;
+        return this.http.post<void>(URL, cartProducts);
     }
 }

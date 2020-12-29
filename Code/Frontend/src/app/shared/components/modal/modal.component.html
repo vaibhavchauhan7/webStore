@@ -1,9 +1,8 @@
-<div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
-     data-keyboard="false"
-     id="{{modalID}}" tabindex="-1">
+<div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade"
+     data-backdrop="static" data-keyboard="false" id="{{modalID}}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content br-20 w-100">
-            <div class="modal-header" style="justify-content: center;">
+            <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="staticBackdropLabel">
                     <ng-content select="modalTitle"></ng-content>
                 </h5>
@@ -11,7 +10,7 @@
             <div class="modal-body text-center" style="font-size: 18px;">
                 <ng-content select="modalBody"></ng-content>
             </div>
-            <div class="modal-footer" style="justify-content: center;">
+            <div class="modal-footer justify-content-center">
                 <ng-content select="modalDoneButton"></ng-content>
                 <ng-content select="modalCloseButton"></ng-content>
             </div>

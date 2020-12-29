@@ -22,7 +22,7 @@ SET NOCOUNT ON
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
 BEGIN
-    IF (@ProductID > 0)
+    IF (@ProductID IS NOT NULL)
     BEGIN
         INSERT INTO orders (order_number, customer_id, product_id, purchase_date, purchase_time)
 		VALUES (

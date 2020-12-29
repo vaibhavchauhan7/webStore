@@ -14,33 +14,33 @@ export class AuthenticationService {
     constructor(private http: HttpClient) {
     }
 
+    getAuthenticatedCustomer(): Observable<Customer> {
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${WebStoreAPI.DETAILS}`;
+        return this.http.get<Customer>(URL);
+    }
+
     customerSignUp(signUpFormValue: SignUp): Observable<void> {
-        const signUpURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.SIGN_UP}`;
-        return this.http.post<void>(signUpURL, signUpFormValue);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.SIGN_UP}`;
+        return this.http.post<void>(URL, signUpFormValue);
     }
 
     customerLogin(loginFormValue: Login): Observable<any> {
-        const loginURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.LOGIN}`;
-        return this.http.post<any>(loginURL, loginFormValue);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.LOGIN}`;
+        return this.http.post<any>(URL, loginFormValue);
     }
 
     customerLogout(): Observable<void> {
-        const logoutURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.LOGOUT}`;
-        return this.http.post<void>(logoutURL, {});
-    }
-
-    getAuthenticatedCustomer(): Observable<Customer> {
-        const customerDetailsURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/details`;
-        return this.http.get<Customer>(customerDetailsURL);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.LOGOUT}`;
+        return this.http.post<void>(URL, {});
     }
 
     forgotPassword(forgotPasswordFormValue: ForgotPassword): Observable<boolean> {
-        const forgotURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.FORGOT}/confirmAccount`;
-        return this.http.post<boolean>(forgotURL, forgotPasswordFormValue);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.FORGOT}/${WebStoreAPI.CONFIRM_ACCOUNT}`;
+        return this.http.post<boolean>(URL, forgotPasswordFormValue);
     }
 
     updatePassword(updatePasswordFormValue: UpdatePassword): Observable<void> {
-        const updatePasswordURL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.FORGOT}/updatePassword`;
-        return this.http.post<void>(updatePasswordURL, updatePasswordFormValue);
+        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.AUTHENTICATION}/${WebStoreAPI.FORGOT}/${WebStoreAPI.UPDATE_PASSWORD}`;
+        return this.http.post<void>(URL, updatePasswordFormValue);
     }
 }
