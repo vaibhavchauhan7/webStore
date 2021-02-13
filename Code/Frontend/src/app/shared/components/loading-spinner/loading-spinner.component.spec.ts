@@ -11,8 +11,7 @@ describe('LoadingSpinnerComponent', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             declarations: [LoadingSpinnerComponent]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {

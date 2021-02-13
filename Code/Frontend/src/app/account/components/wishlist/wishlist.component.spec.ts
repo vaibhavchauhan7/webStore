@@ -11,8 +11,7 @@ describe('WishlistComponent', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             declarations: [WishlistComponent]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {

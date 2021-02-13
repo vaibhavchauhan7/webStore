@@ -11,8 +11,7 @@ describe('ModalComponent', () => {
         await TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             declarations: [ModalComponent]
-        })
-            .compileComponents();
+        }).compileComponents();
     });
 
     beforeEach(() => {

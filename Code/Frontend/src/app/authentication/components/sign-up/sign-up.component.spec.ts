@@ -1,5 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterModule} from '@angular/router';
 
 import {SignUpComponent} from './sign-up.component';
 
@@ -9,10 +11,13 @@ describe('SignUpComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
+            imports: [
+                FormsModule,
+                HttpClientTestingModule,
+                RouterModule.forRoot([])
+            ],
             declarations: [SignUpComponent]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
