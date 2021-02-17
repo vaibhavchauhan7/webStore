@@ -1,28 +1,21 @@
 export enum WSApi {
-    ADD_PRODUCT = 'addProduct',
     AUTHENTICATION = 'authentication',
     BASE_URL = 'webStoreAPI',
-    CART = 'cart',
     CHECKOUT = 'checkout',
-    CLEAR_CART = 'clearCart',
-    CLEAR_WISHLIST = 'clearWishlist',
-    CONFIRM_ACCOUNT = 'confirmAccount',
+    CLEAR = 'clear',
+    CONFIRM = 'confirm',
     CONTACT = 'contact',
-    CUSTOMERS = 'customers',
     CUSTOMER = 'customer',
     DETAILS = 'details',
     FORGOT = 'forgot',
-    GET_PRODUCTS = 'getProducts',
     LOGIN = 'login',
     LOGOUT = 'logout',
     ORDERS = 'orders',
+    PRODUCT = 'product',
     PRODUCTS = 'products',
     PROFILE = 'profile',
-    REMOVE_PRODUCT = 'removeProduct',
     SIGN_UP = 'sign-up',
-    UPDATE = 'update',
-    UPDATE_PASSWORD = 'updatePassword',
-    WISHLIST = 'wishlist'
+    UPDATE = 'update'
 }
 
 export enum WSRouting {

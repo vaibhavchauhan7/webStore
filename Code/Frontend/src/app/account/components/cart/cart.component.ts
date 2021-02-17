@@ -64,7 +64,7 @@ export class CartComponent implements OnInit, OnDestroy {
         this.cartProduct = cartProduct;
         this.modalID = `cart_${cartProduct.id}`;
         if (confirmation) {
-            this.subscription$.push(this.accountService.removeProductFromCart(cartProduct, this.customer.id)
+            this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, 'Cart', 1)
                 .subscribe(() => {
                     this.productService.cartProducts
                         .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
@@ -80,7 +80,7 @@ export class CartComponent implements OnInit, OnDestroy {
     clearCart(confirmation?: boolean): void {
         this.modalID = 'clearCart';
         if (confirmation) {
-            this.subscription$.push(this.accountService.clearCart(this.customer.id)
+            this.subscription$.push(this.accountService.clearProducts(this.customer.id, 'Cart')
                 .subscribe(() => {
                     this.cartProducts = this.productService.cartProducts = [];
                     this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
@@ -96,7 +96,7 @@ export class CartComponent implements OnInit, OnDestroy {
         this.modalID = 'checkOut';
         if (confirmation) {
             this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe(() => {
-                    this.subscription$.push(this.accountService.clearCart(this.customer.id)
+                    this.subscription$.push(this.accountService.clearProducts(this.customer.id, 'Cart')
                         .subscribe(() => {
                             this.cartProducts = [];
                             this.productService.cartProducts = [];

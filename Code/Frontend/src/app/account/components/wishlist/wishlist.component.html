@@ -49,7 +49,7 @@
 <ng-container *ngIf="wishlistProducts && wishlistProducts.length !== 0">
     <div class="row mt-p5">
         <div class="col-12 text-center">
-            <button (click)="clearWishlist()" [attr.data-target]="'#' + modalID"
+            <button (click)="clearProducts()" [attr.data-target]="'#' + modalID"
                     [disabled]="wishlistProducts.length === 0"
                     class="btn btn-red br-20" data-toggle="modal" type="button">
                 Clear Wishlist
@@ -93,7 +93,7 @@
             <p class="actionUndone">This action cannot be undone!</p>
         </modalBody>
         <modalDoneButton>
-            <button (click)="clearWishlist(true)" class="btn btn-web br-20"
+            <button (click)="clearProducts(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">
                 Yes, Clear Wishlist
             </button>

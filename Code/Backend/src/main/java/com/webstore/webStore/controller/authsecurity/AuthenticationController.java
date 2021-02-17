@@ -48,7 +48,7 @@ public class AuthenticationController {
         customerService.resetCustomer();
     }
 
-    @PostMapping("/forgot/confirmAccount")
+    @PostMapping("/forgot/confirm")
     private boolean forgotPassword(@RequestBody ForgotPassword forgotPassword) {
         customer = customerDAO.getCustomerByEmail(forgotPassword.getEmail());
         if (customer.getEmail() != null && customer.getPhone() != null) {
@@ -59,7 +59,7 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/forgot/updatePassword")
+    @PostMapping("/forgot/update")
     private void updatePassword(@RequestBody UpdatePassword updatePassword) {
         if (customer == null) {
             Customer customer = customerDAO.getCustomerByEmail(updatePassword.getEmail());

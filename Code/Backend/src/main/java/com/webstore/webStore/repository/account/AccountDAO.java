@@ -11,18 +11,21 @@ import java.util.List;
 @Repository
 public interface AccountDAO {
 
-    // Profile
-    Customer updateCustomerProfile(Customer customer);
+    // Update Customer Profile
+    Customer updateProfile(Customer customer);
 
-    // Orders
-    List<Order> getOrdersForCustomer(Integer customerID);
+    // Get Customer Orders
+    List<Order> getOrders(Integer customerID);
 
-    // Manage - Wishlist & Cart
-    List<WishlistCart> getProducts(Integer customerID, String productType);
+    // Get Products In Wishlist/Cart
+    List<WishlistCart> getProducts(Integer customerID, String type);
 
-    void addRemoveProducts(Product product, Integer customerID, String productType, Integer removeProduct);
+    // Add/Remove Product In Wishlist/Cart
+    void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct);
 
-    void clearProducts(Integer customerID, String productType);
+    // Clear Products In Wishlist/Cart
+    void clearProducts(Integer customerID, String type);
 
+    // Cart Checkout
     void checkOut(List<Product> cartProducts, Integer customerID);
 }

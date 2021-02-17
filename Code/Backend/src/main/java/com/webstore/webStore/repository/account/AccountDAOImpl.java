@@ -35,7 +35,7 @@ public class AccountDAOImpl implements AccountDAO {
 
     // TODO: Fix - Multiple Profile Issues
     @Override
-    public Customer updateCustomerProfile(Customer customer) {
+    public Customer updateProfile(Customer customer) {
         String sql = "UPDATE customers SET first_name = ?, last_name = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             PreparedStatement preparedStatement = connection.prepareCall(sql);
@@ -54,7 +54,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<Order> getOrdersForCustomer(Integer customerID) {
+    public List<Order> getOrders(Integer customerID) {
         List<Order> orders = new ArrayList<>();
 
         String sql = "{call spInsertAndGetOrdersForCustomer(?,null)}";
@@ -91,7 +91,7 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<WishlistCart> getProducts(Integer customerID, String productType) {
+    public List<WishlistCart> getProducts(Integer customerID, String type) {
         List<WishlistCart> products = new ArrayList<>();
 
         String sql = "{call spManageCartWishlist(?,null,?,0)}";
@@ -99,7 +99,7 @@ public class AccountDAOImpl implements AccountDAO {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
             callableStatement.setInt(1, customerID);
-            callableStatement.setString(2, productType);
+            callableStatement.setString(2, type);
 
             callableStatement.executeQuery();
             ResultSet resultSet = callableStatement.getResultSet();
@@ -110,7 +110,7 @@ public class AccountDAOImpl implements AccountDAO {
                 product.setName(resultSet.getString("ProductName"));
                 product.setImagePath(resultSet.getString("ProductImagePath"));
                 product.setPrice(resultSet.getString("ProductPrice"));
-                if (productType.equals("Cart")) {
+                if (type.equals("Cart")) {
                     product.setQuantity(resultSet.getInt("ProductQuantity"));
                 } else {
                     product.setQuantity(null);
@@ -127,14 +127,14 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void addRemoveProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
+    public void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct) {
         String sql = "{call spManageCartWishlist(?,?,?,?)}";
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
             callableStatement.setInt(1, customerID);
             callableStatement.setInt(2, product.getId());
-            callableStatement.setString(3, productType);
+            callableStatement.setString(3, type);
             callableStatement.setInt(4, removeProduct);
             callableStatement.execute();
 
@@ -145,11 +145,11 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void clearProducts(Integer customerID, String productType) {
+    public void clearProducts(Integer customerID, String type) {
         String sql;
-        if (productType.equals("Cart")) {
+        if (type.equals("Cart")) {
             sql = "DELETE FROM cart WHERE cart.customer_id = ?";
-        } else if (productType.equals("Wishlist")) {
+        } else if (type.equals("Wishlist")) {
             sql = "DELETE FROM wishlist WHERE wishlist.customer_id = ?";
         } else {
             sql = "";

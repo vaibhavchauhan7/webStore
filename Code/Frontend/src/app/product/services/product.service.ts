@@ -45,7 +45,7 @@ export class ProductService {
     }
 
     initializeWishlist(customerID: number): Observable<Wishlist[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.WISHLIST}/${WSApi.GET_PRODUCTS}/${customerID}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.PRODUCTS}/Wishlist`;
         return this.http.get<Wishlist[]>(URL).pipe(tap((productList: Wishlist[]) => {
                 this.wishlistProducts = productList;
             })
@@ -53,7 +53,7 @@ export class ProductService {
     }
 
     initializeCart(customerID: number): Observable<Cart[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CART}/${WSApi.GET_PRODUCTS}/${customerID}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.PRODUCTS}/Cart`;
         return this.http.get<Cart[]>(URL).pipe(tap((productList: Cart[]) => {
                 this.cartProducts = productList;
             })

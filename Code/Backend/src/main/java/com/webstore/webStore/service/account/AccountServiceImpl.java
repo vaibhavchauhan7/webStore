@@ -21,28 +21,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Customer updateCustomerProfile(Customer customer) {
-        return accountDAO.updateCustomerProfile(customer);
+    public Customer updateProfile(Customer customer) {
+        return accountDAO.updateProfile(customer);
     }
 
     @Override
-    public List<Order> getOrdersForCustomer(Integer customerID) {
-        return accountDAO.getOrdersForCustomer(customerID);
+    public List<Order> getOrders(Integer customerID) {
+        return accountDAO.getOrders(customerID);
     }
 
     @Override
-    public List<WishlistCart> getProducts(Integer customerID, String productType) {
-        return accountDAO.getProducts(customerID, productType);
+    public List<WishlistCart> getProducts(Integer customerID, String type) {
+        return accountDAO.getProducts(customerID, type);
     }
 
     @Override
-    public void addRemoveProducts(Product product, Integer customerID, String productType, Integer removeProduct) {
-        accountDAO.addRemoveProducts(product, customerID, productType, removeProduct);
+    public void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct) {
+        accountDAO.modifyProduct(product, customerID, type, removeProduct);
     }
 
     @Override
-    public void clearProducts(Integer customerID, String productType) {
-        accountDAO.clearProducts(customerID, productType);
+    public void clearProducts(Integer customerID, String type) {
+        accountDAO.clearProducts(customerID, type);
     }
 
     @Override

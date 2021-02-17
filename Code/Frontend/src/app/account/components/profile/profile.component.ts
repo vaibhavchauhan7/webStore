@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (editProfileData.value.firstName !== '' && editProfileData.value.lastName !== ''
             && editProfileData.value.email !== '' && editProfileData.value.phone !== '') {
             // TODO: Stabilize Profile Update with Verification Conditions
-            this.subscription$.push(this.accountService.updateCustomerProfile(editProfileData.value)
+            this.subscription$.push(this.accountService.updateProfile(editProfileData.value)
                 .subscribe((customer: Customer) => {
                     this.commonService.setCustomer(customer);
                     this.toggleEditProfile();

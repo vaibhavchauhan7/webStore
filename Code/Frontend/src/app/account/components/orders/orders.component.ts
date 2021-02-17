@@ -32,14 +32,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.commonService.getCustomer().subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
-                    this.getOrdersForCustomer();
+                    this.getOrders();
                 }
             })
         );
     }
 
-    getOrdersForCustomer(): void {
-        this.subscription$.push(this.accountService.getOrdersForCustomer(this.customer.id)
+    getOrders(): void {
+        this.subscription$.push(this.accountService.getOrders(this.customer.id)
             .subscribe((orderList: Order[]) => {
                 this.orders = orderList;
             }, () => {

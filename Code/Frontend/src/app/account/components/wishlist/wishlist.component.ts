@@ -60,7 +60,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
         this.wishlistProduct = wishlistProduct;
         this.modalID = `wishlist_${wishlistProduct.id}`;
         if (confirmation) {
-            this.subscription$.push(this.accountService.removeProductFromWishlist(wishlistProduct, this.customer.id)
+            this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, 'Wishlist', 1)
                 .subscribe(() => {
                     this.productService.wishlistProducts
                         .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
@@ -73,10 +73,10 @@ export class WishlistComponent implements OnInit, OnDestroy {
         }
     }
 
-    clearWishlist(confirmation?: boolean): void {
-        this.modalID = 'clearWishlist';
+    clearProducts(confirmation?: boolean): void {
+        this.modalID = 'clearProducts';
         if (confirmation) {
-            this.subscription$.push(this.accountService.clearWishlist(this.customer.id)
+            this.subscription$.push(this.accountService.clearProducts(this.customer.id, 'Wishlist')
                 .subscribe(() => {
                     this.wishlistProducts = this.productService.wishlistProducts = [];
                     this.toastService.showToast('Wishlist Cleared!', {classname: 'bg-success'});

@@ -116,7 +116,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     addProductToWishlist(product: Product): void {
         if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.addProductToWishlist(product, this.customerID)
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, 'Wishlist', 0)
                 .subscribe(() => {
                     this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
                     this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
@@ -134,7 +134,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     addProductToCart(product: Product): void {
         if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.addProductToCart(product, this.customerID)
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, 'Cart', 0)
                 .subscribe(() => {
                     this.cartButton = `${WSCart.ADDED_TO_CART}`;
                     this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;

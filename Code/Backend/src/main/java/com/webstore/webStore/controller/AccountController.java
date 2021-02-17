@@ -21,64 +21,41 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // Profile
+    // Update Customer Profile
     @PostMapping("/profile/update")
-    public Customer updateCustomerProfile(@RequestBody Customer customer) {
-        return accountService.updateCustomerProfile(customer);
+    public Customer updateProfile(@RequestBody Customer customer) {
+        return accountService.updateProfile(customer);
     }
 
-    // Orders
+    // Get Customer Orders
     @GetMapping("/orders/{customerID}")
-    private List<Order> getOrdersForCustomer(@PathVariable Integer customerID) {
-        return accountService.getOrdersForCustomer(customerID);
+    private List<Order> getOrders(@PathVariable Integer customerID) {
+        return accountService.getOrders(customerID);
     }
 
-    // Get Products
-    @GetMapping("/wishlist/getProducts/{customerID}")
-    private List<WishlistCart> getWishlistProducts(@PathVariable Integer customerID) {
-        return accountService.getProducts(customerID, "Wishlist");
+    // Get Products In Wishlist/Cart
+    @GetMapping("/customer/{customerID}/products/{type}")
+    private List<WishlistCart> getProducts(@PathVariable Integer customerID, @PathVariable String type) {
+        return accountService.getProducts(customerID, type);
     }
 
-    @GetMapping("/cart/getProducts/{customerID}")
-    private List<WishlistCart> getCartProducts(@PathVariable Integer customerID) {
-        return accountService.getProducts(customerID, "Cart");
+    // Add/Remove Product In Wishlist/Cart
+    @PostMapping("/customer/{customerID}/product/{type}")
+    private void modifyProduct(@RequestBody Product product,
+                               @PathVariable Integer customerID,
+                               @PathVariable String type,
+                               @RequestParam("removeProduct") Integer removeProduct) {
+        accountService.modifyProduct(product, customerID, type, removeProduct);
     }
 
-    // Add Products
-    @PostMapping("/wishlist/addProduct/{customerID}")
-    private void addProductToWishlist(@RequestBody Product product, @PathVariable Integer customerID) {
-        accountService.addRemoveProducts(product, customerID, "Wishlist", 0);
+    // Clear Products In Wishlist/Cart
+    @PostMapping("/customer/{customerID}/clear/{type}")
+    private void clearProducts(@PathVariable Integer customerID, @PathVariable String type) {
+        accountService.clearProducts(customerID, type);
     }
 
-    @PostMapping("/cart/addProduct/{customerID}")
-    private void addProductToCart(@RequestBody Product product, @PathVariable Integer customerID) {
-        accountService.addRemoveProducts(product, customerID, "Cart", 0);
-    }
-
-    // Remove Products
-    @PostMapping("/wishlist/removeProduct/{customerID}")
-    private void removeProductFromWishlist(@RequestBody Product product, @PathVariable Integer customerID) {
-        accountService.addRemoveProducts(product, customerID, "Wishlist", 1);
-    }
-
-    @PostMapping("/cart/removeProduct/{customerID}")
-    private void removeProductFromCart(@RequestBody Product product, @PathVariable Integer customerID) {
-        accountService.addRemoveProducts(product, customerID, "Cart", 1);
-    }
-
-    // Clear Products
-    @PostMapping("/wishlist/clearWishlist/{customerID}")
-    private void clearWishlist(@PathVariable Integer customerID) {
-        accountService.clearProducts(customerID, "Wishlist");
-    }
-
-    @PostMapping("/cart/clearCart/{customerID}")
-    private void clearCart(@PathVariable Integer customerID) {
-        accountService.clearProducts(customerID, "Cart");
-    }
-
-    // Checkout
-    @PostMapping("/checkout/{customerID}")
+    // Cart Checkout
+    @PostMapping("/customer/{customerID}/checkout")
     private void checkOut(@RequestBody List<Product> cartProducts, @PathVariable Integer customerID) {
         accountService.checkOut(cartProducts, customerID);
     }

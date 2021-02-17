@@ -35,12 +35,12 @@ export class AuthenticationService {
     }
 
     forgotPassword(forgotPasswordFormValue: ForgotPassword): Observable<boolean> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.AUTHENTICATION}/${WSApi.FORGOT}/${WSApi.CONFIRM_ACCOUNT}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.AUTHENTICATION}/${WSApi.FORGOT}/${WSApi.CONFIRM}`;
         return this.http.post<boolean>(URL, forgotPasswordFormValue);
     }
 
     updatePassword(updatePasswordFormValue: UpdatePassword): Observable<void> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.AUTHENTICATION}/${WSApi.FORGOT}/${WSApi.UPDATE_PASSWORD}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.AUTHENTICATION}/${WSApi.FORGOT}/${WSApi.UPDATE}`;
         return this.http.post<void>(URL, updatePasswordFormValue);
     }
 }
