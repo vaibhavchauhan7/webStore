@@ -5,13 +5,13 @@ import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../../account/account.service';
 import {AuthenticationService} from '../../../authentication/services/authentication.service';
-import {CommonControllerService} from '../../services/common-controller.service';
+import {CommonService} from '../../services/common.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from '../../entity/models';
-import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ProductService} from '../../../product/services/product.service';
 import {SidebarService} from './sidebar.service';
 import {ToastService} from '../toast/toast.service';
-import {WebStoreRouting} from '../../entity/constants';
+import {WSRouting} from '../../entity/constants';
 
 @Component({
     selector: 'app-sidebar',
@@ -21,13 +21,13 @@ import {WebStoreRouting} from '../../entity/constants';
 export class SidebarComponent implements OnInit, OnDestroy {
 
     routes = {
-        account: WebStoreRouting.ACCOUNT,
-        cart: WebStoreRouting.CART,
-        contact: WebStoreRouting.CONTACT,
-        login: WebStoreRouting.LOGIN,
-        orders: WebStoreRouting.ORDERS,
-        profile: WebStoreRouting.PROFILE,
-        wishlist: WebStoreRouting.WISHLIST
+        account: WSRouting.ACCOUNT,
+        cart: WSRouting.CART,
+        contact: WSRouting.CONTACT,
+        login: WSRouting.LOGIN,
+        orders: WSRouting.ORDERS,
+        profile: WSRouting.PROFILE,
+        wishlist: WSRouting.WISHLIST
     };
 
     customer: Customer;
@@ -39,32 +39,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     constructor(private accountService: AccountService,
                 private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService,
+                private commonService: CommonService,
                 private cookieService: CookieService,
-                private productManagementService: ProductManagementService,
+                private productService: ProductService,
                 private router: Router,
                 private sidebarService: SidebarService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerObserver();
+        this.getCustomer();
         this.getSidebarObserver();
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer().subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
                     this.customerFullName = this.customer.firstName + ' ' + this.customer.lastName;
-                    this.getCustomerAuthenticationObserver();
+                    this.getCustomerAuthentication();
                 }
             })
         );
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+    getCustomerAuthentication(): void {
+        this.subscription$.push(this.commonService.getCustomerAuthentication().subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
             })
         );
@@ -79,12 +79,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     customerLogout(): void {
         this.cookieService.delete('token');
-        this.commonControllerService.revokeCustomerAuthentication();
+        this.commonService.revokeCustomerAuthentication();
         this.subscription$.push(this.authenticationService.customerLogout().subscribe(() => {
-                this.commonControllerService.resetCustomerData();
-                this.productManagementService.previousRoute = '/';
-                this.productManagementService.cartProducts = [];
-                this.productManagementService.wishlistProducts = [];
+                this.commonService.resetCustomer();
+                this.productService.previousRoute = '/';
+                this.productService.cartProducts = [];
+                this.productService.wishlistProducts = [];
                 this.router.navigateByUrl('/').then();
                 this.toastService.showToast(`Successfully Logged Out!`, {classname: 'bg-success'});
             }, () => {

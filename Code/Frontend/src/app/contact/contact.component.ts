@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 
 import {Subscription} from 'rxjs';
 
-import {CommonControllerService} from '../shared/services/common-controller.service';
+import {CommonService} from '../shared/services/common.service';
 import {ContactService} from './contact.service';
 import {Customer} from '../shared/entity/models';
 import {ToastService} from '../shared/components/toast/toast.service';
@@ -23,26 +23,26 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     private subscription$: Subscription[] = [];
 
-    constructor(private commonControllerService: CommonControllerService,
+    constructor(private commonService: CommonService,
                 private contactService: ContactService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerAuthenticationObserver();
-        this.getCustomerObserver();
+        this.getCustomerAuthentication();
+        this.getCustomer();
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+    getCustomerAuthentication(): void {
+        this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
             })
         );
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;

@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthenticationService} from './authentication/services/authentication.service';
 import {AuthenticationGuardService} from './authentication/services/authentication-guard.service';
-import {CommonControllerService} from './shared/services/common-controller.service';
+import {CommonService} from './shared/services/common.service';
 import {ContactService} from './contact/contact.service';
 import {CookieService} from 'ngx-cookie-service';
 import {FooterComponent} from './shared/components/footer/footer.component';
@@ -51,7 +51,7 @@ import {ToastComponent} from './shared/components/toast/toast.component';
     providers: [
         AuthenticationService,
         AuthenticationGuardService,
-        CommonControllerService,
+        CommonService,
         ContactService,
         CookieService,
         ProductResolverService,

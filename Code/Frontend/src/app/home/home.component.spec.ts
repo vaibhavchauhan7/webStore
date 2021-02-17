@@ -19,13 +19,11 @@ describe('HomeComponent', () => {
             ],
             declarations: [HomeComponent, SearchFilterPipe]
         }).compileComponents();
-    }));
 
-    beforeEach(() => {
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-    });
+    }));
 
     it('should create', () => {
         expect(component).toBeTruthy();

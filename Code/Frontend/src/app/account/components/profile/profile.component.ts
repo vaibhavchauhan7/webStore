@@ -4,10 +4,10 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CommonService} from '../../../shared/services/common.service';
 import {Customer} from '../../../shared/entity/models';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WebStoreRouting} from '../../../shared/entity/constants';
+import {WSRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-profile',
@@ -17,10 +17,10 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 export class ProfileComponent implements OnInit, OnDestroy {
 
     routes = {
-        account: WebStoreRouting.ACCOUNT,
-        cart: WebStoreRouting.CART,
-        orders: WebStoreRouting.ORDERS,
-        wishlist: WebStoreRouting.WISHLIST
+        account: WSRouting.ACCOUNT,
+        cart: WSRouting.CART,
+        orders: WSRouting.ORDERS,
+        wishlist: WSRouting.WISHLIST
     };
 
     customer: Customer;
@@ -29,16 +29,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
-                private commonControllerService: CommonControllerService,
+                private commonService: CommonService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerObserver();
+        this.getCustomer();
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             // TODO: Stabilize Profile Update with Verification Conditions
             this.subscription$.push(this.accountService.updateCustomerProfile(editProfileData.value)
                 .subscribe((customer: Customer) => {
-                    this.commonControllerService.setCustomerData(customer);
+                    this.commonService.setCustomer(customer);
                     this.toggleEditProfile();
                     this.toastService.showToast('Changes Saved!', {classname: 'bg-success'});
                 }, () => {

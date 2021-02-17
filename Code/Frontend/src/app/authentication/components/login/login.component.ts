@@ -5,11 +5,11 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
-import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CommonService} from '../../../shared/services/common.service';
 import {CookieService} from 'ngx-cookie-service';
-import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WebStoreRouting} from '../../../shared/entity/constants';
+import {WSRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-login',
@@ -19,23 +19,23 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 export class LoginComponent implements OnInit, OnDestroy {
 
     routes = {
-        signUp: WebStoreRouting.SIGN_UP,
-        forgot: WebStoreRouting.FORGOT
+        signUp: WSRouting.SIGN_UP,
+        forgot: WSRouting.FORGOT
     };
     isCustomerAuthenticated: boolean;
 
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService,
+                private commonService: CommonService,
                 private cookieService: CookieService,
-                private productManagementService: ProductManagementService,
+                private productService: ProductService,
                 private router: Router,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerAuthenticationObserver();
+        this.getCustomerAuthentication();
     }
 
     customerLogin(loginFormData: NgForm): void {
@@ -47,12 +47,12 @@ export class LoginComponent implements OnInit, OnDestroy {
                     // TODO: Make JWT Cookie HTTP Only and Secure
                     // Set Cookie - Should be the first line here otherwise lazy loaded components make API calls without JWT
                     this.cookieService.set('token', data.token);
-                    this.commonControllerService.setCustomerData(data.customer);
-                    this.commonControllerService.authenticateCustomer();
+                    this.commonService.setCustomer(data.customer);
+                    this.commonService.authenticateCustomer();
                     this.toastService.showToast(`Welcome Back, ${data.customer.firstName} ${data.customer.lastName}`,
                         {classname: 'bg-success'});
-                    if (this.productManagementService.previousRoute) {
-                        this.router.navigateByUrl(`${this.productManagementService.previousRoute}`).then();
+                    if (this.productService.previousRoute) {
+                        this.router.navigateByUrl(`${this.productService.previousRoute}`).then();
                     } else {
                         this.router.navigateByUrl('/').then();
                     }
@@ -63,8 +63,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+    getCustomerAuthentication(): void {
+        this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
                 if (data) {

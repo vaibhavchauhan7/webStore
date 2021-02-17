@@ -7,7 +7,7 @@ import {Customer} from '../entity/models';
 @Injectable({
     providedIn: 'root'
 })
-export class CommonControllerService {
+export class CommonService {
 
     private customerData$ = new BehaviorSubject({} as Customer);
     private isCustomerAuthenticated$ = new BehaviorSubject(false);
@@ -16,21 +16,21 @@ export class CommonControllerService {
     constructor() {
     }
 
-    // CustomerData
-    getCustomerObserver(): Observable<Customer> {
+    // Customer
+    getCustomer(): Observable<Customer> {
         return this.customerData$.asObservable();
     }
 
-    setCustomerData(customer: Customer): void {
+    setCustomer(customer: Customer): void {
         this.customerData$.next(customer);
     }
 
-    resetCustomerData(): void {
+    resetCustomer(): void {
         this.customerData$.next({} as Customer);
     }
 
-    // CustomerAuthentication
-    getCustomerAuthenticationObserver(): Observable<boolean> {
+    // Customer Authentication
+    getCustomerAuthentication(): Observable<boolean> {
         return this.isCustomerAuthenticated$.asObservable();
     }
 
@@ -42,8 +42,8 @@ export class CommonControllerService {
         this.isCustomerAuthenticated$.next(false);
     }
 
-    // LoadingSpinner
-    getLoadingSpinnerObserver(): Observable<string> {
+    // Loading Spinner
+    getLoadingSpinnerStatus(): Observable<string> {
         return this.loadingSpinner$.asObservable();
     }
 

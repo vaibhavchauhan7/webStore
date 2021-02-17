@@ -1,4 +1,4 @@
-export enum WebStoreAPI {
+export enum WSApi {
     ADD_PRODUCT = 'addProduct',
     AUTHENTICATION = 'authentication',
     BASE_URL = 'webStoreAPI',
@@ -25,7 +25,7 @@ export enum WebStoreAPI {
     WISHLIST = 'wishlist'
 }
 
-export enum WebStoreRouting {
+export enum WSRouting {
     ACCOUNT = 'account',
     CART = 'cart',
     CONTACT = 'contact',
@@ -40,7 +40,7 @@ export enum WebStoreRouting {
     WISHLIST = 'wishlist'
 }
 
-export enum WebStoreTitle {
+export enum WSTitle {
     CART = 'webStore : Cart',
     CONTACT = 'webStore : Contact',
     FORGOT = 'webStore : Forgot Password',
@@ -53,18 +53,18 @@ export enum WebStoreTitle {
     WISHLIST = 'webStore : Wishlist'
 }
 
-export enum WebStoreCart {
+export enum WSCart {
     ADDED_TO_CART = 'Added to Cart',
     ALREADY_IN_CART = 'Already in Cart',
     CLASS_ADDED_TO_CART = 'btn-green-active',
-    DEFAULT_BUTTON_TITLE = 'Add to Cart',
+    DEFAULT_TITLE = 'Add to Cart',
     DEFAULT_CLASS = 'btn-green'
 }
 
-export enum WebStoreWishlist {
+export enum WSWishlist {
     ADDED_TO_WISHLIST = 'Added to Wishlist',
     ALREADY_IN_WISHLIST = 'Already in Wishlist',
     CLASS_ADDED_TO_WISHLIST = 'btn-red-active',
-    DEFAULT_BUTTON_TITLE = 'Add to Wishlist',
+    DEFAULT_TITLE = 'Add to Wishlist',
     DEFAULT_CLASS = 'btn-red'
 }

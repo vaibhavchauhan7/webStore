@@ -7,7 +7,7 @@ import {CartComponent} from './components/cart/cart.component';
 import {OrdersComponent} from './components/orders/orders.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {WishlistComponent} from './components/wishlist/wishlist.component';
-import {WebStoreRouting, WebStoreTitle} from '../shared/entity/constants';
+import {WSRouting, WSTitle} from '../shared/entity/constants';
 
 const routes: Routes = [
     {
@@ -15,28 +15,28 @@ const routes: Routes = [
         component: AccountComponent,
         children: [
             {
-                path: `${WebStoreRouting.CART}`,
+                path: `${WSRouting.CART}`,
                 canActivate: [AuthenticationGuardService],
                 component: CartComponent,
-                data: {title: `${WebStoreTitle.CART}`}
+                data: {title: `${WSTitle.CART}`}
             },
             {
-                path: `${WebStoreRouting.ORDERS}`,
+                path: `${WSRouting.ORDERS}`,
                 canActivate: [AuthenticationGuardService],
                 component: OrdersComponent,
-                data: {title: `${WebStoreTitle.ORDERS}`}
+                data: {title: `${WSTitle.ORDERS}`}
             },
             {
-                path: `${WebStoreRouting.PROFILE}`,
+                path: `${WSRouting.PROFILE}`,
                 canActivate: [AuthenticationGuardService],
                 component: ProfileComponent,
-                data: {title: `${WebStoreTitle.PROFILE}`}
+                data: {title: `${WSTitle.PROFILE}`}
             },
             {
-                path: `${WebStoreRouting.WISHLIST}`,
+                path: `${WSRouting.WISHLIST}`,
                 canActivate: [AuthenticationGuardService],
                 component: WishlistComponent,
-                data: {title: `${WebStoreTitle.WISHLIST}`}
+                data: {title: `${WSTitle.WISHLIST}`}
             }
         ]
     }

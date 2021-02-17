@@ -12,18 +12,18 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 import {CookieService} from 'ngx-cookie-service';
-import {CommonControllerService} from '../common-controller.service';
+import {CommonService} from '../common.service';
 
 @Injectable()
 export class HttpRequestHandler implements HttpInterceptor {
 
     constructor(private cookieService: CookieService,
-                private commonControllerService: CommonControllerService) {
+                private commonService: CommonService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const tokenCookie = this.cookieService.get('token');
-        this.commonControllerService.httpRequestInitiated();
+        this.commonService.httpRequestInitiated();
 
         if (tokenCookie) {
             const authRequest = request.clone({
@@ -40,10 +40,10 @@ export class HttpRequestHandler implements HttpInterceptor {
         return next.handle(request).pipe(
             tap(event => {
                 if (event instanceof HttpResponse) {
-                    this.commonControllerService.httpRequestCompleted();
+                    this.commonService.httpRequestCompleted();
                 }
             }, (error: HttpErrorResponse) => {
-                this.commonControllerService.httpRequestCompleted();
+                this.commonService.httpRequestCompleted();
                 throw error;
             })
         );

@@ -3,9 +3,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CommonService} from '../../../shared/services/common.service';
 import {Customer, Wishlist} from '../../../shared/entity/models';
-import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 
 @Component({
@@ -24,20 +24,20 @@ export class WishlistComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
-                private commonControllerService: CommonControllerService,
-                private productManagementService: ProductManagementService,
+                private commonService: CommonService,
+                private productService: ProductService,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerObserver();
+        this.getCustomer();
         if (window.innerWidth < 769) {
             this.isSmallDevice = true;
         }
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver().subscribe((customer: Customer) => {
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer().subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
                     this.initializeWishlist();
@@ -47,7 +47,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     }
 
     initializeWishlist(): void {
-        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
+        this.subscription$.push(this.productService.initializeWishlist(this.customer.id)
             .subscribe((productList: Wishlist[]) => {
                 this.wishlistProducts = productList;
             }, () => {
@@ -62,8 +62,8 @@ export class WishlistComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.removeProductFromWishlist(wishlistProduct, this.customer.id)
                 .subscribe(() => {
-                    this.productManagementService.wishlistProducts
-                        .splice(this.productManagementService.wishlistProducts.indexOf(wishlistProduct), 1);
+                    this.productService.wishlistProducts
+                        .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
                     this.toastService.showToast(`Removed ${wishlistProduct.name}!`, {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
@@ -78,7 +78,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.clearWishlist(this.customer.id)
                 .subscribe(() => {
-                    this.wishlistProducts = this.productManagementService.wishlistProducts = [];
+                    this.wishlistProducts = this.productService.wishlistProducts = [];
                     this.toastService.showToast('Wishlist Cleared!', {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
@@ -94,7 +94,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.commonControllerService.httpRequestCompleted();
+        this.commonService.httpRequestCompleted();
         if (this.subscription$) {
             this.subscription$.forEach(subscription => {
                 subscription.unsubscribe();

@@ -4,11 +4,11 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
-import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CommonService} from '../../../shared/services/common.service';
 import {Cart, Customer, Product} from '../../../shared/entity/models';
-import {ProductManagementService} from '../../../product/services/product-management.service';
+import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WebStoreRouting} from '../../../shared/entity/constants';
+import {WSRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-cart',
@@ -26,21 +26,21 @@ export class CartComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
-                private commonControllerService: CommonControllerService,
-                private productManagementService: ProductManagementService,
+                private commonService: CommonService,
+                private productService: ProductService,
                 private router: Router,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerObserver();
+        this.getCustomer();
         if (window.innerWidth < 769) {
             this.isSmallDevice = true;
         }
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
                     this.customer = customer;
@@ -51,7 +51,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     initializeCart(): void {
-        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
+        this.subscription$.push(this.productService.initializeCart(this.customer.id)
             .subscribe((productList: Cart[]) => {
                 this.cartProducts = productList;
             }, () => {
@@ -66,8 +66,8 @@ export class CartComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.removeProductFromCart(cartProduct, this.customer.id)
                 .subscribe(() => {
-                    this.productManagementService.cartProducts
-                        .splice(this.productManagementService.cartProducts.indexOf(cartProduct), 1);
+                    this.productService.cartProducts
+                        .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
                     this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
@@ -82,7 +82,7 @@ export class CartComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.clearCart(this.customer.id)
                 .subscribe(() => {
-                    this.cartProducts = this.productManagementService.cartProducts = [];
+                    this.cartProducts = this.productService.cartProducts = [];
                     this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
                     this.resetValues();
                 }, () => {
@@ -99,9 +99,9 @@ export class CartComponent implements OnInit, OnDestroy {
                     this.subscription$.push(this.accountService.clearCart(this.customer.id)
                         .subscribe(() => {
                             this.cartProducts = [];
-                            this.productManagementService.cartProducts = [];
+                            this.productService.cartProducts = [];
                             this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
-                            this.router.navigateByUrl(`/${WebStoreRouting.ACCOUNT}/${WebStoreRouting.ORDERS}`).then();
+                            this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
                         }, () => {
                             this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
                         })
@@ -120,7 +120,7 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.commonControllerService.httpRequestCompleted();
+        this.commonService.httpRequestCompleted();
         if (this.subscription$) {
             this.subscription$.forEach(subscription => {
                 subscription.unsubscribe();

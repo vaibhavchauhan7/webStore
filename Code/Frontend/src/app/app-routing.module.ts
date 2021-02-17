@@ -8,50 +8,50 @@ import {ProductComponent} from './product/product.component';
 import {PageNotFoundComponent} from './shared/components/page-not-found/page-not-found.component';
 import {ProductResolverService} from './product/services/product-resolver.service';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
-import {WebStoreRouting, WebStoreTitle} from './shared/entity/constants';
+import {WSRouting, WSTitle} from './shared/entity/constants';
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         resolve: {productList: ProductResolverService},
-        data: {title: `${WebStoreTitle.HOME}`}
+        data: {title: `${WSTitle.HOME}`}
     },
     {
-        path: `${WebStoreRouting.PRODUCT}/:id/:name`,
+        path: `${WSRouting.PRODUCT}/:id/:name`,
         component: ProductComponent
     },
     {
-        path: `${WebStoreRouting.ACCOUNT}`,
+        path: `${WSRouting.ACCOUNT}`,
         loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
     },
     {
-        path: `${WebStoreRouting.CONTACT}`,
+        path: `${WSRouting.CONTACT}`,
         loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
     },
     {
-        path: `${WebStoreRouting.LOGIN}`,
+        path: `${WSRouting.LOGIN}`,
         component: LoginComponent,
-        data: {title: `${WebStoreTitle.LOGIN}`}
+        data: {title: `${WSTitle.LOGIN}`}
     },
     {
-        path: `${WebStoreRouting.SIGN_UP}`,
+        path: `${WSRouting.SIGN_UP}`,
         component: SignUpComponent,
-        data: {title: `${WebStoreTitle.SIGN_UP}`}
+        data: {title: `${WSTitle.SIGN_UP}`}
     },
     {
-        path: `${WebStoreRouting.FORGOT}`,
+        path: `${WSRouting.FORGOT}`,
         component: ForgotPasswordComponent,
-        data: {title: `${WebStoreTitle.FORGOT}`}
+        data: {title: `${WSTitle.FORGOT}`}
     },
     {
-        path: `${WebStoreRouting.PAGE_NOT_FOUND}`,
+        path: `${WSRouting.PAGE_NOT_FOUND}`,
         component: PageNotFoundComponent,
-        data: {title: `${WebStoreTitle.PAGE_NOT_FOUND}`}
+        data: {title: `${WSTitle.PAGE_NOT_FOUND}`}
     },
     {
-        path: `${WebStoreRouting.PATH_DOES_NOT_EXIST}`,
-        redirectTo: `/${WebStoreRouting.PAGE_NOT_FOUND}`
+        path: `${WSRouting.PATH_DOES_NOT_EXIST}`,
+        redirectTo: `/${WSRouting.PAGE_NOT_FOUND}`
     }
 ];
 

@@ -5,11 +5,11 @@ import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../account/account.service';
-import {CommonControllerService} from '../shared/services/common-controller.service';
+import {CommonService} from '../shared/services/common.service';
 import {Customer, Product} from '../shared/entity/models';
-import {ProductManagementService} from './services/product-management.service';
+import {ProductService} from './services/product.service';
 import {ToastService} from '../shared/components/toast/toast.service';
-import {WebStoreCart, WebStoreRouting, WebStoreWishlist} from '../shared/entity/constants';
+import {WSCart, WSRouting, WSWishlist} from '../shared/entity/constants';
 
 @Component({
     selector: 'app-product',
@@ -18,49 +18,49 @@ import {WebStoreCart, WebStoreRouting, WebStoreWishlist} from '../shared/entity/
 })
 export class ProductComponent implements OnInit, OnDestroy {
 
-    product: Product;
+    private subscription$: Subscription[] = [];
+    private customerID: number;
+
     isCustomerAuthenticated: boolean;
+    product: Product;
 
-    cartButton = `${WebStoreCart.DEFAULT_BUTTON_TITLE}`;
-    wishlistButton = `${WebStoreWishlist.DEFAULT_BUTTON_TITLE}`;
+    cartButton = `${WSCart.DEFAULT_TITLE}`;
+    wishlistButton = `${WSWishlist.DEFAULT_TITLE}`;
 
-    cartButtonClass = `${WebStoreCart.DEFAULT_CLASS}`;
-    wishlistButtonClass = `${WebStoreWishlist.DEFAULT_CLASS}`;
+    cartButtonClass = `${WSCart.DEFAULT_CLASS}`;
+    wishlistButtonClass = `${WSWishlist.DEFAULT_CLASS}`;
 
     disableCartButton: boolean;
     disableWishlistButton: boolean;
 
-    private customer: Customer;
-    private subscription$: Subscription[] = [];
-
-    constructor(private accountService: AccountService,
-                private commonControllerService: CommonControllerService,
-                private productManagementService: ProductManagementService,
-                private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
+                private accountService: AccountService,
+                private commonService: CommonService,
+                private productService: ProductService,
                 private router: Router,
                 private titleService: Title,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerObserver();
-        this.selectedProduct(); // Called here and on line 71 (Need twice?)
+        this.getCustomer();
+        this.selectedProduct();
     }
 
-    getCustomerObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerObserver()
+    getCustomer(): void {
+        this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
-                    this.customer = customer;
-                    this.getCustomerAuthenticationObserver();
+                    this.customerID = customer.id;
+                    this.getCustomerAuthentication();
                     this.initializeCartAndWishlist();
                 }
             })
         );
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+    getCustomerAuthentication(): void {
+        this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
             })
@@ -68,92 +68,97 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     initializeCartAndWishlist(): void {
-        this.selectedProduct();
-        if (this.productManagementService.wishlistProducts.length === 0) {
+        this.selectedProduct(); // TODO : Need twice? Line 47 & 71
+        if (this.productService.wishlistProducts.length === 0) {
             this.initializeWishlist();
         }
-        if (this.productManagementService.cartProducts.length === 0) {
+        if (this.productService.cartProducts.length === 0) {
             this.initializeCart();
         }
     }
 
     initializeCart(): void {
-        this.subscription$.push(this.productManagementService.initializeCart(this.customer.id)
+        this.subscription$.push(this.productService.initializeCart(this.customerID)
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
             }, () => {
-                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
+                this.toastService.showToast(`Error Retrieving Your Cart!`,
+                    {classname: 'bg-red'});
             })
         );
     }
 
     initializeWishlist(): void {
-        this.subscription$.push(this.productManagementService.initializeWishlist(this.customer.id)
+        this.subscription$.push(this.productService.initializeWishlist(this.customerID)
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
             }, () => {
-                this.toastService.showToast(`Error Retrieving Your Wishlist!`, {classname: 'bg-red'});
+                this.toastService.showToast(`Error Retrieving Your Wishlist!`,
+                    {classname: 'bg-red'});
             })
         );
     }
 
     selectedProduct(): void {
-        this.productManagementService.previousRoute = this.router.url;
+        this.productService.previousRoute = this.router.url;
         const productID = this.route.snapshot.params.id;
-        this.subscription$.push(this.productManagementService.selectedProduct(+productID).subscribe(
+        this.subscription$.push(this.productService.selectedProduct(+productID).subscribe(
             (product: Product) => {
                 this.product = product;
                 this.titleService.setTitle(`webStore : ${this.product.name}`);
                 this.checkProductAvailability(this.product);
             }, () => {
-                this.toastService.showToast(`Error - Couldn't Get This Product!`, {classname: 'bg-red'});
+                this.toastService.showToast(`Error - Couldn't Get This Product!`,
+                    {classname: 'bg-red'});
             }
         ));
     }
 
     addProductToWishlist(product: Product): void {
         if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.addProductToWishlist(product, this.customer.id)
+            this.subscription$.push(this.accountService.addProductToWishlist(product, this.customerID)
                 .subscribe(() => {
-                    this.wishlistButton = `${WebStoreWishlist.ADDED_TO_WISHLIST}`;
-                    this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
+                    this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
+                    this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
                     this.disableWishlistButton = true;
                 }, () => {
-                    this.toastService.showToast(`Error - Couldn't Add Product!`, {classname: 'bg-red'});
+                    this.toastService.showToast(`Error - Couldn't Add Product To Wishlist!`,
+                        {classname: 'bg-red'});
                 })
             );
         } else {
-            this.productManagementService.previousRoute = this.router.url;
-            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+            this.productService.previousRoute = this.router.url;
+            this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
         }
     }
 
     addProductToCart(product: Product): void {
         if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.addProductToCart(product, this.customer.id)
+            this.subscription$.push(this.accountService.addProductToCart(product, this.customerID)
                 .subscribe(() => {
-                    this.cartButton = `${WebStoreCart.ADDED_TO_CART}`;
-                    this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
+                    this.cartButton = `${WSCart.ADDED_TO_CART}`;
+                    this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
                     this.disableCartButton = true;
                 }, () => {
-                    this.toastService.showToast(`Error - Couldn't Add Product!`, {classname: 'bg-red'});
+                    this.toastService.showToast(`Error - Couldn't Add Product To Cart!`,
+                        {classname: 'bg-red'});
                 })
             );
         } else {
-            this.productManagementService.previousRoute = this.router.url;
-            this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+            this.productService.previousRoute = this.router.url;
+            this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
         }
     }
 
     checkProductAvailability(product: Product): void {
-        if (this.productManagementService.ifArrayIncludes(product, this.productManagementService.cartProducts)) {
-            this.cartButton = `${WebStoreCart.ALREADY_IN_CART}`;
-            this.cartButtonClass = `${WebStoreCart.CLASS_ADDED_TO_CART}`;
+        if (this.productService.ifArrayIncludes(product, this.productService.cartProducts)) {
+            this.cartButton = `${WSCart.ALREADY_IN_CART}`;
+            this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
             this.disableCartButton = true;
         }
-        if (this.productManagementService.ifArrayIncludes(product, this.productManagementService.wishlistProducts)) {
-            this.wishlistButton = `${WebStoreWishlist.ALREADY_IN_WISHLIST}`;
-            this.wishlistButtonClass = `${WebStoreWishlist.CLASS_ADDED_TO_WISHLIST}`;
+        if (this.productService.ifArrayIncludes(product, this.productService.wishlistProducts)) {
+            this.wishlistButton = `${WSWishlist.ALREADY_IN_WISHLIST}`;
+            this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
             this.disableWishlistButton = true;
         }
     }
@@ -165,4 +170,5 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
         }
     }
+
 }

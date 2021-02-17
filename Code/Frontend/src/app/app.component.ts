@@ -6,10 +6,10 @@ import {Subscription} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 
 import {AuthenticationService} from './authentication/services/authentication.service';
-import {CommonControllerService} from './shared/services/common-controller.service';
+import {CommonService} from './shared/services/common.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from './shared/entity/models';
-import {ProductManagementService} from './product/services/product-management.service';
+import {ProductService} from './product/services/product.service';
 import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {ToastService} from './shared/components/toast/toast.service';
 
@@ -27,9 +27,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private activatedRoute: ActivatedRoute,
                 private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService,
+                private commonService: CommonService,
                 private cookieService: CookieService,
-                private productManagementService: ProductManagementService,
+                private productService: ProductService,
                 private router: Router,
                 private sidebarService: SidebarService,
                 private titleService: Title,
@@ -55,8 +55,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.authenticationService.getAuthenticatedCustomer()
             .subscribe((customer: Customer) => {
                 if (customer && Object.keys(customer).length !== 0) {
-                    this.commonControllerService.setCustomerData(customer);
-                    this.commonControllerService.authenticateCustomer();
+                    this.commonService.setCustomer(customer);
+                    this.commonService.authenticateCustomer();
                 }
             }, () => {
                 this.toastService.showToast(`Error Occurred - Please Try Again Later!`, {classname: 'bg-red'});

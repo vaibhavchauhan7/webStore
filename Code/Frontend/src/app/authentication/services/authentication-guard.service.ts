@@ -3,9 +3,9 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {Observable} from 'rxjs';
 
-import {CommonControllerService} from '../../shared/services/common-controller.service';
-import {ProductManagementService} from '../../product/services/product-management.service';
-import {WebStoreRouting} from '../../shared/entity/constants';
+import {CommonService} from '../../shared/services/common.service';
+import {ProductService} from '../../product/services/product.service';
+import {WSRouting} from '../../shared/entity/constants';
 
 @Injectable({
     providedIn: 'root'
@@ -14,18 +14,18 @@ export class AuthenticationGuardService implements CanActivate {
 
     isCustomerAuthenticated: boolean;
 
-    constructor(private commonControllerService: CommonControllerService,
-                private productManagementService: ProductManagementService,
+    constructor(private commonService: CommonService,
+                private productService: ProductService,
                 private router: Router) {
-        this.getCustomerAuthenticationObserver();
+        this.getCustomerAuthentication();
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         return this.isCustomerLoggedIn(state.url);
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.commonControllerService.getCustomerAuthenticationObserver().subscribe((data: boolean) => {
+    getCustomerAuthentication(): void {
+        this.commonService.getCustomerAuthentication().subscribe((data: boolean) => {
             this.isCustomerAuthenticated = data;
         });
     }
@@ -34,8 +34,8 @@ export class AuthenticationGuardService implements CanActivate {
         if (this.isCustomerAuthenticated) {
             return true;
         }
-        this.productManagementService.previousRoute = url;
-        this.router.navigateByUrl(`${WebStoreRouting.LOGIN}`).then();
+        this.productService.previousRoute = url;
+        this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
         return false;
     }
 }

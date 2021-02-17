@@ -4,17 +4,17 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable} from 'rxjs';
 
 import {Product} from '../../shared/entity/models';
-import {ProductManagementService} from './product-management.service';
+import {ProductService} from './product.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductResolverService implements Resolve<Product[]> {
 
-    constructor(private productManagementService: ProductManagementService) {
+    constructor(private productService: ProductService) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Product[]> {
-        return this.productManagementService.getProducts();
+        return this.productService.getProducts();
     }
 }

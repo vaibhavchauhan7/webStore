@@ -5,9 +5,9 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
-import {CommonControllerService} from '../../../shared/services/common-controller.service';
+import {CommonService} from '../../../shared/services/common.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WebStoreRouting} from '../../../shared/entity/constants';
+import {WSRouting} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-forgot-password',
@@ -16,7 +16,7 @@ import {WebStoreRouting} from '../../../shared/entity/constants';
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
-    login = WebStoreRouting.LOGIN;
+    login = WSRouting.LOGIN;
 
     customerEmail: string;
     isCustomerAuthenticated: boolean;
@@ -27,13 +27,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
-                private commonControllerService: CommonControllerService,
+                private commonService: CommonService,
                 private router: Router,
                 private toastService: ToastService) {
     }
 
     ngOnInit(): void {
-        this.getCustomerAuthenticationObserver();
+        this.getCustomerAuthentication();
     }
 
     forgotPassword(forgotPasswordFormData: NgForm): void {
@@ -78,8 +78,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         }
     }
 
-    getCustomerAuthenticationObserver(): void {
-        this.subscription$.push(this.commonControllerService.getCustomerAuthenticationObserver()
+    getCustomerAuthentication(): void {
+        this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
                 this.isCustomerAuthenticated = data;
                 if (this.isCustomerAuthenticated) {

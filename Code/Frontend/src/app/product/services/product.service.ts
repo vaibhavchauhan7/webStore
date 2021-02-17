@@ -5,12 +5,12 @@ import {Observable, of} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 
 import {Cart, Product, Wishlist} from '../../shared/entity/models';
-import {WebStoreAPI} from '../../shared/entity/constants';
+import {WSApi} from '../../shared/entity/constants';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ProductManagementService {
+export class ProductService {
 
     cartProducts: Cart[] = [];
     wishlistProducts: Wishlist[] = [];
@@ -37,7 +37,7 @@ export class ProductManagementService {
         if (this.allProducts) {
             return of(this.allProducts);
         }
-        return this.http.get<Product[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.PRODUCTS}`).pipe(
+        return this.http.get<Product[]>(`/${WSApi.BASE_URL}/${WSApi.PRODUCTS}`).pipe(
             tap((productList: Product[]) =>
                 this.allProducts = productList
             )
@@ -45,7 +45,7 @@ export class ProductManagementService {
     }
 
     initializeWishlist(customerID: number): Observable<Wishlist[]> {
-        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.WISHLIST}/${WebStoreAPI.GET_PRODUCTS}/${customerID}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.WISHLIST}/${WSApi.GET_PRODUCTS}/${customerID}`;
         return this.http.get<Wishlist[]>(URL).pipe(tap((productList: Wishlist[]) => {
                 this.wishlistProducts = productList;
             })
@@ -53,7 +53,7 @@ export class ProductManagementService {
     }
 
     initializeCart(customerID: number): Observable<Cart[]> {
-        const URL = `/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CART}/${WebStoreAPI.GET_PRODUCTS}/${customerID}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CART}/${WSApi.GET_PRODUCTS}/${customerID}`;
         return this.http.get<Cart[]>(URL).pipe(tap((productList: Cart[]) => {
                 this.cartProducts = productList;
             })
