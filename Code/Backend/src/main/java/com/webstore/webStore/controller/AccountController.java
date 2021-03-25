@@ -28,7 +28,7 @@ public class AccountController {
     }
 
     // Get Customer Orders
-    @GetMapping("/orders/{customerID}")
+    @GetMapping("/customer/{customerID}/orders")
     private List<Order> getOrders(@PathVariable Integer customerID) {
         return accountService.getOrders(customerID);
     }

@@ -20,7 +20,7 @@ export class AccountService {
     }
 
     getOrders(customerID: number): Observable<Order[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.ORDERS}/${customerID}`;
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.ORDERS}`;
         return this.http.get<Order[]>(URL);
     }
 
