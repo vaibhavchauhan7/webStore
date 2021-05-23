@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <version>2.5.0</version>
         <relativePath/>
     </parent>
     <groupId>com.webstore</groupId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.4.5</version>
+            <version>5.5.0</version>
         </dependency>
 
         <dependency>
@@ -69,13 +69,13 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>9.2.1.jre15</version>
+            <version>9.3.1.jre15-preview</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.23</version>
+            <version>8.0.25</version>
         </dependency>
 
         <dependency>
