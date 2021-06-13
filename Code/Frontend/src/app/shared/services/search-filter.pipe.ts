@@ -18,4 +18,5 @@ export class SearchFilterPipe implements PipeTransform {
                 || product.category.toLocaleLowerCase().indexOf(searchInput.toLowerCase()) !== -1;
         });
     }
+
 }

@@ -14,9 +14,9 @@ export class AccountService {
     constructor(private http: HttpClient) {
     }
 
-    updateProfile(editProfileData: Customer): Observable<Customer> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.PROFILE}/${WSApi.UPDATE}`;
-        return this.http.post<Customer>(URL, editProfileData);
+    updateProfile(customer: Customer): Observable<Customer> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${WSApi.PROFILE}/${WSApi.UPDATE}`;
+        return this.http.post<Customer>(URL, customer);
     }
 
     getOrders(customerID: number): Observable<Order[]> {
@@ -38,4 +38,5 @@ export class AccountService {
         const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.CHECKOUT}`;
         return this.http.post<void>(URL, cartProducts);
     }
+
 }

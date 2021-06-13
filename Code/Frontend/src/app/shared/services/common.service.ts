@@ -54,4 +54,5 @@ export class CommonService {
     httpRequestCompleted(): void {
         this.loadingSpinner$.next('stop');
     }
+
 }

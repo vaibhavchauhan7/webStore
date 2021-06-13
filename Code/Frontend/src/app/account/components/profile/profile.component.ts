@@ -47,12 +47,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         );
     }
 
-    saveEditedProfile(editProfileData: NgForm): void {
-        editProfileData.value.id = +editProfileData.value.id;
-        if (editProfileData.value.firstName !== '' && editProfileData.value.lastName !== ''
-            && editProfileData.value.email !== '' && editProfileData.value.phone !== '') {
+    saveEditedProfile(customerProfile: NgForm): void {
+        customerProfile.value.id = +customerProfile.value.id;
+        if (customerProfile.value.firstName !== '' && customerProfile.value.lastName !== ''
+            && customerProfile.value.email !== '' && customerProfile.value.phone !== '') {
             // TODO: Stabilize Profile Update with Verification Conditions
-            this.subscription$.push(this.accountService.updateProfile(editProfileData.value)
+            this.subscription$.push(this.accountService.updateProfile(customerProfile.value)
                 .subscribe((customer: Customer) => {
                     this.commonService.setCustomer(customer);
                     this.toggleEditProfile();
@@ -77,4 +77,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
             });
         }
     }
+
 }

@@ -17,4 +17,5 @@ export class ContactService {
     customerContact(contactFormValue: Contact): Observable<void> {
         return this.http.post<void>(`/${WSApi.BASE_URL}/${WSApi.CONTACT}`, contactFormValue);
     }
+
 }

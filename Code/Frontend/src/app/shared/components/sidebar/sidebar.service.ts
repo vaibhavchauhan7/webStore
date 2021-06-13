@@ -25,4 +25,5 @@ export class SidebarService {
         document.getElementById('bar-container').classList.toggle('change');
         return this.isSidebarOpen$.next(false);
     }
+
 }

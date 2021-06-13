@@ -38,4 +38,5 @@ export class AuthenticationGuardService implements CanActivate {
         this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
         return false;
     }
+
 }

@@ -67,7 +67,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                         this.forgotPasswordForm = true;
                         this.updatePasswordForm = false;
                         this.toastService.showToast(`Password Changed - Please Login!`, {classname: 'bg-success'});
-                        this.router.navigateByUrl('/login').then();
+                        this.router.navigateByUrl(`/${this.login}`).then();
                     }, () => {
                         this.toastService.showToast(`Couldn't Update Password - Try Again Later!`, {classname: 'bg-red'});
                     })
@@ -96,4 +96,5 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             });
         }
     }
+
 }

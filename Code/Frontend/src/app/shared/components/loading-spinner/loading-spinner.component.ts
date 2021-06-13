@@ -35,4 +35,5 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
             this.subscription$.unsubscribe();
         }
     }
+
 }

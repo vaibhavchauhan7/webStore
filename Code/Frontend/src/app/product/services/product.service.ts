@@ -21,18 +21,6 @@ export class ProductService {
     constructor(private http: HttpClient) {
     }
 
-    // Temporary Methods Start
-
-    // getCustomers(): Observable<Customer[]> {
-    //     return this.http.get<Customer[]>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMERS}`);
-    // }
-    //
-    // getCustomerByID(customerID: number): Observable<Customer> {
-    //     return this.http.get<Customer>(`/${WebStoreAPI.BASE_URL}/${WebStoreAPI.CUSTOMER}/${customerID}`);
-    // }
-
-    // Temporary Methods End
-
     getProducts(): Observable<Product[]> {
         if (this.allProducts) {
             return of(this.allProducts);
@@ -82,4 +70,5 @@ export class ProductService {
             return false;
         }
     }
+
 }

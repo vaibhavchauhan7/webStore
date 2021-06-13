@@ -43,4 +43,5 @@ export class AuthenticationService {
         const URL = `/${WSApi.BASE_URL}/${WSApi.AUTHENTICATION}/${WSApi.FORGOT}/${WSApi.UPDATE}`;
         return this.http.post<void>(URL, updatePasswordFormValue);
     }
+
 }

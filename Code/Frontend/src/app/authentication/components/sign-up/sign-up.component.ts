@@ -69,4 +69,5 @@ export class SignUpComponent implements OnInit, OnDestroy {
             });
         }
     }
+
 }

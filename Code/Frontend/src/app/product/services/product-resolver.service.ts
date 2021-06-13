@@ -17,4 +17,5 @@ export class ProductResolverService implements Resolve<Product[]> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Product[]> {
         return this.productService.getProducts();
     }
+
 }
