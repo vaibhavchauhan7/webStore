@@ -1,5 +1,5 @@
 <ng-container *ngFor="let toast of toastService.toasts">
-    <ngb-toast (hide)="toastService.removeToast(toast)" [autohide]="true"
+    <ngb-toast (hidden)="removeToast(toast)" [autohide]="true"
                [class]="toast.classname" [delay]="toast.delay || 2000"
                class="position-fixed text-light custom-toast w-100">
         {{toast.toastMessage}}

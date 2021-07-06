@@ -1,15 +1,15 @@
 <div class="container-fluid px-0 m-0 p-0 overflow-hidden" style="max-height: 100vh;">
     <div class="row no-gutters">
-        <div [hidden]="!isSidebarOpen" class="custom-width-20 px-0">
+        <div [hidden]="!sidebarOpen" class="custom-width-20 px-0">
             <nav class="sidebar overflow-auto" id="sidebar">
 
                 <div class="sidebar-header text-center">
-                    <ng-container *ngIf="!isCustomerAuthenticated; else UserAuthenticated">
+                    <ng-container *ngIf="!customerAuthenticated; else UserAuthenticated">
                         <span class="avatarName">webStore</span>
                     </ng-container>
 
                     <ng-template #UserAuthenticated>
-                        <!--                        <img alt="Avatar" class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;-->
+                        <!--<img alt="Avatar" class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;-->
                         <span class="avatarName">
                             <ng-container *ngIf="customerFullName.length > 17; else firstName">
                                 {{customer.firstName}}
@@ -29,19 +29,19 @@
                             Home
                         </a>
                     </li>
-                    <!--                    <li>-->
-                    <!--                        <a aria-expanded="false" class="dropdown-toggle"-->
-                    <!--                           data-toggle="collapse" href="#categoriesSubMenu">-->
-                    <!--                            Categories-->
-                    <!--                        </a>-->
-                    <!--                        <ul class="collapse" id="categoriesSubMenu">-->
-                    <!--                            <a href="javascript:">T-Shirt</a>-->
-                    <!--                            <a href="javascript:">Shoes</a>-->
-                    <!--                            <a href="javascript:">Wrist Watch</a>-->
-                    <!--                        </ul>-->
-                    <!--                    </li>-->
+                    <!--<li>-->
+                    <!--    <a aria-expanded="false" class="dropdown-toggle"-->
+                    <!--       data-toggle="collapse" href="#categoriesSubMenu">-->
+                    <!--        Categories-->
+                    <!--    </a>-->
+                    <!--    <ul class="collapse" id="categoriesSubMenu">-->
+                    <!--        <a href="javascript:">T-Shirt</a>-->
+                    <!--        <a href="javascript:">Shoes</a>-->
+                    <!--        <a href="javascript:">Wrist Watch</a>-->
+                    <!--    </ul>-->
+                    <!--</li>-->
 
-                    <ng-container *ngIf="isCustomerAuthenticated">
+                    <ng-container *ngIf="customerAuthenticated">
                         <li>
                             <a class="dropdown-toggle">
                                 <!-- To manually control dropdown, add - data-toggle="collapse" href="#accountSubMenu"-->
@@ -69,7 +69,7 @@
                 </ul>
 
                 <ul class="custom-buttons d-flex flex-column">
-                    <ng-container *ngIf="!isCustomerAuthenticated; else Authenticated">
+                    <ng-container *ngIf="!customerAuthenticated; else Authenticated">
                         <li>
                             <a class="authentication p-2"
                                routerLink="/{{routes.login}}" routerLinkActive="active">
@@ -93,9 +93,9 @@
             </nav>
         </div>
 
-        <div [ngClass]="isSidebarOpen ? 'custom-width-80' : 'w-100'" class="px-0">
+        <div [ngClass]="sidebarOpen ? 'custom-width-80' : 'w-100'" class="px-0">
             <ng-content></ng-content>
         </div>
     </div>
-    <!--    <app-footer></app-footer>-->
+    <!--<app-footer></app-footer>-->
 </div>

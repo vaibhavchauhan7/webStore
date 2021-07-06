@@ -1,6 +1,6 @@
 package com.webstore.webStore.shared.utils;
 
-import org.jetbrains.annotations.NotNull;
+import com.sun.istack.NotNull;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

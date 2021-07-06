@@ -22,7 +22,6 @@ import {ProductResolverService} from './product/services/product-resolver.servic
 import {SearchFilterPipe} from './shared/services/search-filter.pipe';
 import {SharedModule} from './shared.module';
 import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
-import {SidebarService} from './shared/components/sidebar/sidebar.service';
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
 import {ToastComponent} from './shared/components/toast/toast.component';
 
@@ -55,7 +54,6 @@ import {ToastComponent} from './shared/components/toast/toast.component';
         ContactService,
         CookieService,
         ProductResolverService,
-        SidebarService,
         HttpController
     ],
     bootstrap: [AppComponent]

@@ -9,7 +9,7 @@ import {CommonService} from '../shared/services/common.service';
 import {Customer, Product} from '../shared/entity/models';
 import {ProductService} from './services/product.service';
 import {ToastService} from '../shared/components/toast/toast.service';
-import {WSCart, WSRouting, WSWishlist} from '../shared/entity/constants';
+import {ProductType, WSCart, WSClass, WSRouting, WSTitle, WSToast, WSWishlist} from '../shared/entity/constants';
 
 @Component({
     selector: 'app-product',
@@ -18,20 +18,16 @@ import {WSCart, WSRouting, WSWishlist} from '../shared/entity/constants';
 })
 export class ProductComponent implements OnInit, OnDestroy {
 
-    private subscription$: Subscription[] = [];
-    private customerID: number;
-
-    isCustomerAuthenticated: boolean;
-    product: Product;
-
+    customerAuthenticated = false;
+    product = {} as Product;
     cartButton = `${WSCart.DEFAULT_TITLE}`;
     wishlistButton = `${WSWishlist.DEFAULT_TITLE}`;
-
     cartButtonClass = `${WSCart.DEFAULT_CLASS}`;
     wishlistButtonClass = `${WSWishlist.DEFAULT_CLASS}`;
-
-    disableCartButton: boolean;
-    disableWishlistButton: boolean;
+    disableCartButton = false;
+    disableWishlistButton = false;
+    private subscription$: Subscription[] = [];
+    private customerID = 0;
 
     constructor(private route: ActivatedRoute,
                 private accountService: AccountService,
@@ -43,14 +39,30 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.viewProduct();
         this.getCustomer();
-        this.selectedProduct();
+    }
+
+    viewProduct(): void {
+        this.productService.previousRoute = this.router.url;
+        const productID = this.route.snapshot.params.id;
+        this.subscription$.push(this.productService.viewProduct(+productID)
+            .subscribe((product: Product) => {
+                    this.product = product;
+                    this.titleService.setTitle(`${WSTitle.WEB_STORE} : ${this.product.name}`);
+                    this.checkProductAvailability(this.product);
+                }, () => {
+                    this.toastService.showToast(`Error - Couldn't Get This Product!`,
+                        {classname: `${WSClass.REQUEST_FAILED}`});
+                }
+            )
+        );
     }
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length !== 0) {
+                if (customer && Object.keys(customer).length > 0) {
                     this.customerID = customer.id;
                     this.getCustomerAuthentication();
                     this.initializeCartAndWishlist();
@@ -62,13 +74,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
-                this.isCustomerAuthenticated = data;
+                this.customerAuthenticated = data;
             })
         );
     }
 
     initializeCartAndWishlist(): void {
-        this.selectedProduct(); // TODO : Need twice? Line 47 & 71
         if (this.productService.wishlistProducts.length === 0) {
             this.initializeWishlist();
         }
@@ -82,8 +93,8 @@ export class ProductComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
             }, () => {
-                this.toastService.showToast(`Error Retrieving Your Cart!`,
-                    {classname: 'bg-red'});
+                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`,
+                    {classname: `${WSClass.REQUEST_FAILED}`});
             })
         );
     }
@@ -93,37 +104,22 @@ export class ProductComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.checkProductAvailability(this.product);
             }, () => {
-                this.toastService.showToast(`Error Retrieving Your Wishlist!`,
-                    {classname: 'bg-red'});
+                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`,
+                    {classname: `${WSClass.REQUEST_FAILED}`});
             })
         );
     }
 
-    selectedProduct(): void {
-        this.productService.previousRoute = this.router.url;
-        const productID = this.route.snapshot.params.id;
-        this.subscription$.push(this.productService.selectedProduct(+productID).subscribe(
-            (product: Product) => {
-                this.product = product;
-                this.titleService.setTitle(`webStore : ${this.product.name}`);
-                this.checkProductAvailability(this.product);
-            }, () => {
-                this.toastService.showToast(`Error - Couldn't Get This Product!`,
-                    {classname: 'bg-red'});
-            }
-        ));
-    }
-
     addProductToWishlist(product: Product): void {
-        if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, 'Wishlist', 0)
+        if (this.customerAuthenticated) {
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.WISHLIST}`, 0)
                 .subscribe(() => {
                     this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
                     this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
                     this.disableWishlistButton = true;
                 }, () => {
-                    this.toastService.showToast(`Error - Couldn't Add Product To Wishlist!`,
-                        {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
+                        {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         } else {
@@ -133,15 +129,15 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     addProductToCart(product: Product): void {
-        if (this.isCustomerAuthenticated) {
-            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, 'Cart', 0)
+        if (this.customerAuthenticated) {
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.CART}`, 0)
                 .subscribe(() => {
                     this.cartButton = `${WSCart.ADDED_TO_CART}`;
                     this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
                     this.disableCartButton = true;
                 }, () => {
-                    this.toastService.showToast(`Error - Couldn't Add Product To Cart!`,
-                        {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_CART}`,
+                        {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         } else {
@@ -156,6 +152,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
             this.disableCartButton = true;
         }
+
         if (this.productService.ifArrayIncludes(product, this.productService.wishlistProducts)) {
             this.wishlistButton = `${WSWishlist.ALREADY_IN_WISHLIST}`;
             this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
@@ -164,11 +161,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

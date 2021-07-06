@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 import {Customer} from '../entity/models';
+import {WSId} from '../entity/constants';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ import {Customer} from '../entity/models';
 export class CommonService {
 
     private customerData$ = new BehaviorSubject({} as Customer);
-    private isCustomerAuthenticated$ = new BehaviorSubject(false);
+    private customerAuthenticated$ = new BehaviorSubject(false);
+    private sidebarOpen$ = new BehaviorSubject(true);
     private loadingSpinner$ = new BehaviorSubject<string>('');
 
     constructor() {
@@ -31,15 +33,30 @@ export class CommonService {
 
     // Customer Authentication
     getCustomerAuthentication(): Observable<boolean> {
-        return this.isCustomerAuthenticated$.asObservable();
+        return this.customerAuthenticated$.asObservable();
     }
 
     authenticateCustomer(): void {
-        this.isCustomerAuthenticated$.next(true);
+        this.customerAuthenticated$.next(true);
     }
 
     revokeCustomerAuthentication(): void {
-        this.isCustomerAuthenticated$.next(false);
+        this.customerAuthenticated$.next(false);
+    }
+
+    // Sidebar
+    getSidebarStatus(): Observable<boolean> {
+        return this.sidebarOpen$.asObservable();
+    }
+
+    openSidebar(): void {
+        document.getElementById(`${WSId.BAR_CONTAINER}`).classList.toggle('change');
+        return this.sidebarOpen$.next(true);
+    }
+
+    closeSidebar(): void {
+        document.getElementById(`${WSId.BAR_CONTAINER}`).classList.toggle('change');
+        return this.sidebarOpen$.next(false);
     }
 
     // Loading Spinner

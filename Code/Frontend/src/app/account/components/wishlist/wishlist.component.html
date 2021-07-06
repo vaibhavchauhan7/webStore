@@ -68,18 +68,18 @@
             <br *ngIf="isSmallDevice"/>
             <p class="actionUndone">This action cannot be undone!</p>
         </modalBody>
-        <modalDoneButton>
+        <continueButton>
             <button (click)="removeProductFromWishlist(wishlistProduct, true)"
                     class="btn btn-web br-20" data-dismiss="modal" type="button">
                 Yes, Remove It
             </button>
-        </modalDoneButton>
-        <modalCloseButton>
+        </continueButton>
+        <closeButton>
             <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep It
             </button>
-        </modalCloseButton>
+        </closeButton>
     </app-modal>
 </ng-container>
 
@@ -92,17 +92,17 @@
             <br *ngIf="isSmallDevice"/>
             <p class="actionUndone">This action cannot be undone!</p>
         </modalBody>
-        <modalDoneButton>
+        <continueButton>
             <button (click)="clearProducts(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">
                 Yes, Clear Wishlist
             </button>
-        </modalDoneButton>
-        <modalCloseButton>
+        </continueButton>
+        <closeButton>
             <button (click)="resetValues()" class="btn btn-gray br-20"
                     data-dismiss="modal" type="button">
                 No, Keep Everything
             </button>
-        </modalCloseButton>
+        </closeButton>
     </app-modal>
 </ng-container>

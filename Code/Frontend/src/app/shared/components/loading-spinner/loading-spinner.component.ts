@@ -12,7 +12,6 @@ import {CommonService} from '../../services/common.service';
 export class LoadingSpinnerComponent implements OnInit, OnDestroy {
 
     showLoadingSpinner = false;
-
     private subscription$: Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
@@ -31,9 +30,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.unsubscribe();
-        }
+        this.subscription$?.unsubscribe();
     }
 
 }

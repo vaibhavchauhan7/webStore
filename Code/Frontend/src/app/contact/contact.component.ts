@@ -7,6 +7,7 @@ import {CommonService} from '../shared/services/common.service';
 import {ContactService} from './contact.service';
 import {Customer} from '../shared/entity/models';
 import {ToastService} from '../shared/components/toast/toast.service';
+import {WSClass, WSToast} from '../shared/entity/constants';
 
 @Component({
     selector: 'app-contact',
@@ -17,10 +18,8 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     @ViewChild('contactName') contactName;
     @ViewChild('contactEmail') contactEmail;
-
-    customer: Customer;
-    isCustomerAuthenticated: boolean;
-
+    customer = {} as Customer;
+    customerAuthenticated = false;
     private subscription$: Subscription[] = [];
 
     constructor(private commonService: CommonService,
@@ -36,7 +35,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
-                this.isCustomerAuthenticated = data;
+                this.customerAuthenticated = data;
             })
         );
     }
@@ -44,7 +43,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length !== 0) {
+                if (customer && Object.keys(customer).length > 0) {
                     this.customer = customer;
                 }
             })
@@ -53,22 +52,22 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     customerContact(contactFormData: NgForm): void {
         if (contactFormData.invalid || contactFormData.untouched) {
-            this.toastService.showToast('Invalid Data!', {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_DATA}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
-            if (this.isCustomerAuthenticated && contactFormData.value.name === null && contactFormData.value.email === null) {
+            if (this.customerAuthenticated && contactFormData.value.name === null && contactFormData.value.email === null) {
                 contactFormData.value.name = this.customer.firstName + ' ' + this.customer.lastName;
                 contactFormData.value.email = this.customer.email;
             }
             this.subscription$.push(this.contactService.customerContact(contactFormData.value)
                 .subscribe(() => {
-                        this.toastService.showToast('Form Successfully Submitted!', {classname: 'bg-success'});
+                        this.toastService.showToast(`${WSToast.FORM_SUBMITTED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         contactFormData.reset();
-                        if (this.isCustomerAuthenticated) {
+                        if (this.customerAuthenticated) {
                             this.contactName.nativeElement.value = this.customer.firstName + ' ' + this.customer.lastName;
                             this.contactEmail.nativeElement.value = this.customer.email;
                         }
                     }, () => {
-                        this.toastService.showToast('Something Went Wrong - Form Not Submitted', {classname: 'bg-red'});
+                        this.toastService.showToast(`${WSToast.FORM_NOT_SUBMITTED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 )
             );
@@ -76,11 +75,9 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach(subscription => {
+            subscription.unsubscribe();
+        });
     }
 
 }

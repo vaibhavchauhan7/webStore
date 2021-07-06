@@ -9,11 +9,11 @@
             <div class="col-lg-8">
                 <div class="form-group">
                     <label class="w-100">
-                        <ng-container *ngIf="isCustomerAuthenticated">
+                        <ng-container *ngIf="customerAuthenticated">
                             <input #contactName name="name" ngModel="{{customer.firstName}} {{customer.lastName}}"
                                    readonly type="text" value="{{customer.firstName}} {{customer.lastName}}"/>
                         </ng-container>
-                        <ng-container *ngIf="!isCustomerAuthenticated">
+                        <ng-container *ngIf="!customerAuthenticated">
                             <input name="name" ngModel placeholder="Your Name" required="required" type="text"/>
                         </ng-container>
                     </label>
@@ -21,11 +21,11 @@
                 </div>
                 <div class="form-group">
                     <label class="w-100">
-                        <ng-container *ngIf="isCustomerAuthenticated">
+                        <ng-container *ngIf="customerAuthenticated">
                             <input #contactEmail name="email" ngModel="{{customer.email}}"
                                    readonly type="text" value="{{customer.email}}"/>
                         </ng-container>
-                        <ng-container *ngIf="!isCustomerAuthenticated">
+                        <ng-container *ngIf="!customerAuthenticated">
                             <input email name="email" ngModel placeholder="Your Email" required="required" type="text"/>
                         </ng-container>
                     </label>

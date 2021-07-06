@@ -8,7 +8,7 @@ import {CommonService} from '../../../shared/services/common.service';
 import {Cart, Customer, Product} from '../../../shared/entity/models';
 import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WSRouting} from '../../../shared/entity/constants';
+import {ProductType, WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-cart',
@@ -17,8 +17,8 @@ import {WSRouting} from '../../../shared/entity/constants';
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-    modalID: string;
-    isSmallDevice: boolean;
+    modalID = '';
+    isSmallDevice = false;
     cartProduct: Cart; // Used for Remove Product Confirmation Modal
     cartProducts: Cart[];
 
@@ -42,7 +42,7 @@ export class CartComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length !== 0) {
+                if (customer && Object.keys(customer).length > 0) {
                     this.customer = customer;
                     this.initializeCart();
                 }
@@ -55,7 +55,7 @@ export class CartComponent implements OnInit, OnDestroy {
             .subscribe((productList: Cart[]) => {
                 this.cartProducts = productList;
             }, () => {
-                this.toastService.showToast(`Error Retrieving Your Cart!`, {classname: 'bg-red'});
+                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
             })
         );
     }
@@ -64,14 +64,14 @@ export class CartComponent implements OnInit, OnDestroy {
         this.cartProduct = cartProduct;
         this.modalID = `cart_${cartProduct.id}`;
         if (confirmation) {
-            this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, 'Cart', 1)
+            this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.CART}`, 1)
                 .subscribe(() => {
                     this.productService.cartProducts
                         .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
-                    this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: 'bg-success'});
+                    this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                     this.resetValues();
                 }, () => {
-                    this.toastService.showToast(`Couldn't Remove Product!`, {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -80,13 +80,13 @@ export class CartComponent implements OnInit, OnDestroy {
     clearCart(confirmation?: boolean): void {
         this.modalID = 'clearCart';
         if (confirmation) {
-            this.subscription$.push(this.accountService.clearProducts(this.customer.id, 'Cart')
+            this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
                 .subscribe(() => {
                     this.cartProducts = this.productService.cartProducts = [];
-                    this.toastService.showToast('Cart Cleared!', {classname: 'bg-success'});
+                    this.toastService.showToast(`${WSToast.CART_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                     this.resetValues();
                 }, () => {
-                    this.toastService.showToast('Error Clearing Cart!', {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -96,18 +96,18 @@ export class CartComponent implements OnInit, OnDestroy {
         this.modalID = 'checkOut';
         if (confirmation) {
             this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe(() => {
-                    this.subscription$.push(this.accountService.clearProducts(this.customer.id, 'Cart')
+                    this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
                         .subscribe(() => {
                             this.cartProducts = [];
                             this.productService.cartProducts = [];
-                            this.toastService.showToast('Checkout Successful!', {classname: 'bg-success'});
+                            this.toastService.showToast(`${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                             this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
                         }, () => {
-                            this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
+                            this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                         })
                     );
                 }, () => {
-                    this.toastService.showToast('Checkout Failed!', {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
             this.resetValues();
@@ -121,11 +121,9 @@ export class CartComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.commonService.httpRequestCompleted();
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
+import {Toast} from '../../entity/models';
 import {ToastService} from './toast.service';
 
 @Component({
@@ -13,6 +14,10 @@ export class ToastComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    removeToast(toast: Toast): void {
+        this.toastService.removeToast(toast);
     }
 
 }

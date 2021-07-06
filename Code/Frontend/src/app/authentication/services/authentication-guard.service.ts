@@ -12,7 +12,7 @@ import {WSRouting} from '../../shared/entity/constants';
 })
 export class AuthenticationGuardService implements CanActivate {
 
-    isCustomerAuthenticated: boolean;
+    customerAuthenticated = false;
 
     constructor(private commonService: CommonService,
                 private productService: ProductService,
@@ -25,18 +25,21 @@ export class AuthenticationGuardService implements CanActivate {
     }
 
     getCustomerAuthentication(): void {
-        this.commonService.getCustomerAuthentication().subscribe((data: boolean) => {
-            this.isCustomerAuthenticated = data;
-        });
+        this.commonService.getCustomerAuthentication()
+            .subscribe((data: boolean) => {
+                    this.customerAuthenticated = data;
+                }
+            );
     }
 
     isCustomerLoggedIn(url: string): boolean {
-        if (this.isCustomerAuthenticated) {
+        if (this.customerAuthenticated) {
             return true;
+        } else {
+            this.productService.previousRoute = url;
+            this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
+            return false;
         }
-        this.productService.previousRoute = url;
-        this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
-        return false;
     }
 
 }

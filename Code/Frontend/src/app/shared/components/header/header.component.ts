@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {Subscription} from 'rxjs';
 
-import {SidebarService} from '../sidebar/sidebar.service';
+import {CommonService} from '../../services/common.service';
 
 @Component({
     selector: 'app-header',
@@ -11,35 +11,30 @@ import {SidebarService} from '../sidebar/sidebar.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    isSidebarOpen: boolean;
-
+    sidebarOpen = false;
     private subscription$: Subscription;
 
-    constructor(private sidebarService: SidebarService) {
+    constructor(private commonService: CommonService) {
     }
 
     ngOnInit(): void {
-        this.getSidebarObserver();
+        this.getSidebarStatus();
     }
 
-    getSidebarObserver(): void {
-        this.subscription$ = this.sidebarService.getSidebarObserver().subscribe((data: boolean) => {
-            this.isSidebarOpen = data;
-        });
+    getSidebarStatus(): void {
+        this.subscription$ = this.commonService.getSidebarStatus()
+            .subscribe((data: boolean) => {
+                    this.sidebarOpen = data;
+                }
+            );
     }
 
     toggleSidebar(): void {
-        if (this.isSidebarOpen) {
-            this.sidebarService.closeSidebar();
-        } else {
-            this.sidebarService.openSidebar();
-        }
+        this.sidebarOpen ? this.commonService.closeSidebar() : this.commonService.openSidebar();
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.unsubscribe();
-        }
+        this.subscription$?.unsubscribe();
     }
 
 }

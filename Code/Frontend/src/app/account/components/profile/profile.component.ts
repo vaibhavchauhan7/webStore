@@ -7,7 +7,7 @@ import {AccountService} from '../../account.service';
 import {CommonService} from '../../../shared/services/common.service';
 import {Customer} from '../../../shared/entity/models';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WSRouting} from '../../../shared/entity/constants';
+import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-profile',
@@ -22,10 +22,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         orders: WSRouting.ORDERS,
         wishlist: WSRouting.WISHLIST
     };
-
-    customer: Customer;
+    customer = {} as Customer;
     allowEditProfile = false;
-
     private subscription$: Subscription[] = [];
 
     constructor(private accountService: AccountService,
@@ -40,7 +38,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length !== 0) {
+                if (customer && Object.keys(customer).length > 0) {
                     this.customer = customer;
                 }
             })
@@ -56,13 +54,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 .subscribe((customer: Customer) => {
                     this.commonService.setCustomer(customer);
                     this.toggleEditProfile();
-                    this.toastService.showToast('Changes Saved!', {classname: 'bg-success'});
+                    this.toastService.showToast(`${WSToast.CHANGES_SAVED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                 }, () => {
-                    this.toastService.showToast(`Couldn't Update Profile!`, {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.PROFILE_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         } else {
-            this.toastService.showToast(`Invalid Profile Data!`, {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_DATA}`, {classname: `${WSClass.REQUEST_FAILED}`});
         }
     }
 
@@ -71,11 +69,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

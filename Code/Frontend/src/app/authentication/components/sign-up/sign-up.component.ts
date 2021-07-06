@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonService} from '../../../shared/services/common.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WSRouting} from '../../../shared/entity/constants';
+import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-sign-up',
@@ -17,8 +17,7 @@ import {WSRouting} from '../../../shared/entity/constants';
 export class SignUpComponent implements OnInit, OnDestroy {
 
     login = WSRouting.LOGIN;
-    isCustomerAuthenticated: boolean;
-
+    customerAuthenticated = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -33,20 +32,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     customerSignUp(signUpFormData: NgForm): void {
         if (signUpFormData.invalid || signUpFormData.untouched) {
-            this.toastService.showToast('Invalid Data!', {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_DATA}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             if (signUpFormData.value.password === signUpFormData.value.confirmPassword) {
                 this.subscription$.push(this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
-                        this.toastService.showToast('Sign Up Successful!', {classname: 'bg-success'});
+                        this.toastService.showToast(`${WSToast.SIGN_UP_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         signUpFormData.reset();
                         this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
                         // TODO : Auto-Login after Successful Sign-Up
                     }, () => {
-                        this.toastService.showToast('Something Went Wrong - Sign Up Failed!', {classname: 'bg-red'});
+                        this.toastService.showToast(`${WSToast.SIGN_UP_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     })
                 );
             } else {
-                this.toastService.showToast('Confirm Password Does Not Match Password!', {classname: 'bg-red'});
+                this.toastService.showToast(`${WSToast.CONFIRM_PASSWORD_DOES_NOT_MATCH}`, {classname: `${WSClass.REQUEST_FAILED}`});
             }
         }
     }
@@ -54,8 +53,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
-                this.isCustomerAuthenticated = data;
-                if (this.isCustomerAuthenticated) {
+                this.customerAuthenticated = data;
+                if (this.customerAuthenticated) {
                     this.router.navigateByUrl('/').then();
                 }
             })
@@ -63,11 +62,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

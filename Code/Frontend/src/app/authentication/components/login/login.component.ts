@@ -9,7 +9,7 @@ import {CommonService} from '../../../shared/services/common.service';
 import {CookieService} from 'ngx-cookie-service';
 import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WSRouting} from '../../../shared/entity/constants';
+import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-login',
@@ -22,8 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         signUp: WSRouting.SIGN_UP,
         forgot: WSRouting.FORGOT
     };
-    isCustomerAuthenticated: boolean;
-
+    customerAuthenticated = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -40,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     customerLogin(loginFormData: NgForm): void {
         if (loginFormData.invalid || loginFormData.untouched) {
-            this.toastService.showToast('Invalid Credentials!', {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             this.subscription$.push(this.authenticationService.customerLogin(loginFormData.value)
                 .subscribe(data => {
@@ -50,14 +49,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.commonService.setCustomer(data.customer);
                     this.commonService.authenticateCustomer();
                     this.toastService.showToast(`Welcome Back, ${data.customer.firstName} ${data.customer.lastName}`,
-                        {classname: 'bg-success'});
+                        {classname: `${WSClass.REQUEST_SUCCESS}`});
                     if (this.productService.previousRoute) {
                         this.router.navigateByUrl(`${this.productService.previousRoute}`).then();
                     } else {
                         this.router.navigateByUrl('/').then();
                     }
                 }, () => {
-                    this.toastService.showToast('Wrong Email / Password', {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -66,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
-                this.isCustomerAuthenticated = data;
+                this.customerAuthenticated = data;
                 if (data) {
                     this.router.navigateByUrl('/').then();
                 }
@@ -75,11 +74,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

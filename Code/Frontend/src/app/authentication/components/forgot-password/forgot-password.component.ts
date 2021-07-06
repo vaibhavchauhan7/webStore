@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonService} from '../../../shared/services/common.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
-import {WSRouting} from '../../../shared/entity/constants';
+import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-forgot-password',
@@ -17,13 +17,10 @@ import {WSRouting} from '../../../shared/entity/constants';
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     login = WSRouting.LOGIN;
-
-    customerEmail: string;
-    isCustomerAuthenticated: boolean;
-
+    customerEmail = '';
+    customerAuthenticated = false;
     forgotPasswordForm = true;
     updatePasswordForm = false;
-
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -39,7 +36,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     forgotPassword(forgotPasswordFormData: NgForm): void {
         this.customerEmail = forgotPasswordFormData.value.email;
         if (forgotPasswordFormData.invalid || forgotPasswordFormData.untouched) {
-            this.toastService.showToast('Invalid Credentials!', {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             this.subscription$.push(this.authenticationService.forgotPassword(forgotPasswordFormData.value)
                 .subscribe((data: boolean) => {
@@ -47,10 +44,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
                         this.forgotPasswordForm = false;
                         this.updatePasswordForm = true;
                     } else {
-                        this.toastService.showToast('Wrong Email / Phone Combination', {classname: 'bg-red'});
+                        this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 }, () => {
-                    this.toastService.showToast('Wrong Email / Phone Combination', {classname: 'bg-red'});
+                    this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -59,21 +56,21 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     updatePassword(updatePasswordFormData: NgForm): void {
         updatePasswordFormData.value.email = this.customerEmail;
         if (updatePasswordFormData.invalid || updatePasswordFormData.untouched) {
-            this.toastService.showToast('Invalid Credentials!', {classname: 'bg-red'});
+            this.toastService.showToast(`${WSToast.INVALID_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             if (updatePasswordFormData.value.password === updatePasswordFormData.value.confirmPassword) {
                 this.subscription$.push(this.authenticationService.updatePassword(updatePasswordFormData.value)
                     .subscribe(() => {
                         this.forgotPasswordForm = true;
                         this.updatePasswordForm = false;
-                        this.toastService.showToast(`Password Changed - Please Login!`, {classname: 'bg-success'});
+                        this.toastService.showToast(`${WSToast.PASSWORD_UPDATED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         this.router.navigateByUrl(`/${this.login}`).then();
                     }, () => {
-                        this.toastService.showToast(`Couldn't Update Password - Try Again Later!`, {classname: 'bg-red'});
+                        this.toastService.showToast(`${WSToast.PASSWORD_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     })
                 );
             } else {
-                this.toastService.showToast('Passwords Do Not Match!', {classname: 'bg-red'});
+                this.toastService.showToast(`${WSToast.PASSWORDS_DO_NOT_MATCH}`, {classname: `${WSClass.REQUEST_FAILED}`});
             }
         }
     }
@@ -81,8 +78,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe((data: boolean) => {
-                this.isCustomerAuthenticated = data;
-                if (this.isCustomerAuthenticated) {
+                this.customerAuthenticated = data;
+                if (this.customerAuthenticated) {
                     this.router.navigateByUrl('/').then();
                 }
             })
@@ -90,11 +87,9 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this.subscription$) {
-            this.subscription$.forEach(subscription => {
-                subscription.unsubscribe();
-            });
-        }
+        this.subscription$?.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
 }

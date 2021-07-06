@@ -1,7 +1,7 @@
 package com.webstore.webStore.security.jwt;
 
+import com.sun.istack.NotNull;
 import com.webstore.webStore.account.AccountService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

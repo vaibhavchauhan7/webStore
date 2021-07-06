@@ -14,7 +14,7 @@ export class ProductService {
 
     cartProducts: Cart[] = [];
     wishlistProducts: Wishlist[] = [];
-    previousRoute: string;
+    previousRoute = '';
 
     private allProducts: Product[];
 
@@ -48,7 +48,7 @@ export class ProductService {
         );
     }
 
-    selectedProduct(productID: number): Observable<Product> {
+    viewProduct(productID: number): Observable<Product> {
         if (this.allProducts) {
             const foundProduct = this.allProducts.find((product: Product) => product.id === productID);
             if (foundProduct) {
