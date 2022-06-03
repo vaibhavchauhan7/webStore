@@ -31,7 +31,7 @@
         "@angular/cli": "~10.2.3",
         "@angular/common": "~10.2.3",
         "@angular/compiler-cli": "~10.2.3",
-        "@angular/core": "~10.2.3",
+        "@angular/core": "~11.0.5",
         "@angular/forms": "~10.2.3",
         "@angular/localize": "~10.2.3",
         "@types/jasmine": "~3.6.7",
