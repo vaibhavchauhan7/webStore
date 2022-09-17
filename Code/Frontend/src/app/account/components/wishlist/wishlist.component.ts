@@ -38,10 +38,12 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
-                    this.initializeWishlist();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                        this.initializeWishlist();
+                    }
                 }
             })
         );
@@ -49,10 +51,12 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     initializeWishlist(): void {
         this.subscription$.push(this.productService.initializeWishlist(this.customer.id)
-            .subscribe((productList: Wishlist[]) => {
-                this.wishlistProducts = productList;
-            }, () => {
-                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
+            .subscribe({
+                next: (productList: Wishlist[]) => {
+                    this.wishlistProducts = productList;
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                }
             })
         );
     }
@@ -62,13 +66,15 @@ export class WishlistComponent implements OnInit, OnDestroy {
         this.modalID = `wishlist_${wishlistProduct.id}`;
         if (confirmation) {
             this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.WISHLIST}`, 1)
-                .subscribe(() => {
-                    this.productService.wishlistProducts
-                        .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
-                    this.toastService.showToast(`Removed ${wishlistProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    this.resetValues();
-                }, () => {
-                    this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.productService.wishlistProducts
+                            .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
+                        this.toastService.showToast(`Removed ${wishlistProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                        this.resetValues();
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         }
@@ -78,12 +84,14 @@ export class WishlistComponent implements OnInit, OnDestroy {
         this.modalID = 'clearProducts';
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.WISHLIST}`)
-                .subscribe(() => {
-                    this.wishlistProducts = this.productService.wishlistProducts = [];
-                    this.toastService.showToast(`${WSToast.WISHLIST_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    this.resetValues();
-                }, () => {
-                    this.toastService.showToast(`${WSToast.ERROR_CLEARING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.wishlistProducts = this.productService.wishlistProducts = [];
+                        this.toastService.showToast(`${WSToast.WISHLIST_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                        this.resetValues();
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.ERROR_CLEARING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         }

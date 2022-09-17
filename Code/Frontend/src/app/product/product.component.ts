@@ -47,25 +47,28 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.productService.previousRoute = this.router.url;
         const productID = this.route.snapshot.params.id;
         this.subscription$.push(this.productService.viewProduct(+productID)
-            .subscribe((product: Product) => {
+            .subscribe({
+                next: (product: Product) => {
                     this.product = product;
                     this.titleService.setTitle(`${WSTitle.WEB_STORE} : ${this.product.name}`);
                     this.checkProductAvailability(this.product);
-                }, () => {
+                }, error: () => {
                     this.toastService.showToast(`Error - Couldn't Get This Product!`,
                         {classname: `${WSClass.REQUEST_FAILED}`});
                 }
-            )
+            })
         );
     }
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customerID = customer.id;
-                    this.getCustomerAuthentication();
-                    this.initializeCartAndWishlist();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customerID = customer.id;
+                        this.getCustomerAuthentication();
+                        this.initializeCartAndWishlist();
+                    }
                 }
             })
         );
@@ -73,8 +76,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                }
             })
         );
     }
@@ -90,22 +95,26 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     initializeCart(): void {
         this.subscription$.push(this.productService.initializeCart(this.customerID)
-            .subscribe(() => {
-                this.checkProductAvailability(this.product);
-            }, () => {
-                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`,
-                    {classname: `${WSClass.REQUEST_FAILED}`});
+            .subscribe({
+                next: () => {
+                    this.checkProductAvailability(this.product);
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`,
+                        {classname: `${WSClass.REQUEST_FAILED}`});
+                }
             })
         );
     }
 
     initializeWishlist(): void {
         this.subscription$.push(this.productService.initializeWishlist(this.customerID)
-            .subscribe(() => {
-                this.checkProductAvailability(this.product);
-            }, () => {
-                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`,
-                    {classname: `${WSClass.REQUEST_FAILED}`});
+            .subscribe({
+                next: () => {
+                    this.checkProductAvailability(this.product);
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`,
+                        {classname: `${WSClass.REQUEST_FAILED}`});
+                }
             })
         );
     }
@@ -113,13 +122,15 @@ export class ProductComponent implements OnInit, OnDestroy {
     addProductToWishlist(product: Product): void {
         if (this.customerAuthenticated) {
             this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.WISHLIST}`, 0)
-                .subscribe(() => {
-                    this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
-                    this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
-                    this.disableWishlistButton = true;
-                }, () => {
-                    this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
-                        {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
+                        this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
+                        this.disableWishlistButton = true;
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
+                            {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         } else {
@@ -131,13 +142,15 @@ export class ProductComponent implements OnInit, OnDestroy {
     addProductToCart(product: Product): void {
         if (this.customerAuthenticated) {
             this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.CART}`, 0)
-                .subscribe(() => {
-                    this.cartButton = `${WSCart.ADDED_TO_CART}`;
-                    this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
-                    this.disableCartButton = true;
-                }, () => {
-                    this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_CART}`,
-                        {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.cartButton = `${WSCart.ADDED_TO_CART}`;
+                        this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
+                        this.disableCartButton = true;
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_CART}`,
+                            {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         } else {

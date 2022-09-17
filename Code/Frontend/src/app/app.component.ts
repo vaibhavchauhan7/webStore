@@ -48,39 +48,45 @@ export class AppComponent implements OnInit, OnDestroy {
 
     getAuthenticatedCustomer(): void {
         this.subscription$.push(this.authenticationService.getAuthenticatedCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.commonService.setCustomer(customer);
-                    this.commonService.authenticateCustomer();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.commonService.setCustomer(customer);
+                        this.commonService.authenticateCustomer();
+                    }
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.TRY_AGAIN}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
-            }, () => {
-                this.toastService.showToast(`${WSToast.TRY_AGAIN}`, {classname: `${WSClass.REQUEST_FAILED}`});
             })
         );
     }
 
     getPageTitle(): void {
         this.subscription$.push(this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            map(() => {
-                let child = this.activatedRoute.firstChild;
-                while (child.firstChild) {
-                    child = child.firstChild;
+                filter(event => event instanceof NavigationEnd),
+                map(() => {
+                    let child = this.activatedRoute.firstChild;
+                    while (child.firstChild) {
+                        child = child.firstChild;
+                    }
+                    if (child.snapshot.data.title) {
+                        return child.snapshot.data.title;
+                    }
+                    return this.titleService.getTitle();
+                })).subscribe({
+                next: (title: string) => {
+                    this.titleService.setTitle(title);
                 }
-                if (child.snapshot.data.title) {
-                    return child.snapshot.data.title;
-                }
-                return this.titleService.getTitle();
-            })).subscribe((title: string) => {
-                this.titleService.setTitle(title);
             })
         );
     }
 
     getSidebarStatus(): void {
         this.subscription$.push(this.commonService.getSidebarStatus()
-            .subscribe((data: boolean) => {
-                this.sidebarOpen = data;
+            .subscribe({
+                next: (data: boolean) => {
+                    this.sidebarOpen = data;
+                }
             })
         );
     }

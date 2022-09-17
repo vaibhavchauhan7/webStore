@@ -30,10 +30,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
-                    this.getOrders();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                        this.getOrders();
+                    }
                 }
             })
         );
@@ -41,10 +43,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
     getOrders(): void {
         this.subscription$.push(this.accountService.getOrders(this.customer.id)
-            .subscribe((orderList: Order[]) => {
-                this.orders = orderList;
-            }, () => {
-                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_ORDERS}`, {classname: `${WSClass.REQUEST_FAILED}`});
+            .subscribe({
+                next: (orderList: Order[]) => {
+                    this.orders = orderList;
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_ORDERS}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                }
             })
         );
     }

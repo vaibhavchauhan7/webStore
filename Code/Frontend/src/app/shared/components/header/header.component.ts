@@ -22,11 +22,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     getSidebarStatus(): void {
-        this.subscription$ = this.commonService.getSidebarStatus()
-            .subscribe((data: boolean) => {
-                    this.sidebarOpen = data;
-                }
-            );
+        this.subscription$ = this.commonService.getSidebarStatus().subscribe({
+            next: (data: boolean) => {
+                this.sidebarOpen = data;
+            }
+        });
     }
 
     toggleSidebar(): void {

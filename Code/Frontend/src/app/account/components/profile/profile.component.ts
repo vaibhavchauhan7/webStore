@@ -37,9 +37,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                    }
                 }
             })
         );
@@ -51,12 +53,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
             && customerProfile.value.email !== '' && customerProfile.value.phone !== '') {
             // TODO: Stabilize Profile Update with Verification Conditions
             this.subscription$.push(this.accountService.updateProfile(customerProfile.value)
-                .subscribe((customer: Customer) => {
-                    this.commonService.setCustomer(customer);
-                    this.toggleEditProfile();
-                    this.toastService.showToast(`${WSToast.CHANGES_SAVED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                }, () => {
-                    this.toastService.showToast(`${WSToast.PROFILE_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: (customer: Customer) => {
+                        this.commonService.setCustomer(customer);
+                        this.toggleEditProfile();
+                        this.toastService.showToast(`${WSToast.CHANGES_SAVED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.PROFILE_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         } else {

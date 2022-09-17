@@ -25,11 +25,11 @@ export class AuthenticationGuardService implements CanActivate {
     }
 
     getCustomerAuthentication(): void {
-        this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                    this.customerAuthenticated = data;
-                }
-            );
+        this.commonService.getCustomerAuthentication().subscribe({
+            next: (data: boolean) => {
+                this.customerAuthenticated = data;
+            }
+        });
     }
 
     isCustomerLoggedIn(url: string): boolean {

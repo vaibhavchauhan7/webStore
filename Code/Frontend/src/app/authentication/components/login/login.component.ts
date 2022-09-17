@@ -42,21 +42,23 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.toastService.showToast(`${WSToast.INVALID_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             this.subscription$.push(this.authenticationService.customerLogin(loginFormData.value)
-                .subscribe(data => {
-                    // TODO: Make JWT Cookie HTTP Only and Secure
-                    // Set Cookie - Should be the first line here otherwise lazy loaded components make API calls without JWT
-                    this.cookieService.set('token', data.token);
-                    this.commonService.setCustomer(data.customer);
-                    this.commonService.authenticateCustomer();
-                    this.toastService.showToast(`Welcome Back, ${data.customer.firstName} ${data.customer.lastName}`,
-                        {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    if (this.productService.previousRoute) {
-                        this.router.navigateByUrl(`${this.productService.previousRoute}`).then();
-                    } else {
-                        this.router.navigateByUrl('/').then();
+                .subscribe({
+                    next: data => {
+                        // TODO: Make JWT Cookie HTTP Only and Secure
+                        // Set Cookie - Should be the first line here otherwise lazy loaded components make API calls without JWT
+                        this.cookieService.set('token', data.token);
+                        this.commonService.setCustomer(data.customer);
+                        this.commonService.authenticateCustomer();
+                        this.toastService.showToast(`Welcome Back, ${data.customer.firstName} ${data.customer.lastName}`,
+                            {classname: `${WSClass.REQUEST_SUCCESS}`});
+                        if (this.productService.previousRoute) {
+                            this.router.navigateByUrl(`${this.productService.previousRoute}`).then();
+                        } else {
+                            this.router.navigateByUrl('/').then();
+                        }
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
-                }, () => {
-                    this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -64,10 +66,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
-                if (data) {
-                    this.router.navigateByUrl('/').then();
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                    if (data) {
+                        this.router.navigateByUrl('/').then();
+                    }
                 }
             })
         );

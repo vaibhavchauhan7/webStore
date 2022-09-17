@@ -48,11 +48,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
-                    this.customerFullName = customer.firstName + ' ' + customer.lastName;
-                    this.getCustomerAuthentication();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                        this.customerFullName = customer.firstName + ' ' + customer.lastName;
+                        this.getCustomerAuthentication();
+                    }
                 }
             })
         );
@@ -60,16 +62,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                }
             })
         );
     }
 
     getSidebarStatus(): void {
         this.subscription$.push(this.commonService.getSidebarStatus()
-            .subscribe((data: boolean) => {
-                this.sidebarOpen = data;
+            .subscribe({
+                next: (data: boolean) => {
+                    this.sidebarOpen = data;
+                }
             })
         );
     }
@@ -78,17 +84,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.cookieService.delete('token');
         this.commonService.revokeCustomerAuthentication();
         this.subscription$.push(this.authenticationService.customerLogout()
-            .subscribe(() => {
+            .subscribe({
+                next: () => {
                     this.commonService.resetCustomer();
                     this.productService.previousRoute = '/';
                     this.productService.cartProducts = [];
                     this.productService.wishlistProducts = [];
                     this.router.navigateByUrl('/').then();
                     this.toastService.showToast(`Successfully Logged Out!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                }, () => {
+                },
+                error: () => {
                     this.toastService.showToast(`Error Logging Out!`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
-            )
+            })
         );
     }
 

@@ -23,9 +23,11 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
     }
 
     initializeLoadingSpinner(): void {
-        this.subscription$ = this.commonService.getLoadingSpinnerStatus().subscribe((status: string) => {
-            this.showLoadingSpinner = status === 'start';
-            this.changeDetectorRef.detectChanges();
+        this.subscription$ = this.commonService.getLoadingSpinnerStatus().subscribe({
+            next: (status: string) => {
+                this.showLoadingSpinner = status === 'start';
+                this.changeDetectorRef.detectChanges();
+            }
         });
     }
 

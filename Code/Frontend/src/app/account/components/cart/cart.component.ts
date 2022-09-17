@@ -41,10 +41,12 @@ export class CartComponent implements OnInit, OnDestroy {
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
-                    this.initializeCart();
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                        this.initializeCart();
+                    }
                 }
             })
         );
@@ -52,10 +54,12 @@ export class CartComponent implements OnInit, OnDestroy {
 
     initializeCart(): void {
         this.subscription$.push(this.productService.initializeCart(this.customer.id)
-            .subscribe((productList: Cart[]) => {
-                this.cartProducts = productList;
-            }, () => {
-                this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
+            .subscribe({
+                next: (productList: Cart[]) => {
+                    this.cartProducts = productList;
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                }
             })
         );
     }
@@ -65,13 +69,15 @@ export class CartComponent implements OnInit, OnDestroy {
         this.modalID = `cart_${cartProduct.id}`;
         if (confirmation) {
             this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.CART}`, 1)
-                .subscribe(() => {
-                    this.productService.cartProducts
-                        .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
-                    this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    this.resetValues();
-                }, () => {
-                    this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.productService.cartProducts
+                            .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
+                        this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                        this.resetValues();
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         }
@@ -81,12 +87,14 @@ export class CartComponent implements OnInit, OnDestroy {
         this.modalID = 'clearCart';
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
-                .subscribe(() => {
-                    this.cartProducts = this.productService.cartProducts = [];
-                    this.toastService.showToast(`${WSToast.CART_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    this.resetValues();
-                }, () => {
-                    this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                .subscribe({
+                    next: () => {
+                        this.cartProducts = this.productService.cartProducts = [];
+                        this.toastService.showToast(`${WSToast.CART_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                        this.resetValues();
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
         }
@@ -95,19 +103,23 @@ export class CartComponent implements OnInit, OnDestroy {
     checkOut(cartProducts: Product[], confirmation?: boolean): void {
         this.modalID = 'checkOut';
         if (confirmation) {
-            this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe(() => {
-                    this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
-                        .subscribe(() => {
-                            this.cartProducts = [];
-                            this.productService.cartProducts = [];
-                            this.toastService.showToast(`${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                            this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
-                        }, () => {
-                            this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
-                        })
-                    );
-                }, () => {
-                    this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+            this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe({
+                    next: () => {
+                        this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
+                            .subscribe({
+                                next: () => {
+                                    this.cartProducts = [];
+                                    this.productService.cartProducts = [];
+                                    this.toastService.showToast(`${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                                    this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
+                                }, error: () => {
+                                    this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                                }
+                            })
+                        );
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
                 })
             );
             this.resetValues();

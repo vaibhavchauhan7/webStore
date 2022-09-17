@@ -35,13 +35,16 @@ export class SignUpComponent implements OnInit, OnDestroy {
             this.toastService.showToast(`${WSToast.INVALID_DATA}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             if (signUpFormData.value.password === signUpFormData.value.confirmPassword) {
-                this.subscription$.push(this.authenticationService.customerSignUp(signUpFormData.value).subscribe(() => {
-                        this.toastService.showToast(`${WSToast.SIGN_UP_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                        signUpFormData.reset();
-                        this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
-                        // TODO : Auto-Login after Successful Sign-Up
-                    }, () => {
-                        this.toastService.showToast(`${WSToast.SIGN_UP_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                this.subscription$.push(this.authenticationService.customerSignUp(signUpFormData.value)
+                    .subscribe({
+                        next: () => {
+                            this.toastService.showToast(`${WSToast.SIGN_UP_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                            signUpFormData.reset();
+                            this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
+                            // TODO : Auto-Login after Successful Sign-Up
+                        }, error: () => {
+                            this.toastService.showToast(`${WSToast.SIGN_UP_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                        }
                     })
                 );
             } else {
@@ -52,10 +55,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
-                if (this.customerAuthenticated) {
-                    this.router.navigateByUrl('/').then();
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                    if (this.customerAuthenticated) {
+                        this.router.navigateByUrl('/').then();
+                    }
                 }
             })
         );

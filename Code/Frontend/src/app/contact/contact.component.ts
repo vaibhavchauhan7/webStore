@@ -34,17 +34,21 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                }
             })
         );
     }
 
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
-            .subscribe((customer: Customer) => {
-                if (customer && Object.keys(customer).length > 0) {
-                    this.customer = customer;
+            .subscribe({
+                next: (customer: Customer) => {
+                    if (customer && Object.keys(customer).length > 0) {
+                        this.customer = customer;
+                    }
                 }
             })
         );
@@ -59,17 +63,18 @@ export class ContactComponent implements OnInit, OnDestroy {
                 contactFormData.value.email = this.customer.email;
             }
             this.subscription$.push(this.contactService.customerContact(contactFormData.value)
-                .subscribe(() => {
+                .subscribe({
+                    next: () => {
                         this.toastService.showToast(`${WSToast.FORM_SUBMITTED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         contactFormData.reset();
                         if (this.customerAuthenticated) {
                             this.contactName.nativeElement.value = this.customer.firstName + ' ' + this.customer.lastName;
                             this.contactEmail.nativeElement.value = this.customer.email;
                         }
-                    }, () => {
+                    }, error: () => {
                         this.toastService.showToast(`${WSToast.FORM_NOT_SUBMITTED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
-                )
+                })
             );
         }
     }

@@ -39,15 +39,17 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             this.toastService.showToast(`${WSToast.INVALID_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
             this.subscription$.push(this.authenticationService.forgotPassword(forgotPasswordFormData.value)
-                .subscribe((data: boolean) => {
-                    if (data) {
-                        this.forgotPasswordForm = false;
-                        this.updatePasswordForm = true;
-                    } else {
+                .subscribe({
+                    next: (data: boolean) => {
+                        if (data) {
+                            this.forgotPasswordForm = false;
+                            this.updatePasswordForm = true;
+                        } else {
+                            this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                        }
+                    }, error: () => {
                         this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
-                }, () => {
-                    this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 })
             );
         }
@@ -60,13 +62,15 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         } else {
             if (updatePasswordFormData.value.password === updatePasswordFormData.value.confirmPassword) {
                 this.subscription$.push(this.authenticationService.updatePassword(updatePasswordFormData.value)
-                    .subscribe(() => {
-                        this.forgotPasswordForm = true;
-                        this.updatePasswordForm = false;
-                        this.toastService.showToast(`${WSToast.PASSWORD_UPDATED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                        this.router.navigateByUrl(`/${this.login}`).then();
-                    }, () => {
-                        this.toastService.showToast(`${WSToast.PASSWORD_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                    .subscribe({
+                        next: () => {
+                            this.forgotPasswordForm = true;
+                            this.updatePasswordForm = false;
+                            this.toastService.showToast(`${WSToast.PASSWORD_UPDATED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                            this.router.navigateByUrl(`/${this.login}`).then();
+                        }, error: () => {
+                            this.toastService.showToast(`${WSToast.PASSWORD_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                        }
                     })
                 );
             } else {
@@ -77,10 +81,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
-            .subscribe((data: boolean) => {
-                this.customerAuthenticated = data;
-                if (this.customerAuthenticated) {
-                    this.router.navigateByUrl('/').then();
+            .subscribe({
+                next: (data: boolean) => {
+                    this.customerAuthenticated = data;
+                    if (this.customerAuthenticated) {
+                        this.router.navigateByUrl('/').then();
+                    }
                 }
             })
         );

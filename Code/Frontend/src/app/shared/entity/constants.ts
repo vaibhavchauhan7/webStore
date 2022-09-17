@@ -86,8 +86,8 @@ export enum WSId {
 }
 
 export enum ProductType {
-    CART = 'cart',
-    WISHLIST = 'wishlist'
+    CART = 'Cart',
+    WISHLIST = 'Wishlist'
 }
 
 export enum WSCart {
