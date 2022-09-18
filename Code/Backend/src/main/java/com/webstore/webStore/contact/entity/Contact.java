@@ -1,4 +1,4 @@
-package com.webstore.webStore.account.entity;
+package com.webstore.webStore.contact.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -14,16 +14,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "customers")
-public class Customer {
+@Table(name = "contact")
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
-    private String phone;
-    private String password;
+    private String subject;
+    private String message;
 
 }

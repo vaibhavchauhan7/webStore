@@ -1,14 +1,13 @@
-package com.webstore.webStore.shared.utils;
+package com.webstore.webStore.utils;
 
 import com.sun.istack.NotNull;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
+@NoArgsConstructor
 public class WSRowMapper<T> extends BeanPropertyRowMapper<T> {
-
-    public WSRowMapper() {
-    }
 
     public static <T> WSRowMapper<T> newInstance(@NotNull Class<T> mappedClass) {
         WSRowMapper<T> newInstance = new WSRowMapper<>();

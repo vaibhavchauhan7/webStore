@@ -4,7 +4,7 @@ import com.webstore.webStore.account.entity.Customer;
 import com.webstore.webStore.account.entity.Order;
 import com.webstore.webStore.account.entity.WishlistCart;
 import com.webstore.webStore.product.entity.Product;
-import com.webstore.webStore.shared.utils.WSRowMapper;
+import com.webstore.webStore.utils.WSRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +15,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.webstore.webStore.utils.WebStoreEnums.CART;
+import static com.webstore.webStore.utils.WebStoreEnums.WISHLIST;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
@@ -39,7 +42,7 @@ public class AccountDAOImpl implements AccountDAO {
     public Customer getCustomerByEmail(String customerEmail) {
         String sql = "SELECT * FROM customers c WHERE c.email = :customerEmail";
 
-        try{
+        try {
             MapSqlParameterSource params = new MapSqlParameterSource();
             params.addValue("customerEmail", customerEmail);
             RowMapper<Customer> mapper = WSRowMapper.newInstance(Customer.class);
@@ -55,6 +58,7 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public Customer updateProfile(Customer customer) {
         String sql = "UPDATE customers SET first_name = ?, last_name = ? WHERE id = ?";
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             PreparedStatement preparedStatement = connection.prepareCall(sql);
 
@@ -67,16 +71,17 @@ public class AccountDAOImpl implements AccountDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
         return getCustomerByEmail(customer.getEmail());
     }
 
     @Override
-    public List<Order> getOrders(Integer customerID) {
-        String sql = "{call spInsertAndGetOrdersForCustomer(:customerID, null)}";
+    public List<Order> getOrders(Integer customerId) {
+        String sql = "{call spInsertAndGetOrdersForCustomer(:customerId, null)}";
 
         try {
             MapSqlParameterSource params = new MapSqlParameterSource();
-            params.addValue("customerID", customerID);
+            params.addValue("customerId", customerId);
             RowMapper<Order> mapper = WSRowMapper.newInstance(Order.class);
             return namedParameterJdbcTemplate.query(sql, params, mapper);
         } catch (Exception exception) {
@@ -86,14 +91,14 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public List<WishlistCart> getProducts(Integer customerID, String type) {
+    public List<WishlistCart> getProducts(Integer customerId, String type) {
         List<WishlistCart> products = new ArrayList<>();
-
         String sql = "{call spManageCartWishlist(?,null,?,0)}";
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
-            callableStatement.setInt(1, customerID);
+            callableStatement.setInt(1, customerId);
             callableStatement.setString(2, type);
 
             callableStatement.executeQuery();
@@ -101,15 +106,13 @@ public class AccountDAOImpl implements AccountDAO {
 
             while (resultSet.next()) {
                 WishlistCart product = new WishlistCart();
-                product.setId(resultSet.getInt("ProductID"));
+                product.setId(resultSet.getInt("ProductId"));
                 product.setName(resultSet.getString("ProductName"));
                 product.setImagePath(resultSet.getString("ProductImagePath"));
                 product.setPrice(resultSet.getString("ProductPrice"));
-                if (type.equals("Cart")) {
-                    product.setQuantity(resultSet.getInt("ProductQuantity"));
-                } else {
-                    product.setQuantity(null);
-                }
+                if (type.equals(CART)) product.setQuantity(resultSet.getInt("ProductQuantity"));
+                else product.setQuantity(null);
+
                 products.add(product);
             }
 
@@ -118,16 +121,18 @@ public class AccountDAOImpl implements AccountDAO {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
         return products;
     }
 
     @Override
-    public void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct) {
+    public void modifyProduct(Product product, Integer customerId, String type, Integer removeProduct) {
         String sql = "{call spManageCartWishlist(?,?,?,?)}";
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
-            callableStatement.setInt(1, customerID);
+            callableStatement.setInt(1, customerId);
             callableStatement.setInt(2, product.getId());
             callableStatement.setString(3, type);
             callableStatement.setInt(4, removeProduct);
@@ -140,19 +145,16 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void clearProducts(Integer customerID, String type) {
-        String sql;
-        if ("Cart".equals(type)) {
-            sql = "DELETE FROM cart WHERE cart.customer_id = ?";
-        } else if ("Wishlist".equals(type)) {
-            sql = "DELETE FROM wishlist WHERE wishlist.customer_id = ?";
-        } else {
-            sql = "";
-        }
+    public void clearProducts(Integer customerId, String type) {
+        String sql = "";    // TODO : Empty SQL throws an error just in case the 'type' is not set
+
+        if (CART.equals(type)) sql = "DELETE FROM cart WHERE cart.customer_id = ?";
+        if (WISHLIST.equals(type)) sql = "DELETE FROM wishlist WHERE wishlist.customer_id = ?";
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             PreparedStatement preparedStatement = connection.prepareCall(sql);
 
-            preparedStatement.setInt(1, customerID);
+            preparedStatement.setInt(1, customerId);
             preparedStatement.execute();
 
             preparedStatement.close();
@@ -162,12 +164,13 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void checkOut(List<Product> cartProducts, Integer customerID) {
+    public void checkOut(List<Product> cartProducts, Integer customerId) {
         String sql = "{call spInsertAndGetOrdersForCustomer(?,?)}";
+
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             CallableStatement callableStatement = connection.prepareCall(sql);
 
-            callableStatement.setInt(1, customerID);
+            callableStatement.setInt(1, customerId);
             for (Product cartProduct : cartProducts) {
                 callableStatement.setInt(2, cartProduct.getId());
                 callableStatement.execute();

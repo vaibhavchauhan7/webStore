@@ -13,8 +13,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[spInsertAndGetOrdersForCustomer]
-@CustomerID		INT,
-@ProductID		INT = NULL
+@CustomerId		INT,
+@ProductId		INT = NULL
 
 AS
 
@@ -22,27 +22,27 @@ SET NOCOUNT ON
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
 BEGIN
-    IF (@ProductID IS NOT NULL)
+    IF (@ProductId IS NOT NULL)
     BEGIN
         INSERT INTO orders (order_number, customer_id, product_id, purchase_date, purchase_time)
 		VALUES (
-		'WB' + CAST(@CustomerID AS VARCHAR(20)) + CAST(@ProductID AS VARCHAR(20)) + 'STR' 
+		'WB' + CAST(@CustomerId AS VARCHAR(20)) + CAST(@ProductId AS VARCHAR(20)) + 'STR' 
 		+ CONVERT(VARCHAR(10), GETDATE(), 112) 
 		+ SUBSTRING(REPLACE(CONVERT(VARCHAR(25), GETDATE(), 113), ':', ''), 13, 10),
-        @CustomerID,
-        @ProductID,
+        @CustomerId,
+        @ProductId,
         CONVERT(VARCHAR(12), GETDATE(), 107),
         FORMAT(CONVERT(DATETIME, GETDATE()), 'hh:mm tt'))
     END
 
     CREATE TABLE #tmp_orders_customers (
-        OrderID				INT NOT NULL,
+        OrderId				INT NOT NULL,
         OrderNumber			VARCHAR(70) NOT NULL,
-        CustomerID			INT NOT NULL,
+        CustomerId			INT NOT NULL,
         CustomerName		VARCHAR(50) NOT NULL,
         CustomerEmail		VARCHAR(50) NOT NULL,
         CustomerPhone		VARCHAR(50) NOT NULL,
-        ProductID			INT NOT NULL,
+        ProductId			INT NOT NULL,
         ProductName			VARCHAR(50) NOT NULL,
         ProductPrice		VARCHAR(20) NOT NULL,
         PurchaseDate		VARCHAR(12) NOT NULL,
@@ -60,17 +60,17 @@ BEGIN
     JOIN customers c ON c.id = o.customer_id
     JOIN products p ON p.id = o.product_id
 
-    IF (@ProductID > 0)
+    IF (@ProductId > 0)
     BEGIN
         SELECT * FROM #tmp_orders_customers toc
-        WHERE toc.CustomerID = @CustomerID
-        AND toc.ProductID = @ProductID
+        WHERE toc.CustomerId = @CustomerId
+        AND toc.ProductId = @ProductId
     END
     ELSE
     BEGIN
         SELECT * FROM #tmp_orders_customers toc
-        WHERE toc.CustomerID = @CustomerID
-        ORDER BY toc.OrderID DESC
+        WHERE toc.CustomerId = @CustomerId
+        ORDER BY toc.OrderId DESC
     END
 
     DROP TABLE #tmp_orders_customers

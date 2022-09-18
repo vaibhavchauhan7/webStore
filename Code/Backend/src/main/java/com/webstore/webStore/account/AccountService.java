@@ -9,22 +9,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("accountService")
+@Service
 public interface AccountService extends UserDetailsService {
 
     Customer getAuthenticatedCustomer();
 
     Customer updateProfile(Customer customer);
 
-    List<Order> getOrders(Integer customerID);
+    List<Order> getOrders(Integer customerId);
 
-    List<WishlistCart> getProducts(Integer customerID, String type);
+    List<WishlistCart> getProducts(Integer customerId, String type);
 
-    void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct);
+    void modifyProduct(Product product, Integer customerId, String type, Integer removeProduct);
 
-    void clearProducts(Integer customerID, String type);
+    void clearProducts(Integer customerId, String type);
 
-    void checkOut(List<Product> cartProducts, Integer customerID);
+    void checkOut(List<Product> cartProducts, Integer customerId);
 
     void resetCustomer();
 

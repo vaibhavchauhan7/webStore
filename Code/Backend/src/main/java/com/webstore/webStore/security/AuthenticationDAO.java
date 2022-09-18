@@ -11,7 +11,7 @@ public interface AuthenticationDAO {
 
     void customerSignUp(Customer customer);
 
-    ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authenticationRequest) throws Exception;
+    ResponseEntity<AuthenticationResponse> customerLogin(AuthenticationRequest authRequest) throws Exception;
 
     void updatePassword(Customer customer, String newPassword);
 

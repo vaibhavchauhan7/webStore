@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/authentication")
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
-    private final AccountService accountService;
     private final AccountDAO accountDAO;
+    private final AccountService accountService;
+    private final AuthenticationService authenticationService;
 
     private Customer customer;
 
@@ -36,9 +36,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    private ResponseEntity<AuthenticationResponse>
-    customerLogin(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        return authenticationService.customerLogin(authenticationRequest);
+    private ResponseEntity<AuthenticationResponse> customerLogin(@RequestBody AuthenticationRequest authRequest) throws Exception {
+        return authenticationService.customerLogin(authRequest);
     }
 
     @PostMapping("/logout")
@@ -52,9 +51,7 @@ public class AuthenticationController {
         if (customer != null) {
             String customerPhone = customer.getPhone();
             return customerPhone.equals(forgotPassword.getPhone());
-        } else {
-            return false;
-        }
+        } else return false;
     }
 
     @PostMapping("/forgot/update")
@@ -62,9 +59,7 @@ public class AuthenticationController {
         if (customer == null) {
             Customer customer = accountDAO.getCustomerByEmail(updatePassword.getEmail());
             authenticationService.updatePassword(customer, updatePassword.getPassword());
-        } else {
-            authenticationService.updatePassword(customer, updatePassword.getPassword());
-        }
+        } else authenticationService.updatePassword(customer, updatePassword.getPassword());
     }
 
 }

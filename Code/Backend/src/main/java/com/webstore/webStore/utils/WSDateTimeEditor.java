@@ -1,4 +1,4 @@
-package com.webstore.webStore.shared.utils;
+package com.webstore.webStore.utils;
 
 import org.joda.time.DateTime;
 

@@ -55,6 +55,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
@@ -69,7 +76,8 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>9.5.0.jre17-preview</version>
+            <!--Upgrading this version requires adding 'encrypt=true;trustServerCertificate=true;' and port number for 'spring.datasource.url' in application.properties-->
+            <version>11.2.1.jre18</version>
         </dependency>
 
         <dependency>

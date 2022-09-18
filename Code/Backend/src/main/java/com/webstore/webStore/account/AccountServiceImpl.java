@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("accountService")
+@Service
 public class AccountServiceImpl implements AccountService {
 
     private final AccountDAO accountDAO;
@@ -26,9 +26,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (customer == null) {
-            customer = accountDAO.getCustomerByEmail(email);
-        }
+        if (customer == null) customer = accountDAO.getCustomerByEmail(email);
         return new User(customer.getEmail(), customer.getPassword(), new ArrayList<>());
     }
 
@@ -43,28 +41,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Order> getOrders(Integer customerID) {
-        return accountDAO.getOrders(customerID);
+    public List<Order> getOrders(Integer customerId) {
+        return accountDAO.getOrders(customerId);
     }
 
     @Override
-    public List<WishlistCart> getProducts(Integer customerID, String type) {
-        return accountDAO.getProducts(customerID, type);
+    public List<WishlistCart> getProducts(Integer customerId, String type) {
+        return accountDAO.getProducts(customerId, type);
     }
 
     @Override
-    public void modifyProduct(Product product, Integer customerID, String type, Integer removeProduct) {
-        accountDAO.modifyProduct(product, customerID, type, removeProduct);
+    public void modifyProduct(Product product, Integer customerId, String type, Integer removeProduct) {
+        accountDAO.modifyProduct(product, customerId, type, removeProduct);
     }
 
     @Override
-    public void clearProducts(Integer customerID, String type) {
-        accountDAO.clearProducts(customerID, type);
+    public void clearProducts(Integer customerId, String type) {
+        accountDAO.clearProducts(customerId, type);
     }
 
     @Override
-    public void checkOut(List<Product> cartProducts, Integer customerID) {
-        accountDAO.checkOut(cartProducts, customerID);
+    public void checkOut(List<Product> cartProducts, Integer customerId) {
+        accountDAO.checkOut(cartProducts, customerId);
     }
 
     @Override
