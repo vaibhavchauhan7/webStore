@@ -64,6 +64,7 @@ export enum WSToast {
     FORM_NOT_SUBMITTED = 'Something Went Wrong - Form Not Submitted',
     INVALID_CREDENTIALS = 'Invalid Credentials!',
     INVALID_DATA = 'Invalid Data!',
+    MOVED_TO_WISHLIST = 'moved to Wishlist!',
     PASSWORD_UPDATED = 'Password Updated - Please Login!',
     PASSWORD_UPDATE_FAILED = 'Couldn\'t Update Password - Try Again Later!',
     PASSWORDS_DO_NOT_MATCH = 'Passwords Do Not Match!',

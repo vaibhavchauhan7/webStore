@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityController {
+public class SecurityController {   // https://stackoverflow.com/questions/72381114/spring-security-upgrading-the-deprecated-websecurityconfigureradapter-in-spring
 
     private final JwtRequestFilter jwtRequestFilter;
 

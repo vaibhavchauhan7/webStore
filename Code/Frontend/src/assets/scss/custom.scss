@@ -81,7 +81,7 @@
     margin-top: 20px;
 }
 
-.btn-web, .btn-red, .btn-green, .btn-orange, .btn-gray {
+.btn-web, .btn-red, .btn-green, .btn-orange, .btn-gray, .btn-blue {
     background-color: white;
     border: 2px solid red;
     color: red;
@@ -137,6 +137,17 @@
 .btn-gray:hover {
     background-color: gray;
     border-color: gray;
+    color: white;
+}
+
+.btn-blue {
+    border-color: blue;
+    color: blue;
+}
+
+.btn-blue:hover {
+    background-color: blue;
+    border-color: blue;
     color: white;
 }
 

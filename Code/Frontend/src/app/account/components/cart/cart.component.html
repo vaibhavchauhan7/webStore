@@ -30,7 +30,12 @@
             <button (click)="removeProductFromCart(product)" [attr.data-target]="'#' + modalID"
                     class="btn btn-red br-20" data-toggle="modal" type="button">
                 Remove Item
-            </button>
+            </button>&nbsp;&nbsp;
+
+            <button (click)="moveToWishlist(product)" [attr.data-target]="'#' + modalID"
+                    class="btn btn-blue br-20" data-toggle="modal" type="button">
+                Move to Wishlist
+            </button>&nbsp; &nbsp;
         </div>
 
         <div class="col-md-2 cartDetails text-right" style="right: 50px;">
@@ -73,7 +78,7 @@
 </ng-container>
 
 <!--Remove Product From Cart - Confirmation Modal-->
-<ng-container *ngIf="cartProduct">
+<ng-container *ngIf="cartProduct && modalID !== 'moveToWishlist'">
     <app-modal [modalID]="modalID">
         <modalTitle>Warning</modalTitle>
         <modalBody>
@@ -85,6 +90,30 @@
             <button (click)="removeProductFromCart(cartProduct, true)"
                     class="btn btn-web br-20" data-dismiss="modal" type="button">
                 Yes, Remove It
+            </button>
+        </continueButton>
+        <closeButton>
+            <button (click)="resetValues()" class="btn btn-gray br-20"
+                    data-dismiss="modal" type="button">
+                No, Keep It
+            </button>
+        </closeButton>
+    </app-modal>
+</ng-container>
+
+<!--Move Product To Wishlist - Confirmation Modal-->
+<ng-container *ngIf="cartProduct && modalID === 'moveToWishlist'">
+    <app-modal [modalID]="modalID">
+        <modalTitle>Move to Wishlist</modalTitle>
+        <modalBody>
+            Want to move <b>{{cartProduct.name}}</b> to your wishlist?
+            <br *ngIf="isSmallDevice"/>
+            <p class="actionUndone">This action cannot be undone!</p>
+        </modalBody>
+        <continueButton>
+            <button (click)="moveToWishlist(cartProduct, true)"
+                    class="btn btn-web br-20" data-dismiss="modal" type="button">
+                Yes, Move It
             </button>
         </continueButton>
         <closeButton>
