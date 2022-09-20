@@ -19,23 +19,23 @@ export class AccountService {
         return this.http.post<Customer>(URL, customer);
     }
 
-    getOrders(customerID: number): Observable<Order[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.ORDERS}`;
+    getOrders(customerId: number): Observable<Order[]> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.ORDERS}`;
         return this.http.get<Order[]>(URL);
     }
 
-    modifyProduct(product: Product, customerID: number, type: string, removeProduct: number): Observable<void> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.PRODUCT}/${type}?removeProduct=${removeProduct}`;
+    modifyProduct(product: Product, customerId: number, type: string, removeProduct: number): Observable<void> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.PRODUCT}/${type}?removeProduct=${removeProduct}`;
         return this.http.post<void>(URL, product);
     }
 
-    clearProducts(customerID: number, type: string): Observable<void> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.CLEAR}/${type}`;
+    clearProducts(customerId: number, type: string): Observable<void> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.CLEAR}/${type}`;
         return this.http.post<void>(URL, {});
     }
 
-    checkOut(cartProducts: Product[], customerID: number): Observable<void> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.CHECKOUT}`;
+    checkOut(cartProducts: Product[], customerId: number): Observable<void> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.CHECKOUT}`;
         return this.http.post<void>(URL, cartProducts);
     }
 

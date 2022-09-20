@@ -17,7 +17,7 @@ import {ToastService} from '../../../shared/components/toast/toast.service';
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-    modalID = '';
+    modalId = '';
     isSmallDevice = false;
     cartProduct: Cart; // Used for Remove Product Confirmation Modal
     cartProducts: Cart[];
@@ -34,9 +34,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getCustomer();
-        if (window.innerWidth < 769) {
-            this.isSmallDevice = true;
-        }
+        if (window.innerWidth < 769) this.isSmallDevice = true;
     }
 
     getCustomer(): void {
@@ -66,12 +64,12 @@ export class CartComponent implements OnInit, OnDestroy {
 
     removeProductFromCart(cartProduct: Cart, confirmation?: boolean): void {
         this.cartProduct = cartProduct;
-        this.modalID = `cart_${cartProduct.id}`;
+        this.modalId = `cart_${cartProduct.id}`;
         if (confirmation) this.removeProduct(cartProduct, 'removeProduct');
     }
 
     clearCart(confirmation?: boolean): void {
-        this.modalID = 'clearCart';
+        this.modalId = 'clearCart';
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
                 .subscribe({
@@ -89,7 +87,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     moveToWishlist(cartProduct: Cart, confirmation?: boolean): void {
         this.cartProduct = cartProduct;
-        this.modalID = 'moveToWishlist';
+        this.modalId = 'moveToWishlist';
         if (confirmation) {
             this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.WISHLIST}`, 0)
                 .subscribe({
@@ -124,11 +122,11 @@ export class CartComponent implements OnInit, OnDestroy {
     }
 
     checkOut(cartProducts: Product[], confirmation?: boolean): void {
-        this.modalID = 'checkOut';
+        this.modalId = 'checkOut';
         if (confirmation) {
             this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe({
                     next: () => {
-                        this.checkOutAllProductsInCart();
+                        this.clearOutAllProductsInCart();
                     }, error: () => {
                         this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -138,7 +136,7 @@ export class CartComponent implements OnInit, OnDestroy {
         }
     }
 
-    checkOutAllProductsInCart(): void {
+    clearOutAllProductsInCart(): void {
         this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
             .subscribe({
                 next: () => {
@@ -155,7 +153,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     resetValues(): void {
         this.cartProduct = null;
-        this.modalID = '';
+        this.modalId = '';
     }
 
     ngOnDestroy(): void {

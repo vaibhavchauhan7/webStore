@@ -29,13 +29,13 @@
 
 <ng-container *ngFor="let order of orders; last as last">
     <div class="row mb-5">
-        <div [routerLink]="['/product', order.productID, order.productName]" class="col-md-2 text-center cursor-pointer"
+        <div [routerLink]="['/product', order.productId, order.productName]" class="col-md-2 text-center cursor-pointer"
              routerLinkActive="active">
             <img alt="ProductImage" class="image-size" src="{{order.productImagePath}}">
         </div>
 
         <div class="col-md-2 orderDetails">
-            <p [routerLink]="['/product', order.productID, order.productName]"
+            <p [routerLink]="['/product', order.productId, order.productName]"
                class="cursor-pointer" routerLinkActive="active">
                 {{order.productName}}
             </p>

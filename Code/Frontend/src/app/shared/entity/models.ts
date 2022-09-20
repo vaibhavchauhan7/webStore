@@ -31,13 +31,13 @@ export interface Login {
 }
 
 export interface Order {
-    orderID?: number;
+    orderId?: number;
     orderNumber?: number;
-    customerID?: number;
+    customerId?: number;
     customerName?: string;
     customerEmail?: string;
     customerPhone?: string;
-    productID?: number;
+    productId?: number;
     productName?: string;
     productPrice?: number;
     purchaseDate?: string;

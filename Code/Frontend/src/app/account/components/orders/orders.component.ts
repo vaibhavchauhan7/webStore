@@ -44,8 +44,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
     getOrders(): void {
         this.subscription$.push(this.accountService.getOrders(this.customer.id)
             .subscribe({
-                next: (orderList: Order[]) => {
-                    this.orders = orderList;
+                next: (orders: Order[]) => {
+                    this.orders = orders;
                 }, error: () => {
                     this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_ORDERS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }

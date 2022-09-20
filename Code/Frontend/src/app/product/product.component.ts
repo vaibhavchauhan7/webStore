@@ -27,7 +27,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     disableCartButton = false;
     disableWishlistButton = false;
     private subscription$: Subscription[] = [];
-    private customerID = 0;
+    private customerId = 0;
 
     constructor(private route: ActivatedRoute,
                 private accountService: AccountService,
@@ -45,8 +45,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     viewProduct(): void {
         this.productService.previousRoute = this.router.url;
-        const productID = this.route.snapshot.params.id;
-        this.subscription$.push(this.productService.viewProduct(+productID)
+        const productId = this.route.snapshot.params.id;
+        this.subscription$.push(this.productService.viewProduct(+productId)
             .subscribe({
                 next: (product: Product) => {
                     this.product = product;
@@ -65,7 +65,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (customer: Customer) => {
                     if (customer && Object.keys(customer).length > 0) {
-                        this.customerID = customer.id;
+                        this.customerId = customer.id;
                         this.getCustomerAuthentication();
                         this.initializeCartAndWishlist();
                     }
@@ -94,7 +94,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     initializeCart(): void {
-        this.subscription$.push(this.productService.initializeCart(this.customerID)
+        this.subscription$.push(this.productService.initializeCart(this.customerId)
             .subscribe({
                 next: () => {
                     this.checkProductAvailability(this.product);
@@ -107,7 +107,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     initializeWishlist(): void {
-        this.subscription$.push(this.productService.initializeWishlist(this.customerID)
+        this.subscription$.push(this.productService.initializeWishlist(this.customerId)
             .subscribe({
                 next: () => {
                     this.checkProductAvailability(this.product);
@@ -121,7 +121,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     addProductToWishlist(product: Product): void {
         if (this.customerAuthenticated) {
-            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.WISHLIST}`, 0)
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerId, `${ProductType.WISHLIST}`, 0)
                 .subscribe({
                     next: () => {
                         this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
@@ -141,7 +141,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     addProductToCart(product: Product): void {
         if (this.customerAuthenticated) {
-            this.subscription$.push(this.accountService.modifyProduct(product, this.customerID, `${ProductType.CART}`, 0)
+            this.subscription$.push(this.accountService.modifyProduct(product, this.customerId, `${ProductType.CART}`, 0)
                 .subscribe({
                     next: () => {
                         this.cartButton = `${WSCart.ADDED_TO_CART}`;

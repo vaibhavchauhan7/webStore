@@ -16,7 +16,7 @@ import {ProductType, WSClass, WSToast} from '../../../shared/entity/constants';
 })
 export class WishlistComponent implements OnInit, OnDestroy {
 
-    modalID = '';
+    modalId = '';
     isSmallDevice = false;
     wishlistProduct: Wishlist; // Used for Remove Product Confirmation Modal
     wishlistProducts: Wishlist[]; // Sometimes there's an issue with initializing array like: arrayName[] = [];
@@ -31,9 +31,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.getCustomer();
-        if (window.innerWidth < 769) {
-            this.isSmallDevice = true;
-        }
+        if (window.innerWidth < 769) this.isSmallDevice = true;
     }
 
     getCustomer(): void {
@@ -63,25 +61,12 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     removeProductFromWishlist(wishlistProduct: Wishlist, confirmation?: boolean): void {
         this.wishlistProduct = wishlistProduct;
-        this.modalID = `wishlist_${wishlistProduct.id}`;
-        if (confirmation) {
-            this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.WISHLIST}`, 1)
-                .subscribe({
-                    next: () => {
-                        this.productService.wishlistProducts
-                            .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
-                        this.toastService.showToast(`Removed ${wishlistProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                        this.resetValues();
-                    }, error: () => {
-                        this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
-                    }
-                })
-            );
-        }
+        this.modalId = `wishlist_${wishlistProduct.id}`;
+        if (confirmation) this.removeProduct(wishlistProduct, 'removeProduct');
     }
 
-    clearProducts(confirmation?: boolean): void {
-        this.modalID = 'clearProducts';
+    clearWishlist(confirmation?: boolean): void {
+        this.modalId = 'clearWishlist';
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.WISHLIST}`)
                 .subscribe({
@@ -97,9 +82,45 @@ export class WishlistComponent implements OnInit, OnDestroy {
         }
     }
 
+    moveToCart(wishlistProduct: Wishlist, confirmation?: boolean): void {
+        this.wishlistProduct = wishlistProduct;
+        this.modalId = 'moveToCart';
+        if (confirmation) {
+            this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.CART}`, 0)
+                .subscribe({
+                    next: () => {
+                        this.removeProduct(wishlistProduct, 'moveToCart');
+                    }, error: () => {
+                        this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`,
+                            {classname: `${WSClass.REQUEST_FAILED}`});
+                    }
+                })
+            );
+        }
+    }
+
+    removeProduct(wishlistProduct: Wishlist, type: string): void {
+        this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.WISHLIST}`, 1)
+            .subscribe({
+                next: () => {
+                    this.productService.wishlistProducts
+                        .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
+
+                    if (type === 'moveToCart') this.toastService.showToast(
+                        `${wishlistProduct.name} ${WSToast.MOVED_TO_CART}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    if (type === 'removeProduct') this.toastService.showToast(
+                        `Removed ${wishlistProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    this.resetValues();
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                }
+            })
+        );
+    }
+
     resetValues(): void {
         this.wishlistProduct = null;
-        this.modalID = '';
+        this.modalId = '';
     }
 
     ngOnDestroy(): void {

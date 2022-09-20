@@ -32,31 +32,31 @@ export class ProductService {
         );
     }
 
-    initializeWishlist(customerID: number): Observable<Wishlist[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.PRODUCTS}/Wishlist`;
+    initializeWishlist(customerId: number): Observable<Wishlist[]> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.PRODUCTS}/Wishlist`;
         return this.http.get<Wishlist[]>(URL).pipe(tap((productList: Wishlist[]) => {
                 this.wishlistProducts = productList;
             })
         );
     }
 
-    initializeCart(customerID: number): Observable<Cart[]> {
-        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerID}/${WSApi.PRODUCTS}/Cart`;
+    initializeCart(customerId: number): Observable<Cart[]> {
+        const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.PRODUCTS}/Cart`;
         return this.http.get<Cart[]>(URL).pipe(tap((productList: Cart[]) => {
                 this.cartProducts = productList;
             })
         );
     }
 
-    viewProduct(productID: number): Observable<Product> {
+    viewProduct(productId: number): Observable<Product> {
         if (this.allProducts) {
-            const foundProduct = this.allProducts.find((product: Product) => product.id === productID);
+            const foundProduct = this.allProducts.find((product: Product) => product.id === productId);
             if (foundProduct) {
                 return of(foundProduct);
             }
         }
         return this.getProducts().pipe(
-            map((productList: Product[]) => productList.find((product: Product) => product.id === productID))
+            map((productList: Product[]) => productList.find((product: Product) => product.id === productId))
         );
     }
 

@@ -24,14 +24,16 @@
                class="cursor-pointer" routerLinkActive="active">
                 {{product.name}}
             </p>
-            <!--            <button type="button" class="btn btn-green br-20 mb-2">-->
-            <!--                Move To Cart-->
-            <!--            </button>-->
-            <!--            <br/>-->
-            <button (click)="removeProductFromWishlist(product)" [attr.data-target]="'#' + modalID"
+
+            <button (click)="removeProductFromWishlist(product)" [attr.data-target]="'#' + modalId"
                     class="btn btn-red br-20" data-toggle="modal" type="button">
                 Remove Item
-            </button>
+            </button>&nbsp;&nbsp;
+
+            <button (click)="moveToCart(product)" [attr.data-target]="'#' + modalId"
+                    class="btn btn-web br-20" data-toggle="modal" type="button">
+                Move to Cart
+            </button>&nbsp;&nbsp;
         </div>
 
         <div class="col-md-3 wishlistDetails">
@@ -49,7 +51,7 @@
 <ng-container *ngIf="wishlistProducts && wishlistProducts.length !== 0">
     <div class="row mt-p5">
         <div class="col-12 text-center">
-            <button (click)="clearProducts()" [attr.data-target]="'#' + modalID"
+            <button (click)="clearWishlist()" [attr.data-target]="'#' + modalId"
                     [disabled]="wishlistProducts.length === 0"
                     class="btn btn-red br-20" data-toggle="modal" type="button">
                 Clear Wishlist
@@ -60,8 +62,8 @@
 </ng-container>
 
 <!--Remove Product From Wishlist - Confirmation Modal-->
-<ng-container *ngIf="wishlistProduct">
-    <app-modal [modalID]="modalID">
+<ng-container *ngIf="wishlistProduct && modalId !== 'moveToCart'">
+    <app-modal [modalId]="modalId">
         <modalTitle>Warning</modalTitle>
         <modalBody>
             Want to remove <b>{{wishlistProduct.name}}</b> from your wishlist?
@@ -83,9 +85,31 @@
     </app-modal>
 </ng-container>
 
+<!--Move Product To Cart - Confirmation Modal-->
+<ng-container *ngIf="wishlistProduct && modalId === 'moveToCart'">
+    <app-modal [modalId]="modalId">
+        <modalTitle>Move to Cart</modalTitle>
+        <modalBody>
+            Want to move <b>{{wishlistProduct.name}}</b> to your cart?
+        </modalBody>
+        <continueButton>
+            <button (click)="moveToCart(wishlistProduct, true)"
+                    class="btn btn-web br-20" data-dismiss="modal" type="button">
+                Yes, Move It
+            </button>
+        </continueButton>
+        <closeButton>
+            <button (click)="resetValues()" class="btn btn-gray br-20"
+                    data-dismiss="modal" type="button">
+                No, Keep It
+            </button>
+        </closeButton>
+    </app-modal>
+</ng-container>
+
 <!--Clear Wishlist - Confirmation Modal-->
 <ng-container *ngIf="wishlistProducts">
-    <app-modal [modalID]="modalID">
+    <app-modal [modalId]="modalId">
         <modalTitle>Warning</modalTitle>
         <modalBody>
             Are you sure you want to clear your wishlist?
@@ -93,7 +117,7 @@
             <p class="actionUndone">This action cannot be undone!</p>
         </modalBody>
         <continueButton>
-            <button (click)="clearProducts(true)" class="btn btn-web br-20"
+            <button (click)="clearWishlist(true)" class="btn btn-web br-20"
                     data-dismiss="modal" type="button">
                 Yes, Clear Wishlist
             </button>
