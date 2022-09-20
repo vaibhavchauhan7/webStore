@@ -67,20 +67,7 @@ export class CartComponent implements OnInit, OnDestroy {
     removeProductFromCart(cartProduct: Cart, confirmation?: boolean): void {
         this.cartProduct = cartProduct;
         this.modalID = `cart_${cartProduct.id}`;
-        if (confirmation) {
-            this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.CART}`, 1)
-                .subscribe({
-                    next: () => {
-                        this.productService.cartProducts
-                            .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
-                        this.toastService.showToast(`Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                        this.resetValues();
-                    }, error: () => {
-                        this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
-                    }
-                })
-            );
-        }
+        if (confirmation) this.removeProduct(cartProduct, 'removeProduct');
     }
 
     clearCart(confirmation?: boolean): void {
@@ -107,7 +94,7 @@ export class CartComponent implements OnInit, OnDestroy {
             this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.WISHLIST}`, 0)
                 .subscribe({
                     next: () => {
-                        this.clearProducts(`/${WSRouting.ACCOUNT}/${WSRouting.WISHLIST}`, 'moveToWishlist', cartProduct);
+                        this.removeProduct(cartProduct, 'moveToWishlist');
                     }, error: () => {
                         this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
                             {classname: `${WSClass.REQUEST_FAILED}`});
@@ -117,12 +104,31 @@ export class CartComponent implements OnInit, OnDestroy {
         }
     }
 
+    removeProduct(cartProduct: Cart, type: string): void {
+        this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.CART}`, 1)
+            .subscribe({
+                next: () => {
+                    this.productService.cartProducts
+                        .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
+
+                    if (type === 'moveToWishlist') this.toastService.showToast(
+                        `${cartProduct.name} ${WSToast.MOVED_TO_WISHLIST}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    if (type === 'removeProduct') this.toastService.showToast(
+                        `Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    this.resetValues();
+                }, error: () => {
+                    this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
+                }
+            })
+        );
+    }
+
     checkOut(cartProducts: Product[], confirmation?: boolean): void {
         this.modalID = 'checkOut';
         if (confirmation) {
             this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe({
                     next: () => {
-                        this.clearProducts(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`, 'checkOut');
+                        this.checkOutAllProductsInCart();
                     }, error: () => {
                         this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -132,17 +138,14 @@ export class CartComponent implements OnInit, OnDestroy {
         }
     }
 
-    clearProducts(url: string, type: string, product?: Product): void {
+    checkOutAllProductsInCart(): void {
         this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
             .subscribe({
                 next: () => {
                     this.cartProducts = [];
                     this.productService.cartProducts = [];
-                    if (type === 'moveToWishlist') this.toastService.showToast(
-                        `${product.name} ${WSToast.MOVED_TO_WISHLIST}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    else this.toastService.showToast(
-                        `${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
-                    this.router.navigateByUrl(url).then();
+                    this.toastService.showToast(`${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
+                    this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
                 }, error: () => {
                     this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
