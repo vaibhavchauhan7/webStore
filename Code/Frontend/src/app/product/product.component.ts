@@ -85,12 +85,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     initializeCartAndWishlist(): void {
-        if (this.productService.wishlistProducts.length === 0) {
-            this.initializeWishlist();
-        }
-        if (this.productService.cartProducts.length === 0) {
-            this.initializeCart();
-        }
+        if (this.productService.cartProducts.length === 0) this.initializeCart();
+        if (this.productService.wishlistProducts.length === 0) this.initializeWishlist();
     }
 
     initializeCart(): void {

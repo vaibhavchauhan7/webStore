@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
+import {ContactComponent} from './contact/contact.component';
 import {ForgotPasswordComponent} from './authentication/components/forgot-password/forgot-password.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './authentication/components/login/login.component';
@@ -26,10 +27,6 @@ const routes: Routes = [
         loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
     },
     {
-        path: `${WSRouting.CONTACT}`,
-        loadChildren: () => import('./contact/contact.module').then(m => m.ContactModule)
-    },
-    {
         path: `${WSRouting.LOGIN}`,
         component: LoginComponent,
         data: {title: `${WSTitle.LOGIN}`}
@@ -43,6 +40,11 @@ const routes: Routes = [
         path: `${WSRouting.FORGOT}`,
         component: ForgotPasswordComponent,
         data: {title: `${WSTitle.FORGOT}`}
+    },
+    {
+        path: `${WSRouting.CONTACT}`,
+        component: ContactComponent,
+        data: {title: `${WSTitle.CONTACT}`}
     },
     {
         path: `${WSRouting.PAGE_NOT_FOUND}`,

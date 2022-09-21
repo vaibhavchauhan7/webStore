@@ -4,7 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 
 import {CommonService} from '../shared/services/common.service';
-import {ContactService} from './contact.service';
+import {ContactService} from './services/contact.service';
 import {Customer} from '../shared/entity/models';
 import {ToastService} from '../shared/components/toast/toast.service';
 import {WSClass, WSToast} from '../shared/entity/constants';
@@ -18,9 +18,11 @@ export class ContactComponent implements OnInit, OnDestroy {
 
     @ViewChild('contactName') contactName;
     @ViewChild('contactEmail') contactEmail;
+
+    private subscription$: Subscription[] = [];
+
     customer = {} as Customer;
     customerAuthenticated = false;
-    private subscription$: Subscription[] = [];
 
     constructor(private commonService: CommonService,
                 private contactService: ContactService,
@@ -46,15 +48,13 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
                 next: (customer: Customer) => {
-                    if (customer && Object.keys(customer).length > 0) {
-                        this.customer = customer;
-                    }
+                    if (customer && Object.keys(customer).length > 0) this.customer = customer;
                 }
             })
         );
     }
 
-    customerContact(contactFormData: NgForm): void {
+    contact(contactFormData: NgForm): void {
         if (contactFormData.invalid || contactFormData.untouched) {
             this.toastService.showToast(`${WSToast.INVALID_DATA}`, {classname: `${WSClass.REQUEST_FAILED}`});
         } else {
@@ -62,7 +62,7 @@ export class ContactComponent implements OnInit, OnDestroy {
                 contactFormData.value.name = this.customer.firstName + ' ' + this.customer.lastName;
                 contactFormData.value.email = this.customer.email;
             }
-            this.subscription$.push(this.contactService.customerContact(contactFormData.value)
+            this.subscription$.push(this.contactService.contact(contactFormData.value)
                 .subscribe({
                     next: () => {
                         this.toastService.showToast(`${WSToast.FORM_SUBMITTED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});

@@ -15,7 +15,7 @@ public class ContactController {
     private final ContactRepository contactRepository;
 
     @PostMapping("/contact")
-    private void customerContact(@RequestBody Contact contactFormData) {
+    private void contact(@RequestBody Contact contactFormData) {
         contactRepository.save(contactFormData);
     }
 

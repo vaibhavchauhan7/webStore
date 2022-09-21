@@ -39,9 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
                 next: (customer: Customer) => {
-                    if (customer && Object.keys(customer).length > 0) {
-                        this.customer = customer;
-                    }
+                    if (customer && Object.keys(customer).length > 0) this.customer = customer;
                 }
             })
         );

@@ -7,7 +7,8 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthenticationService} from './authentication/services/authentication.service';
 import {AuthenticationGuardService} from './authentication/services/authentication-guard.service';
 import {CommonService} from './shared/services/common.service';
-import {ContactService} from './contact/contact.service';
+import {ContactComponent} from './contact/contact.component';
+import {ContactService} from './contact/services/contact.service';
 import {CookieService} from 'ngx-cookie-service';
 import {FooterComponent} from './shared/components/footer/footer.component';
 import {ForgotPasswordComponent} from './authentication/components/forgot-password/forgot-password.component';
@@ -28,6 +29,7 @@ import {ToastComponent} from './shared/components/toast/toast.component';
 @NgModule({
     declarations: [
         AppComponent,
+        ContactComponent,
         FooterComponent,
         ForgotPasswordComponent,
         HeaderComponent,
