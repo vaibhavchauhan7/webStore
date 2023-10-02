@@ -16,7 +16,7 @@
     <description>webStoreApplication</description>
 
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>6.0.0</version>
+            <version>6.1.4</version>
         </dependency>
 
         <dependency>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
 
@@ -77,19 +77,19 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <!--Upgrading this version requires adding 'encrypt=true;trustServerCertificate=true;' and port number for 'spring.datasource.url' in application.properties-->
-            <version>11.2.1.jre18</version>
+            <version>11.2.3.jre17</version>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.31</version>
+            <version>8.0.33</version>
         </dependency>
 
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.12.2</version>
+            <version>2.12.5</version>
         </dependency>
 
         <dependency>
