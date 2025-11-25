@@ -1,4 +1,5 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {NgIf} from '@angular/common';
 
 import {Subscription} from 'rxjs';
 
@@ -7,11 +8,14 @@ import {CommonService} from '../../services/common.service';
 @Component({
     selector: 'app-loading-spinner',
     templateUrl: './loading-spinner.component.html',
+    imports: [
+        NgIf
+    ],
     styleUrls: ['./loading-spinner.component.scss']
 })
 export class LoadingSpinnerComponent implements OnInit, OnDestroy {
 
-    showLoadingSpinner = false;
+    showLoadingSpinner: boolean = false;
     private subscription$: Subscription;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
@@ -24,7 +28,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
 
     initializeLoadingSpinner(): void {
         this.subscription$ = this.commonService.getLoadingSpinnerStatus().subscribe({
-            next: (status: string) => {
+            next: (status: string): void => {
                 this.showLoadingSpinner = status === 'start';
                 this.changeDetectorRef.detectChanges();
             }

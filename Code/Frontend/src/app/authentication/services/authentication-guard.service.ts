@@ -12,7 +12,7 @@ import {WSRouting} from '../../shared/entity/constants';
 })
 export class AuthenticationGuardService implements CanActivate {
 
-    customerAuthenticated = false;
+    customerAuthenticated: boolean = false;
 
     constructor(private commonService: CommonService,
                 private productService: ProductService,

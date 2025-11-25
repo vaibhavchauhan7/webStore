@@ -16,7 +16,7 @@
     <div class="row mb-5">
         <div [routerLink]="['/product', product.id, product.name]" class="col-md-3 text-center cursor-pointer"
              routerLinkActive="active">
-            <img alt="ProductImage" class="image-size" src="{{product.imagePath}}">
+            <img alt="ProductImage" class="image-size" ngSrc="{{product.imagePath}}" fill="">
         </div>
 
         <div class="col-md-6 wishlistDetails text-left">

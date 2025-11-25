@@ -11,7 +11,7 @@ import {ProductResolverService} from './product/services/product-resolver.servic
 import {SignUpComponent} from './authentication/components/sign-up/sign-up.component';
 import {WSRouting, WSTitle} from './shared/entity/constants';
 
-const routes: Routes = [
+export const routes: Routes = [
     {
         path: '',
         component: HomeComponent,

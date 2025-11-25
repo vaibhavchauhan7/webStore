@@ -6,6 +6,7 @@
 */
 {
     "files": [],
+    "target": "ES2022",
     "references": [
         {
             "path": "./tsconfig.app.json"

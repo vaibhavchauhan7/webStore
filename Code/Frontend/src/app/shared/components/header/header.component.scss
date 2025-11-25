@@ -1,25 +1,36 @@
+// Hamburger Menu Container
 .bar-container {
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
 }
 
+// Hamburger Bars
 .bar1, .bar2, .bar3 {
     width: 35px;
     height: 2px;
     background-color: #FFFFFF;
-    margin: 6px 0;
-    transition: 0.4s;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out, background 0.3s ease-in-out;
+
+    &:hover {
+        background-color: darken(#FFFFFF, 10%);
+    }
 }
 
-.change .bar1 {
-    -webkit-transform: rotate(-45deg) translate(-15px, 0);
-    transform: rotate(-45deg) translate(-15px, 0);
-}
+// Animation for Active State
+.change {
+    .bar1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
 
-.change .bar2 {
-    opacity: 0;
-}
+    .bar2 {
+        opacity: 0;
+    }
 
-.change .bar3 {
-    -webkit-transform: rotate(45deg) translate(-18px, -3px);
-    transform: rotate(45deg) translate(-18px, -3px);
+    .bar3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
 }

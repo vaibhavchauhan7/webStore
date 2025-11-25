@@ -3,20 +3,20 @@
         <div class="col-md-6 d-block m-auto">
             <img alt="ProductImage"
                  class="productImage img-responsive d-block m-auto"
-                 src="{{product.imagePath}}"/>
+                 ngSrc="{{product.imagePath}}" fill=""/>
         </div>
 
         <div class="col-md-6">
             <div class="row no-gutters productName d-flex">
                 <p style="font-weight: 600; font-size: 40px;">
-                    {{product.name}}
+                    {{ product.name }}
                 </p><br/>
             </div>
 
             <div class="row no-gutters">
                 <div class="col-12 px-0">
                     <div class="productDescription d-flex">
-                        <p>{{product.description}}</p>
+                        <p>{{ product.description }}</p>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="row no-gutters">
                 <div class="col-12 px-0">
                     <p class="productPrice" style="font-weight: 600; font-size: 25px;">
-                        Rs. {{product.price}}
+                        Rs. {{ product.price }}
                     </p>
                 </div>
             </div>
@@ -33,13 +33,13 @@
                 <button (click)="addProductToCart(product)" [disabled]="disableCartButton"
                         [ngClass]="cartButtonClass" class="btn br-20"
                         id="cartButton" type="button">
-                    {{cartButton}}
+                    {{ cartButton }}
                 </button>&nbsp;&nbsp;
 
                 <button (click)="addProductToWishlist(product)" [disabled]="disableWishlistButton"
                         [ngClass]="wishlistButtonClass" class="btn br-20"
                         id="wishlistButton" type="button">
-                    {{wishlistButton}}
+                    {{ wishlistButton }}
                 </button>
             </div>
         </div>

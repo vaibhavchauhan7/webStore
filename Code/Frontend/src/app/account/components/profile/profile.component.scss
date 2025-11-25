@@ -1,10 +1,13 @@
+/* Profile Picture */
 .profilePic {
     border-radius: 50%;
     height: 250px;
     width: 250px;
     margin-bottom: 50px;
+    object-fit: cover;
 }
 
+/* Headings */
 .primaryHeading {
     font-weight: 600;
     font-size: 25px;
@@ -17,31 +20,43 @@
     font-size: 18px;
     color: grey;
     text-align: center;
+    margin-bottom: 10px;
 }
 
-// For Form Input
-.secondaryHeading input {
-    color: grey;
-}
-
+/* Form Input Fields */
 input {
     text-align: center;
-    outline: 0;
-    border: 0;
+    outline: none;
+    border: none;
     color: black;
     border-bottom: 2px solid #2B2E33;
     width: 94%;
     resize: none;
-    margin-left: 3%;
+    margin: 10px auto;
     font-size: 1.07em;
+    display: block;
+    padding: 5px 0;
+    background-color: transparent;
 }
 
+/* Hide Placeholder on Focus */
 input:focus::placeholder {
     color: transparent;
 }
 
+/* Mobile Adjustments */
 @media only screen and (max-width: 992px) {
     .secondaryHeading {
         margin-bottom: 20px;
+    }
+
+    .profilePic {
+        height: 200px;
+        width: 200px;
+    }
+
+    input {
+        font-size: 1em;
+        width: 90%;
     }
 }

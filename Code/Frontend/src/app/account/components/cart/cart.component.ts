@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
@@ -9,16 +10,25 @@ import {Cart, Customer, Product} from '../../../shared/entity/models';
 import {ProductService} from '../../../product/services/product.service';
 import {ProductType, WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 import {ToastService} from '../../../shared/components/toast/toast.service';
+import {ModalComponent} from '../../../shared/components/modal/modal.component';
 
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
+    imports: [
+        RouterLink,
+        ModalComponent,
+        NgIf,
+        NgForOf,
+        RouterLinkActive,
+        NgOptimizedImage
+    ],
     styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit, OnDestroy {
 
-    modalId = '';
-    isSmallDevice = false;
+    modalId: string = '';
+    isSmallDevice: boolean = false;
     cartProduct: Cart; // Used for Remove Product Confirmation Modal
     cartProducts: Cart[];
 
@@ -40,7 +50,7 @@ export class CartComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) {
                         this.customer = customer;
                         this.initializeCart();
@@ -53,9 +63,9 @@ export class CartComponent implements OnInit, OnDestroy {
     initializeCart(): void {
         this.subscription$.push(this.productService.initializeCart(this.customer.id)
             .subscribe({
-                next: (productList: Cart[]) => {
+                next: (productList: Cart[]): void => {
                     this.cartProducts = productList;
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -73,11 +83,11 @@ export class CartComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.cartProducts = this.productService.cartProducts = [];
                         this.toastService.showToast(`${WSToast.CART_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         this.resetValues();
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 })
@@ -91,9 +101,9 @@ export class CartComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.WISHLIST}`, 0)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.removeProduct(cartProduct, 'moveToWishlist');
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
                             {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -105,7 +115,7 @@ export class CartComponent implements OnInit, OnDestroy {
     removeProduct(cartProduct: Cart, type: string): void {
         this.subscription$.push(this.accountService.modifyProduct(cartProduct, this.customer.id, `${ProductType.CART}`, 1)
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.productService.cartProducts
                         .splice(this.productService.cartProducts.indexOf(cartProduct), 1);
 
@@ -114,7 +124,7 @@ export class CartComponent implements OnInit, OnDestroy {
                     if (type === 'removeProduct') this.toastService.showToast(
                         `Removed ${cartProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                     this.resetValues();
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -125,9 +135,9 @@ export class CartComponent implements OnInit, OnDestroy {
         this.modalId = 'checkOut';
         if (confirmation) {
             this.subscription$.push(this.accountService.checkOut(cartProducts, this.customer.id).subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.clearOutAllProductsInCart();
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 })
@@ -139,12 +149,12 @@ export class CartComponent implements OnInit, OnDestroy {
     clearOutAllProductsInCart(): void {
         this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.CART}`)
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.cartProducts = [];
                     this.productService.cartProducts = [];
                     this.toastService.showToast(`${WSToast.CHECKOUT_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                     this.router.navigateByUrl(`/${WSRouting.ACCOUNT}/${WSRouting.ORDERS}`).then();
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.CHECKOUT_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -158,7 +168,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.commonService.httpRequestCompleted();
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

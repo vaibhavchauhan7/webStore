@@ -1,63 +1,66 @@
-input {
+// Input Field Styling
+input, textarea {
     margin-bottom: 15px;
+    font-size: 1.07em;
+    color: black;
+    border: none;
+    border-bottom: 2px solid #2B2E33;
+    width: 94%;
+    margin-left: 3%;
+    outline: none;
+    resize: none;
+    transition: border-color 0.3s ease-in-out;
+
+    &:focus {
+        border-bottom-color: #33b526; // Green on focus
+    }
 }
 
+// Placeholder Styling
 ::placeholder {
     font-size: 1.07em;
     color: dimgrey;
+    transition: color 0.3s ease-in-out;
 }
 
-input:focus::placeholder, textarea:focus::placeholder {
+input:focus::placeholder,
+textarea:focus::placeholder {
     color: transparent;
 }
 
+// Contact Heading
 .contact {
     font-weight: 600;
     font-size: 3.214em;
     color: black;
-    margin: 0 0 10vh 0;
+    margin-bottom: 10vh;
     text-align: center;
 }
 
-#contactForm input {
-    outline: 0;
-    border: 0;
-    color: black;
-    border-bottom: 2px solid #2B2E33;
-    width: 94%;
-    resize: none;
-    margin-left: 3%;
-    font-size: 1.07em;
+// Form Validation Styling
+#contactForm {
+    input.ng-invalid.ng-touched,
+    textarea.ng-invalid.ng-touched {
+        border-bottom-color: red; // Red if invalid
+    }
+
+    input.ng-valid,
+    textarea.ng-valid {
+        border-bottom-color: #33b526; // Green if valid
+    }
+
+    span {
+        margin-left: 5%;
+    }
 }
 
-#contactForm textarea {
-    outline: 0;
-    border: 0;
-    color: black;
-    border-bottom: 2px solid #2B2E33;
-    width: 94%;
-    height: 20vh;
-    resize: none;
-    margin-left: 3%;
-    font-size: 1.07em;
-}
-
-#contactForm input.ng-invalid.ng-touched, #contactForm textarea.ng-invalid.ng-touched {
-    border-bottom: 2px solid red;
-}
-
-#contactForm input.ng-valid, #contactForm textarea.ng-valid {
-    border-bottom: 2px solid #33b526;
-}
-
-#contactForm span {
-    margin: 0 0 0 5%;
-}
-
+// Button Styling
 .btn {
+    display: block;
     margin: 0 auto;
 }
 
+// Responsive Adjustments
 @media (max-width: 767px) {
     .contact {
         font-size: 3.214em;
@@ -78,7 +81,6 @@ input:focus::placeholder, textarea:focus::placeholder {
     }
 
     .btn {
-        margin-top: 5vh;
-        margin-bottom: 5.62vh;
+        margin: 5vh auto;
     }
 }

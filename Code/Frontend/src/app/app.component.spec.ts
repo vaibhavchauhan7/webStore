@@ -1,6 +1,8 @@
-import {async, TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideLocationMocks} from '@angular/common/testing';
+import {provideRouter} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './shared/components/header/header.component';
@@ -9,11 +11,13 @@ import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
 import {ToastComponent} from './shared/components/toast/toast.component';
 
 describe('AppComponent', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientTestingModule,
-                RouterTestingModule
+                provideHttpClient(),
+                provideHttpClientTesting(),
+                provideRouter([]),
+                provideLocationMocks(),
             ],
             declarations: [
                 AppComponent,

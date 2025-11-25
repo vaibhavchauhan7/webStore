@@ -1,4 +1,7 @@
-@import 'src/assets/scss/variables';
+@use 'bootstrap/scss/functions';
+@use 'bootstrap/scss/variables';
+@use 'bootstrap/scss/mixins';
+@use 'assets/scss/variables'; // Your custom variables
 
 .vh-n51 {
     height: calc(100vh - 51px) !important;
@@ -14,19 +17,19 @@
 }
 
 .p-r-55 {
-    padding-right: 55px;
+    padding-right: 55px !important;
 }
 
 .p-l-55 {
-    padding-left: 55px;
+    padding-left: 55px !important;
 }
 
 .m-b-16 {
-    margin-bottom: 16px;
+    margin-bottom: 16px !important;
 }
 
 .p-t-35 {
-    padding-top: 35px;
+    padding-top: 35px !important;
 }
 
 .p-tb-20 {
@@ -55,7 +58,7 @@
 }
 
 .bg-red {
-    background-color: red;
+    background-color: var(--bs-danger) !important;
 }
 
 .emptyText {
@@ -66,7 +69,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-right: -50%;
     transform: translate(-50%, -50%);
 }
 
@@ -74,23 +76,22 @@
     display: inline-block;
     width: 230px;
     font-size: 15px;
-    color: red;
-    border: 2px solid red;
-    background-color: pink;
+    color: var(--bs-danger);
+    border: 2px solid var(--bs-danger);
+    background-color: var(--bs-light);
     border-radius: 20px;
     margin-top: 20px;
 }
 
 .btn-web, .btn-red, .btn-green, .btn-orange, .btn-gray {
     background-color: white;
-    border: 2px solid red;
-    color: red;
+    border: 2px solid var(--bs-danger);
+    color: var(--bs-danger);
     transition: 0.5s;
     outline: none !important;
 }
 
 .btn-web {
-    background-color: white;
     border-color: $webStorePrimaryColor;
     color: $webStorePrimaryColor;
 }
@@ -102,8 +103,8 @@
 }
 
 .btn-red:hover {
-    background-color: red;
-    border-color: red;
+    background-color: var(--bs-danger);
+    border-color: var(--bs-danger);
     color: white;
 }
 
@@ -114,7 +115,6 @@
 
 .btn-orange:hover {
     background-color: #f08018;
-    border-color: #f08018;
     color: white;
 }
 
@@ -125,7 +125,6 @@
 
 .btn-green:hover {
     background-color: #0fa336;
-    border-color: #0fa336;
     color: white;
 }
 
@@ -136,15 +135,13 @@
 
 .btn-gray:hover {
     background-color: gray;
-    border-color: gray;
     color: white;
 }
 
 .custom-toast {
     font-size: 17px;
-    bottom: auto;
     top: 2px;
-    z-index: inherit;
+    z-index: 1050;
     border-radius: 20px;
     min-width: 300px;
     max-width: max-content;
@@ -163,17 +160,8 @@
 }
 
 .flex-col-c {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-flex-direction: column;
-    -moz-flex-direction: column;
-    -ms-flex-direction: column;
-    -o-flex-direction: column;
     flex-direction: column;
-    -ms-align-items: center;
     align-items: center;
 }
 
@@ -182,18 +170,16 @@
     background-color: #7386D5;
     border-radius: 27px;
     position: relative;
-    z-index: 1;
 }
 
 .input100 {
     font-size: 15px;
     color: #000000;
     line-height: 1.2;
-    position: relative;
     display: block;
     width: 100%;
     height: 55px;
-    background: #EAEAEA;
+    background: var(--bs-gray-200);
     border-radius: 27px;
     padding: 0 35px;
 }
@@ -201,35 +187,23 @@
 .focus-input100 {
     display: block;
     position: absolute;
-    z-index: -1;
     width: 100%;
     height: 100%;
     top: 0;
     left: 50%;
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
     transform: translateX(-50%);
     border-radius: 31px;
     background-color: #FFFFFF;
     pointer-events: none;
-    -webkit-transition: all .4s;
-    -o-transition: all .4s;
-    -moz-transition: all .4s;
-    transition: all .4s;
+    transition: all 0.4s;
 }
 
 .wrap-signUp100, .wrap-login100, .wrap-forgot100 {
-    background: #FFFFFF;
+    background: var(--bs-white);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    -moz-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    -webkit-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    -o-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
-    -ms-box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
     height: auto;
-    border: 1px solid #DEDEDE;
+    border: 1px solid var(--bs-gray-300);
     margin: 30px auto;
 }

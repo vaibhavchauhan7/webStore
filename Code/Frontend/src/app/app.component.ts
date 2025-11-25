@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {NgClass} from '@angular/common';
+import {ActivatedRoute, NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 
 import {Subscription} from 'rxjs';
@@ -9,18 +10,31 @@ import {AuthenticationService} from './authentication/services/authentication.se
 import {CommonService} from './shared/services/common.service';
 import {CookieService} from 'ngx-cookie-service';
 import {Customer} from './shared/entity/models';
+import {HeaderComponent} from './shared/components/header/header.component';
+import {LoadingSpinnerComponent} from './shared/components/loading-spinner/loading-spinner.component';
+import {SidebarComponent} from './shared/components/sidebar/sidebar.component';
+import {ToastComponent} from './shared/components/toast/toast.component';
 import {ToastService} from './shared/components/toast/toast.service';
 import {WSClass, WSTitle, WSToast} from './shared/entity/constants';
 
 @Component({
     selector: 'app-root',
+    standalone: true,
     templateUrl: './app.component.html',
+    imports: [
+        HeaderComponent,
+        SidebarComponent,
+        ToastComponent,
+        LoadingSpinnerComponent,
+        RouterOutlet,
+        NgClass
+    ],
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    title = WSTitle.WEB_STORE;
-    sidebarOpen = false;
+    title: WSTitle = WSTitle.WEB_STORE;
+    sidebarOpen: boolean = false;
     private subscription$: Subscription[] = [];
 
     constructor(private activatedRoute: ActivatedRoute,
@@ -49,12 +63,12 @@ export class AppComponent implements OnInit, OnDestroy {
     getAuthenticatedCustomer(): void {
         this.subscription$.push(this.authenticationService.getAuthenticatedCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) {
                         this.commonService.setCustomer(customer);
                         this.commonService.authenticateCustomer();
                     }
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.TRY_AGAIN}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -74,7 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                     return this.titleService.getTitle();
                 })).subscribe({
-                next: (title: string) => {
+                next: (title: string): void => {
                     this.titleService.setTitle(title);
                 }
             })
@@ -84,7 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     getSidebarStatus(): void {
         this.subscription$.push(this.commonService.getSidebarStatus()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.sidebarOpen = data;
                 }
             })
@@ -92,7 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

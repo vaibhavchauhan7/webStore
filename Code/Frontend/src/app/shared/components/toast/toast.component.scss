@@ -1,6 +1,8 @@
 :host {
     display: flex;
-    text-align: center;
+    align-items: center; // Ensure vertical alignment
     justify-content: center;
-    z-index: 1031; /* header.component.scss (fixed-top class has z-index of 1030 by default) */
+    text-align: center;
+    z-index: 1031; // Ensure it stays above the header
+    position: relative; // Explicitly define positioning to avoid layout issues
 }

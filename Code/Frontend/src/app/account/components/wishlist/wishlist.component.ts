@@ -1,10 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
 import {AccountService} from '../../account.service';
 import {CommonService} from '../../../shared/services/common.service';
 import {Customer, Wishlist} from '../../../shared/entity/models';
+import {ModalComponent} from '../../../shared/components/modal/modal.component';
 import {ProductService} from '../../../product/services/product.service';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {ProductType, WSClass, WSToast} from '../../../shared/entity/constants';
@@ -12,16 +15,24 @@ import {ProductType, WSClass, WSToast} from '../../../shared/entity/constants';
 @Component({
     selector: 'app-wishlist',
     templateUrl: './wishlist.component.html',
+    imports: [
+        ModalComponent,
+        RouterLink,
+        RouterLinkActive,
+        NgForOf,
+        NgIf,
+        NgOptimizedImage
+    ],
     styleUrls: ['./wishlist.component.scss']
 })
 export class WishlistComponent implements OnInit, OnDestroy {
 
-    modalId = '';
-    isSmallDevice = false;
+    modalId: string = '';
+    isSmallDevice: boolean = false;
     wishlistProduct: Wishlist; // Used for Remove Product Confirmation Modal
     wishlistProducts: Wishlist[]; // Sometimes there's an issue with initializing array like: arrayName[] = [];
     private subscription$: Subscription[] = [];
-    private customer = {} as Customer;
+    private customer: Customer = {} as Customer;
 
     constructor(private accountService: AccountService,
                 private commonService: CommonService,
@@ -37,7 +48,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) {
                         this.customer = customer;
                         this.initializeWishlist();
@@ -50,9 +61,9 @@ export class WishlistComponent implements OnInit, OnDestroy {
     initializeWishlist(): void {
         this.subscription$.push(this.productService.initializeWishlist(this.customer.id)
             .subscribe({
-                next: (productList: Wishlist[]) => {
+                next: (productList: Wishlist[]): void => {
                     this.wishlistProducts = productList;
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -70,11 +81,11 @@ export class WishlistComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.clearProducts(this.customer.id, `${ProductType.WISHLIST}`)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.wishlistProducts = this.productService.wishlistProducts = [];
                         this.toastService.showToast(`${WSToast.WISHLIST_CLEARED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         this.resetValues();
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_CLEARING_WISHLIST}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 })
@@ -88,9 +99,9 @@ export class WishlistComponent implements OnInit, OnDestroy {
         if (confirmation) {
             this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.CART}`, 0)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.removeProduct(wishlistProduct, 'moveToCart');
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_CLEARING_CART}`,
                             {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -102,7 +113,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
     removeProduct(wishlistProduct: Wishlist, type: string): void {
         this.subscription$.push(this.accountService.modifyProduct(wishlistProduct, this.customer.id, `${ProductType.WISHLIST}`, 1)
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.productService.wishlistProducts
                         .splice(this.productService.wishlistProducts.indexOf(wishlistProduct), 1);
 
@@ -111,7 +122,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
                     if (type === 'removeProduct') this.toastService.showToast(
                         `Removed ${wishlistProduct.name}!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                     this.resetValues();
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.PRODUCT_REMOVAL_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -125,7 +136,7 @@ export class WishlistComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.commonService.httpRequestCompleted();
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

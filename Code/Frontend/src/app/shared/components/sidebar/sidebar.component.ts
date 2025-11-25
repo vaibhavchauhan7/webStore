@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {NgClass, NgIf} from '@angular/common';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
@@ -14,6 +15,12 @@ import {WSClass, WSRouting} from '../../entity/constants';
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
+    imports: [
+        RouterLinkActive,
+        RouterLink,
+        NgClass,
+        NgIf
+    ],
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
@@ -27,10 +34,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         profile: WSRouting.PROFILE,
         wishlist: WSRouting.WISHLIST
     };
-    customer = {} as Customer;
-    customerFullName = '';
-    customerAuthenticated = false;
-    sidebarOpen = false;
+    customer: Customer = {} as Customer;
+    customerFullName: string = '';
+    customerAuthenticated: boolean = false;
+    sidebarOpen: boolean = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -49,7 +56,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) {
                         this.customer = customer;
                         this.customerFullName = customer.firstName + ' ' + customer.lastName;
@@ -63,7 +70,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.customerAuthenticated = data;
                 }
             })
@@ -73,7 +80,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     getSidebarStatus(): void {
         this.subscription$.push(this.commonService.getSidebarStatus()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.sidebarOpen = data;
                 }
             })
@@ -85,7 +92,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.commonService.revokeCustomerAuthentication();
         this.subscription$.push(this.authenticationService.customerLogout()
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.commonService.resetCustomer();
                     this.productService.previousRoute = '/';
                     this.productService.cartProducts = [];
@@ -93,7 +100,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
                     this.router.navigateByUrl('/').then();
                     this.toastService.showToast(`Successfully Logged Out!`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                 },
-                error: () => {
+                error: (): void => {
                     this.toastService.showToast(`Error Logging Out!`, {classname: `${WSClass.REQUEST_FAILED}`});
                 }
             })
@@ -105,7 +112,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

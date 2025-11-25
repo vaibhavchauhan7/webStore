@@ -1,23 +1,28 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonService} from '../../../shared/services/common.service';
+import {SharedModule} from '../../../shared.module';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-sign-up',
     templateUrl: './sign-up.component.html',
+    imports: [
+        SharedModule,
+        RouterLink
+    ],
     styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit, OnDestroy {
 
-    login = WSRouting.LOGIN;
-    customerAuthenticated = false;
+    login: WSRouting = WSRouting.LOGIN;
+    customerAuthenticated: boolean = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -37,12 +42,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
             if (signUpFormData.value.password === signUpFormData.value.confirmPassword) {
                 this.subscription$.push(this.authenticationService.customerSignUp(signUpFormData.value)
                     .subscribe({
-                        next: () => {
+                        next: (): void => {
                             this.toastService.showToast(`${WSToast.SIGN_UP_SUCCESSFUL}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                             signUpFormData.reset();
                             this.router.navigateByUrl(`${WSRouting.LOGIN}`).then();
                             // TODO : Auto-Login after Successful Sign-Up
-                        }, error: () => {
+                        }, error: (): void => {
                             this.toastService.showToast(`${WSToast.SIGN_UP_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                         }
                     })
@@ -56,7 +61,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.customerAuthenticated = data;
                     if (this.customerAuthenticated) {
                         this.router.navigateByUrl('/').then();
@@ -67,7 +72,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

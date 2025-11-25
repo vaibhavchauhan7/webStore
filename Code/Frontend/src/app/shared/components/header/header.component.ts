@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 import {Subscription} from 'rxjs';
 
@@ -7,11 +8,14 @@ import {CommonService} from '../../services/common.service';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
+    imports: [
+        NgClass
+    ],
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-    sidebarOpen = false;
+    sidebarOpen: boolean = false;
     private subscription$: Subscription;
 
     constructor(private commonService: CommonService) {
@@ -23,7 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     getSidebarStatus(): void {
         this.subscription$ = this.commonService.getSidebarStatus().subscribe({
-            next: (data: boolean) => {
+            next: (data: boolean): void  => {
                 this.sidebarOpen = data;
             }
         });

@@ -12,10 +12,10 @@
                         <!--<img alt="Avatar" class="avatar d-inline-flex" src="assets/Images/Person.png">&nbsp; &nbsp;-->
                         <span class="avatarName">
                             <ng-container *ngIf="customerFullName.length > 17; else firstName">
-                                {{customer.firstName}}
+                                {{ customer.firstName }}
                             </ng-container>
                             <ng-template #firstName>
-                                {{customerFullName}}
+                                {{ customerFullName }}
                             </ng-template>
                         </span>
                     </ng-template>

@@ -31,7 +31,7 @@
     <div class="row mb-5">
         <div [routerLink]="['/product', order.productId, order.productName]" class="col-md-2 text-center cursor-pointer"
              routerLinkActive="active">
-            <img alt="ProductImage" class="image-size" src="{{order.productImagePath}}">
+            <img alt="ProductImage" class="image-size" ngSrc="{{order.productImagePath}}" fill="">
         </div>
 
         <div class="col-md-2 orderDetails">

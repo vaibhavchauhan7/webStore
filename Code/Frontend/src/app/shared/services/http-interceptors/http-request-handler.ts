@@ -1,12 +1,5 @@
 import {Injectable} from '@angular/core';
-import {
-    HttpErrorResponse,
-    HttpEvent,
-    HttpHandler,
-    HttpInterceptor,
-    HttpRequest,
-    HttpResponse
-} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -22,7 +15,7 @@ export class HttpRequestHandler implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const tokenCookie = this.cookieService.get('token');
+        const tokenCookie: string = this.cookieService.get('token');
         this.commonService.httpRequestInitiated();
 
         if (tokenCookie) {
@@ -38,13 +31,15 @@ export class HttpRequestHandler implements HttpInterceptor {
 
     requestHandler(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
-            tap(event => {
-                if (event instanceof HttpResponse) {
+            tap({
+                next: event => {
+                    if (event instanceof HttpResponse) {
+                        this.commonService.httpRequestCompleted();
+                    }
+                }, error: error => {
                     this.commonService.httpRequestCompleted();
+                    throw error;
                 }
-            }, (error: HttpErrorResponse) => {
-                this.commonService.httpRequestCompleted();
-                throw error;
             })
         );
     }

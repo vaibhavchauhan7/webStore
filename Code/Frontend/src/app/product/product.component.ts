@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 
@@ -14,20 +15,25 @@ import {ProductType, WSCart, WSClass, WSRouting, WSTitle, WSToast, WSWishlist} f
 @Component({
     selector: 'app-product',
     templateUrl: './product.component.html',
+    imports: [
+        NgClass,
+        NgOptimizedImage,
+        NgIf
+    ],
     styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
 
-    customerAuthenticated = false;
-    product = {} as Product;
-    cartButton = `${WSCart.DEFAULT_TITLE}`;
-    wishlistButton = `${WSWishlist.DEFAULT_TITLE}`;
-    cartButtonClass = `${WSCart.DEFAULT_CLASS}`;
-    wishlistButtonClass = `${WSWishlist.DEFAULT_CLASS}`;
-    disableCartButton = false;
-    disableWishlistButton = false;
+    customerAuthenticated: boolean = false;
+    product: Product = {} as Product;
+    cartButton: string = `${WSCart.DEFAULT_TITLE}`;
+    wishlistButton: string = `${WSWishlist.DEFAULT_TITLE}`;
+    cartButtonClass: string = `${WSCart.DEFAULT_CLASS}`;
+    wishlistButtonClass: string = `${WSWishlist.DEFAULT_CLASS}`;
+    disableCartButton: boolean = false;
+    disableWishlistButton: boolean = false;
     private subscription$: Subscription[] = [];
-    private customerId = 0;
+    private customerId: number = 0;
 
     constructor(private route: ActivatedRoute,
                 private accountService: AccountService,
@@ -48,11 +54,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         const productId = this.route.snapshot.params.id;
         this.subscription$.push(this.productService.viewProduct(+productId)
             .subscribe({
-                next: (product: Product) => {
+                next: (product: Product): void => {
                     this.product = product;
                     this.titleService.setTitle(`${WSTitle.WEB_STORE} : ${this.product.name}`);
                     this.checkProductAvailability(this.product);
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`Error - Couldn't Get This Product!`,
                         {classname: `${WSClass.REQUEST_FAILED}`});
                 }
@@ -63,7 +69,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) {
                         this.customerId = customer.id;
                         this.getCustomerAuthentication();
@@ -77,7 +83,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.customerAuthenticated = data;
                 }
             })
@@ -92,9 +98,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     initializeCart(): void {
         this.subscription$.push(this.productService.initializeCart(this.customerId)
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.checkProductAvailability(this.product);
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_CART}`,
                         {classname: `${WSClass.REQUEST_FAILED}`});
                 }
@@ -105,9 +111,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     initializeWishlist(): void {
         this.subscription$.push(this.productService.initializeWishlist(this.customerId)
             .subscribe({
-                next: () => {
+                next: (): void => {
                     this.checkProductAvailability(this.product);
-                }, error: () => {
+                }, error: (): void => {
                     this.toastService.showToast(`${WSToast.ERROR_RETRIEVING_WISHLIST}`,
                         {classname: `${WSClass.REQUEST_FAILED}`});
                 }
@@ -119,11 +125,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         if (this.customerAuthenticated) {
             this.subscription$.push(this.accountService.modifyProduct(product, this.customerId, `${ProductType.WISHLIST}`, 0)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.wishlistButton = `${WSWishlist.ADDED_TO_WISHLIST}`;
                         this.wishlistButtonClass = `${WSWishlist.CLASS_ADDED_TO_WISHLIST}`;
                         this.disableWishlistButton = true;
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_WISHLIST}`,
                             {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -139,11 +145,11 @@ export class ProductComponent implements OnInit, OnDestroy {
         if (this.customerAuthenticated) {
             this.subscription$.push(this.accountService.modifyProduct(product, this.customerId, `${ProductType.CART}`, 0)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.cartButton = `${WSCart.ADDED_TO_CART}`;
                         this.cartButtonClass = `${WSCart.CLASS_ADDED_TO_CART}`;
                         this.disableCartButton = true;
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.ERROR_ADDING_PRODUCT_CART}`,
                             {classname: `${WSClass.REQUEST_FAILED}`});
                     }
@@ -170,7 +176,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

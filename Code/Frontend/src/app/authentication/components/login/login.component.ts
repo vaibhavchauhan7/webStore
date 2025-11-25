@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgForm} from '@angular/forms';
 
 import {Subscription} from 'rxjs';
@@ -8,12 +8,18 @@ import {AuthenticationService} from '../../services/authentication.service';
 import {CommonService} from '../../../shared/services/common.service';
 import {CookieService} from 'ngx-cookie-service';
 import {ProductService} from '../../../product/services/product.service';
+import {SharedModule} from '../../../shared.module';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    imports: [
+        SharedModule,
+        RouterLink,
+        RouterLinkActive
+    ],
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
@@ -22,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         signUp: WSRouting.SIGN_UP,
         forgot: WSRouting.FORGOT
     };
-    customerAuthenticated = false;
+    customerAuthenticated: boolean = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,

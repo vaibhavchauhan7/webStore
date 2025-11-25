@@ -1,26 +1,31 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 import {Subscription} from 'rxjs';
 
 import {AuthenticationService} from '../../services/authentication.service';
 import {CommonService} from '../../../shared/services/common.service';
+import {SharedModule} from '../../../shared.module';
 import {ToastService} from '../../../shared/components/toast/toast.service';
 import {WSClass, WSRouting, WSToast} from '../../../shared/entity/constants';
 
 @Component({
     selector: 'app-forgot-password',
     templateUrl: './forgot-password.component.html',
+    imports: [
+        SharedModule,
+        RouterLink
+    ],
     styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
-    login = WSRouting.LOGIN;
-    customerEmail = '';
-    customerAuthenticated = false;
-    forgotPasswordForm = true;
-    updatePasswordForm = false;
+    login: WSRouting = WSRouting.LOGIN;
+    customerEmail: string = '';
+    customerAuthenticated: boolean = false;
+    forgotPasswordForm: boolean = true;
+    updatePasswordForm: boolean = false;
     private subscription$: Subscription[] = [];
 
     constructor(private authenticationService: AuthenticationService,
@@ -40,14 +45,14 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         } else {
             this.subscription$.push(this.authenticationService.forgotPassword(forgotPasswordFormData.value)
                 .subscribe({
-                    next: (data: boolean) => {
+                    next: (data: boolean): void => {
                         if (data) {
                             this.forgotPasswordForm = false;
                             this.updatePasswordForm = true;
                         } else {
                             this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                         }
-                    }, error: () => {
+                    }, error: (): void => {
                         this.toastService.showToast(`${WSToast.WRONG_CREDENTIALS}`, {classname: `${WSClass.REQUEST_FAILED}`});
                     }
                 })
@@ -63,12 +68,12 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
             if (updatePasswordFormData.value.password === updatePasswordFormData.value.confirmPassword) {
                 this.subscription$.push(this.authenticationService.updatePassword(updatePasswordFormData.value)
                     .subscribe({
-                        next: () => {
+                        next: (): void => {
                             this.forgotPasswordForm = true;
                             this.updatePasswordForm = false;
                             this.toastService.showToast(`${WSToast.PASSWORD_UPDATED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                             this.router.navigateByUrl(`/${this.login}`).then();
-                        }, error: () => {
+                        }, error: (): void => {
                             this.toastService.showToast(`${WSToast.PASSWORD_UPDATE_FAILED}`, {classname: `${WSClass.REQUEST_FAILED}`});
                         }
                     })
@@ -82,7 +87,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.customerAuthenticated = data;
                     if (this.customerAuthenticated) {
                         this.router.navigateByUrl('/').then();
@@ -93,7 +98,7 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach((subscription: Subscription) => {
+        this.subscription$?.forEach((subscription: Subscription): void => {
             subscription.unsubscribe();
         });
     }

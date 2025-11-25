@@ -14,7 +14,7 @@ export class ProductService {
 
     cartProducts: Cart[] = [];
     wishlistProducts: Wishlist[] = [];
-    previousRoute = '';
+    previousRoute: string = '';
 
     private allProducts: Product[];
 
@@ -26,7 +26,7 @@ export class ProductService {
             return of(this.allProducts);
         }
         return this.http.get<Product[]>(`/${WSApi.BASE_URL}/${WSApi.PRODUCTS}`).pipe(
-            tap((productList: Product[]) =>
+            tap((productList: Product[]): Product[] =>
                 this.allProducts = productList
             )
         );
@@ -34,7 +34,7 @@ export class ProductService {
 
     initializeWishlist(customerId: number): Observable<Wishlist[]> {
         const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.PRODUCTS}/Wishlist`;
-        return this.http.get<Wishlist[]>(URL).pipe(tap((productList: Wishlist[]) => {
+        return this.http.get<Wishlist[]>(URL).pipe(tap((productList: Wishlist[]): void => {
                 this.wishlistProducts = productList;
             })
         );
@@ -42,7 +42,7 @@ export class ProductService {
 
     initializeCart(customerId: number): Observable<Cart[]> {
         const URL = `/${WSApi.BASE_URL}/${WSApi.CUSTOMER}/${customerId}/${WSApi.PRODUCTS}/Cart`;
-        return this.http.get<Cart[]>(URL).pipe(tap((productList: Cart[]) => {
+        return this.http.get<Cart[]>(URL).pipe(tap((productList: Cart[]): void => {
                 this.cartProducts = productList;
             })
         );
@@ -50,19 +50,19 @@ export class ProductService {
 
     viewProduct(productId: number): Observable<Product> {
         if (this.allProducts) {
-            const foundProduct = this.allProducts.find((product: Product) => product.id === productId);
+            const foundProduct: Product = this.allProducts.find((product: Product): boolean => product.id === productId);
             if (foundProduct) {
                 return of(foundProduct);
             }
         }
         return this.getProducts().pipe(
-            map((productList: Product[]) => productList.find((product: Product) => product.id === productId))
+            map((productList: Product[]): Product => productList.find((product: Product): boolean => product.id === productId))
         );
     }
 
     ifArrayIncludes(product: Product, array: any[]): boolean {
         if (array.length !== 0) {
-            const productFound = array.find((item: Product) =>
+            const productFound = array.find((item: Product): boolean =>
                 item.id === product.id
             );
             return !!productFound;

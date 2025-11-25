@@ -1,3 +1,4 @@
+/* Wishlist Text Styles */
 .wishlistDetails {
     font-weight: 400;
     font-size: 20px;
@@ -10,7 +11,7 @@
     text-align: center;
 }
 
-/*Remove Item*/
+/* Remove Item Button */
 .removeProduct {
     border: 2px solid red;
     border-radius: 10px;
@@ -20,33 +21,40 @@
     background-color: transparent;
     cursor: pointer;
     font-size: 20px;
-    transition: 0.5s;
+    transition: background-color 0.3s ease, color 0.3s ease;
     text-align: center;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     outline: none;
 }
 
 .removeProduct:hover {
     background-color: red;
     color: white;
-    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);*/
 }
 
+/* Mobile Styles */
 @media only screen and (max-width: 767px) {
     .wishlistHeadings {
         display: none;
     }
 
     .wishlistDetails {
-        text-align: center !important;
+        text-align: center;
         margin-top: 10px;
+        font-size: 18px;
     }
 
     .removeProduct {
+        width: 100%;
+        max-width: 170px;
+        height: 50px;
         margin-bottom: 10px;
     }
 
     .emptyText {
-        font-size: 38px;
+        font-size: 32px;
+        text-align: center;
     }
 }

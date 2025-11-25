@@ -1,9 +1,11 @@
-@import 'src/assets/scss/variables';
+@use 'assets/scss/variables';
 
+// Submenus
 #accountSubMenu, #categoriesSubMenu {
     padding: 0;
 }
 
+// Avatar Styles
 .avatar {
     width: 50px;
     height: 50px;
@@ -12,37 +14,33 @@
 
 .avatarName {
     vertical-align: middle;
-    font-size: 25px;
+    font-size: 1.5rem;
 }
 
+// Typography
 p {
-    font-size: 1em;
-    line-height: 2em;
+    font-size: 1rem;
+    line-height: 2;
 }
 
+// Links
 a {
     color: inherit;
     text-decoration: none;
-    transition: all 0.3s;
+    transition: color 0.3s ease-in-out;
 
-    &:hover {
+    &:hover, &:focus {
         color: inherit;
         text-decoration: none;
-        transition: all 0.3s;
-    }
-
-    &:focus {
-        color: inherit;
-        text-decoration: none;
-        transition: all 0.3s;
     }
 }
 
+// Sidebar
 .sidebar {
-    height: calc(100vh + 5px);
+    min-height: 100vh;
     background: $webStorePrimaryColor;
     color: white;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 
     .sidebar-header {
         padding: 20px;
@@ -54,7 +52,6 @@ a {
     }
 
     ul {
-
         p {
             color: white;
             padding: 10px;
@@ -64,9 +61,10 @@ a {
             list-style: none;
 
             a {
-                padding: 10px;
-                font-size: 1em;
                 display: block;
+                padding: 10px;
+                font-size: 1rem;
+                transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 
                 &:hover {
                     color: $webStorePrimaryColor;
@@ -77,11 +75,13 @@ a {
     }
 }
 
+// Welcome Banner
 .wsHello {
     padding: 10px;
     background-color: $webStorePrimaryColor;
 }
 
+// Dropdown Arrows
 .dropdown-toggle {
     &::after {
         display: block;
@@ -92,29 +92,31 @@ a {
     }
 }
 
+// Nested Lists
 ul {
     ul {
         a {
-            font-size: 1em !important;
+            font-size: 1rem !important;
             padding-left: 30px !important;
             background: $webStoreSecondaryColor;
         }
     }
 }
 
+// Custom Buttons List
 ul.custom-buttons {
     padding: 20px;
     list-style-type: none;
 
     a {
         display: block;
-        font-size: 1em !important;
+        font-size: 1rem !important;
         text-align: center;
         border-radius: 20px;
     }
 }
 
-// Keeps link focused after clicking
+// Active and Expanded States
 .active {
     color: $webStorePrimaryColor !important;
     background-color: white !important;
@@ -125,27 +127,31 @@ a[aria-expanded="true"] {
     background: $webStoreSecondaryColor;
 }
 
-a[data-toggle="collapse"] {
+a[data-bs-toggle="collapse"] {
     position: relative;
 }
 
+// Authentication Button
 a.authentication {
     background: white;
     color: $webStorePrimaryColor;
     cursor: pointer;
-    font-size: 1em !important;
+    font-size: 1rem !important;
 }
 
+// Hide Sidebar Button
 a.hide-sidebar {
     background: $webStoreSecondaryColor;
     color: white;
     cursor: pointer;
 }
 
+// Sidebar Visibility Control
 #hide-sidebar {
     display: none;
 }
 
+// Responsive Design
 @media only screen and (max-width: 767px) {
     #hide-sidebar {
         display: block;

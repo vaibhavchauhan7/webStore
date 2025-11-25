@@ -6,23 +6,27 @@ import {Subscription} from 'rxjs';
 import {CommonService} from '../shared/services/common.service';
 import {ContactService} from './services/contact.service';
 import {Customer} from '../shared/entity/models';
+import {SharedModule} from '../shared.module';
 import {ToastService} from '../shared/components/toast/toast.service';
 import {WSClass, WSToast} from '../shared/entity/constants';
 
 @Component({
     selector: 'app-contact',
     templateUrl: './contact.component.html',
+    imports: [
+        SharedModule
+    ],
     styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit, OnDestroy {
 
-    @ViewChild('contactName') contactName;
-    @ViewChild('contactEmail') contactEmail;
+    @ViewChild('contactName') contactName: { nativeElement: { value: string; }; };
+    @ViewChild('contactEmail') contactEmail: { nativeElement: { value: string; }; };
 
     private subscription$: Subscription[] = [];
 
-    customer = {} as Customer;
-    customerAuthenticated = false;
+    customer: Customer = {} as Customer;
+    customerAuthenticated: boolean = false;
 
     constructor(private commonService: CommonService,
                 private contactService: ContactService,
@@ -37,7 +41,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     getCustomerAuthentication(): void {
         this.subscription$.push(this.commonService.getCustomerAuthentication()
             .subscribe({
-                next: (data: boolean) => {
+                next: (data: boolean): void => {
                     this.customerAuthenticated = data;
                 }
             })
@@ -47,7 +51,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     getCustomer(): void {
         this.subscription$.push(this.commonService.getCustomer()
             .subscribe({
-                next: (customer: Customer) => {
+                next: (customer: Customer): void => {
                     if (customer && Object.keys(customer).length > 0) this.customer = customer;
                 }
             })
@@ -64,7 +68,7 @@ export class ContactComponent implements OnInit, OnDestroy {
             }
             this.subscription$.push(this.contactService.contact(contactFormData.value)
                 .subscribe({
-                    next: () => {
+                    next: (): void => {
                         this.toastService.showToast(`${WSToast.FORM_SUBMITTED}`, {classname: `${WSClass.REQUEST_SUCCESS}`});
                         contactFormData.reset();
                         if (this.customerAuthenticated) {
@@ -80,7 +84,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription$?.forEach(subscription => {
+        this.subscription$?.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
     }

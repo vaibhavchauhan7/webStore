@@ -1,32 +1,53 @@
 h1 {
-    font-size: 5rem;
+    font-size: 5rem; // Large text for error page
 }
 
-.h3 {
-    font-size: 5rem;
+h3 { // No need for .h3 since Bootstrap already applies styles to h3
+    font-size: 3rem; // Adjusted for consistency
 }
 
+// Page 404 Styling
 .page_404 {
     background: #FFFFFF;
+    text-align: center;
+    padding: 50px 0;
 }
 
+// Background Image for 404
 .bg_404 {
     background-image: url("../../../../assets/Images/404.gif");
     height: 400px;
     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; // Ensures it fills the container
     margin-bottom: -75px;
 }
 
+// 404 Page Link
 .link_404 {
     color: #FFFFFF !important;
     padding: 10px 20px;
     background: #7386D5;
-    margin: 0;
     display: inline-block;
+    border-radius: 8px; // Slight rounding for modern look
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+
+    &:hover {
+        background: darken(#7386D5, 10%);
+    }
 }
 
+// Button Styling
 button {
     border: none;
     outline: none;
     border-radius: 20px;
+    padding: 10px 15px;
+    background-color: #7386D5; // Default color matching the link
+    color: white;
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+        background-color: darken(#7386D5, 10%);
+    }
 }
